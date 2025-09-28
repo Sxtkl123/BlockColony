@@ -54,8 +54,8 @@ public class ItemEntityDeathSubscriber {
         ItemEntity soulItemEntity = new RisingItemEntity(
             level, e.getEntity().getX(), e.getEntity().getY(), e.getEntity().getZ(), soul
         );
-        soulItemEntity.setDeltaMovement(0, 0.4, 0);
         level.addFreshEntity(soulItemEntity);
+        soulItemEntity.setDeltaMovement(0, 0.1, 0);
     }
 
 }
