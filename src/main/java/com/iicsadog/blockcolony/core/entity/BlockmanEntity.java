@@ -1,12 +1,25 @@
 package com.iicsadog.blockcolony.core.entity;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.BreathAirGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -17,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class BlockmanEntity extends PathfinderMob {
 
+    private static final EntityDataAccessor<BlockState>
+        BLOCK_STATE = SynchedEntityData.defineId(BlockmanEntity.class, EntityDataSerializers.BLOCK_STATE);
 
     /**
      * 方块人注册用的构造方法。
@@ -70,5 +85,41 @@ public class BlockmanEntity extends PathfinderMob {
     @Override
     public boolean canBeCollidedWith() {
         return true;
+    }
+
+    @Override
+    protected void defineSynchedData(@NotNull SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BLOCK_STATE, Blocks.DIRT.defaultBlockState());
+    }
+
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.put("BlockState", NbtUtils.writeBlockState(this.entityData.get(BLOCK_STATE)));
+    }
+
+    @SuppressWarnings("resource")
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.entityData.set(
+            BLOCK_STATE, NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
+                compound.getCompound("BlockState"))
+        );
+    }
+
+    @Override
+    @NotNull
+    protected InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        if (itemstack.getItem() instanceof BlockItem item) {
+            this.entityData.set(BLOCK_STATE, item.getBlock().defaultBlockState());
+        }
+        return InteractionResult.PASS;
+    }
+
+    public BlockState getBlockState() {
+        return this.entityData.get(BLOCK_STATE);
     }
 }

@@ -1,8 +1,10 @@
 package com.iicsadog.blockcolony.core.entity.renderer;
 
-import com.iicsadog.blockcolony.BlockColony;
 import com.iicsadog.blockcolony.core.entity.BlockmanEntity;
 import com.iicsadog.blockcolony.core.entity.model.BlockmanEntityModel;
+import com.iicsadog.blockcolony.core.manager.client.BlockmanTextureManager;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -15,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
  * @since 2025/9/29
  */
 public class BlockmanEntityRenderer extends MobRenderer<BlockmanEntity, BlockmanEntityModel> {
-
     /**
      * 方块酱渲染器构造方法。
      *
@@ -28,7 +29,19 @@ public class BlockmanEntityRenderer extends MobRenderer<BlockmanEntity, Blockman
     }
 
     @Override
+    public void render(
+        @NotNull BlockmanEntity entity,
+        float entityYaw,
+        float partialTicks,
+        @NotNull PoseStack poseStack,
+        @NotNull MultiBufferSource buffer,
+        int packedLight
+    ) {
+        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+    }
+
+    @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull BlockmanEntity entity) {
-        return ResourceLocation.fromNamespaceAndPath(BlockColony.MODID, "textures/entity/blockman.png");
+        return BlockmanTextureManager.getTexture(entity.getBlockState());
     }
 }
