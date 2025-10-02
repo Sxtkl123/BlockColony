@@ -1,5 +1,7 @@
 package com.iicsadog.blockcolony.core.entity;
 
+import com.iicsadog.blockcolony.api.entity.ModEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -48,7 +50,6 @@ public class BlockmanEntity extends PathfinderMob {
     /**
      * 在世界的一个位置上生成一个方块人。
      *
-     * @param entityType 实体类型
      * @param level 维度
      * @param x x坐标
      * @param y y坐标
@@ -56,9 +57,21 @@ public class BlockmanEntity extends PathfinderMob {
      * @author sxtkl
      * @since 2025/9/29
      */
-    public BlockmanEntity(EntityType<? extends BlockmanEntity> entityType, Level level, double x, double y, double z) {
-        this(entityType, level);
+    public BlockmanEntity(Level level, double x, double y, double z) {
+        super(ModEntities.BLOCKMAN.get(), level);
         this.setPos(x, y, z);
+    }
+
+    /**
+     * 在某个方块位置上创建一个方块人。
+     *
+     * @param level 维度
+     * @param pos 位置
+     * @author sxtkl
+     * @since 2025/10/3
+     */
+    public BlockmanEntity(Level level, BlockPos pos) {
+        this(level, pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d);
     }
 
     @Override
@@ -119,7 +132,25 @@ public class BlockmanEntity extends PathfinderMob {
         return InteractionResult.PASS;
     }
 
+    /**
+     * 获取方块状态。
+     *
+     * @return 方块状态
+     * @author sxtkl
+     * @since 2025/10/3
+     */
     public BlockState getBlockState() {
         return this.entityData.get(BLOCK_STATE);
+    }
+
+    /**
+     * 设置方块状态。
+     *
+     * @param state 方块状态
+     * @author sxtkl
+     * @since 2025/10/3
+     */
+    public void setBlockState(@NotNull BlockState state) {
+        this.entityData.set(BLOCK_STATE, state.getBlock().defaultBlockState());
     }
 }
