@@ -1,5 +1,6 @@
 package com.iicsadog.blockcolony;
 
+import com.iicsadog.blockcolony.api.component.ModComponents;
 import com.iicsadog.blockcolony.api.entity.ModEntities;
 import com.iicsadog.blockcolony.api.item.ModItems;
 import net.neoforged.bus.api.IEventBus;
@@ -29,5 +30,6 @@ public class BlockColony {
     public BlockColony(final IEventBus bus) {
         ModItems.ITEMS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
+        ModComponents.COMPONENTS.register(bus);
     }
 }

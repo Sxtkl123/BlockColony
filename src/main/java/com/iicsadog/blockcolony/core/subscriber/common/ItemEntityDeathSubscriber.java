@@ -2,9 +2,12 @@ package com.iicsadog.blockcolony.core.subscriber.common;
 
 
 import com.iicsadog.blockcolony.BlockColony;
+import com.iicsadog.blockcolony.api.component.ModComponents;
 import com.iicsadog.blockcolony.api.item.ModItems;
+import com.iicsadog.blockcolony.core.components.Blockmen;
 import com.iicsadog.blockcolony.core.entity.RisingItemEntity;
 import com.iicsadog.blockcolony.core.event.common.ItemEntityDeathEvent;
+import java.util.UUID;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -39,6 +42,7 @@ public class ItemEntityDeathSubscriber {
         }
         Level level = e.getEntity().level();
         ItemStack soul = new ItemStack(ModItems.SOUL_ITEM);
+        soul.set(ModComponents.BLOCKMEN, Blockmen.empty(UUID.randomUUID()));
         ItemEntity soulItemEntity = new RisingItemEntity(
             level, e.getEntity().getX(), e.getEntity().getY(), e.getEntity().getZ(), soul
         );

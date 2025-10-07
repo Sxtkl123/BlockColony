@@ -1,3 +1,4 @@
 {
-  "item.block_colony.soul": "Soul"
+  "item.block_colony.soul": "Soul",
+  "message.block_colony.reject": "Blockman reject this block."
 }
