@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "block_colony:item/soul"
+    "layer0": "blocks_blocks:item/soul"
   }
 }
