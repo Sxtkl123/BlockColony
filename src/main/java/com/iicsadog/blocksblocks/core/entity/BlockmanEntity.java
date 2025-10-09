@@ -1,7 +1,6 @@
 package com.iicsadog.blocksblocks.core.entity;
 
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
-import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
