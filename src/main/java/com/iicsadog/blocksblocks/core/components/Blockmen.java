@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -35,7 +36,12 @@ import net.minecraft.network.codec.StreamCodec;
  */
 public record Blockmen(
     UUID id,
+
+    @Nullable
+    String name,
+
     Set<String> rejectedBlocks,
+
     Set<String> acceptedBlocks
 ) {
 
@@ -56,6 +62,7 @@ public record Blockmen(
         instance.group(
             // 使用 UUIDUtil.CODEC 处理 UUID
             UUIDUtil.CODEC.fieldOf("id").forGetter(Blockmen::id),
+            Codec.STRING.fieldOf("name").forGetter(Blockmen::name),
             // Set<String> 使用 Codec.STRING 列表并转换为 Set
             Codec.STRING.listOf().xmap(
                 Set::copyOf,
@@ -71,6 +78,7 @@ public record Blockmen(
     public static final StreamCodec<ByteBuf, Blockmen> STREAM_CODEC = StreamCodec.composite(
         // 使用 UUIDUtil.STREAM_CODEC 处理 UUID
         UUIDUtil.STREAM_CODEC, Blockmen::id,
+        ByteBufCodecs.STRING_UTF8, Blockmen::name,
         // Set<String> 使用字符串列表编解码器并转换为 Set
         ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())
             .map(Set::copyOf, set -> set.stream().toList()), Blockmen::rejectedBlocks,
@@ -114,7 +122,7 @@ public record Blockmen(
     public Blockmen withRejectedBlock(String blockKey) {
         Set<String> newRejected = new HashSet<>(this.rejectedBlocks);
         newRejected.add(blockKey);
-        return new Blockmen(this.id, newRejected, this.acceptedBlocks);
+        return new Blockmen(this.id, this.name, newRejected, this.acceptedBlocks);
     }
 
     /**
@@ -128,7 +136,20 @@ public record Blockmen(
     public Blockmen withAcceptedBlock(String blockKey) {
         Set<String> newAccepted = new HashSet<>(this.acceptedBlocks);
         newAccepted.add(blockKey);
-        return new Blockmen(this.id, this.rejectedBlocks, newAccepted);
+        return new Blockmen(this.id, this.name, this.rejectedBlocks, newAccepted);
+    }
+
+    /**
+     * 创建一个新的 {@code Blockmen} 实例，其接受的和拒绝的集合均为空集合。
+     *
+     * @param id 表示 {@code Blockmen} 唯一标识的 UUID。
+     * @param name 表示 {@code Blockmen} 的名称。
+     * @return 一个新的 {@code Blockmen} 实例，其中包含指定的 id、名称以及空的接受/拒绝集合。
+     * @author sxtkl
+     * @since 2023/10/09
+     */
+    public static Blockmen empty(UUID id, String name) {
+        return new Blockmen(id, name, Set.of(), Set.of());
     }
 
     /**
@@ -140,6 +161,7 @@ public record Blockmen(
      * @since 2025/10/07
      */
     public static Blockmen empty(UUID id) {
-        return new Blockmen(id, Set.of(), Set.of());
+        return empty(id, null);
     }
+
 }

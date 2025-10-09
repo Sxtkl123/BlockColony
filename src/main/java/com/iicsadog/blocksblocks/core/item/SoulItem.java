@@ -36,6 +36,16 @@ public class SoulItem extends Item implements ISoulItemAbility {
 
     @Override
     @NotNull
+    public Component getName(@NotNull ItemStack stack) {
+        Blockmen blockmen = stack.get(ModComponents.BLOCKMEN);
+        if (blockmen != null && blockmen.name() != null && !blockmen.name().trim().isEmpty()) {
+            return Component.translatable("item.blocks_blocks.someones_soul", blockmen.name());
+        }
+        return super.getName(stack);
+    }
+
+    @Override
+    @NotNull
     public InteractionResult useOn(@NotNull UseOnContext context) {
         Level level = context.getLevel();
         if (level.isClientSide) {
@@ -47,6 +57,10 @@ public class SoulItem extends Item implements ISoulItemAbility {
             return InteractionResult.PASS;
         }
         ItemStack stack = context.getItemInHand();
+        Blockmen record = stack.get(ModComponents.BLOCKMEN);
+        if (record == null) {
+            return InteractionResult.PASS;
+        }
         String blockKey = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
         if (!this.possess(stack, blockKey, level.random)) {
             if (context.getPlayer() != null) {
@@ -55,6 +69,10 @@ public class SoulItem extends Item implements ISoulItemAbility {
             return InteractionResult.PASS;
         }
         BlockmanEntity blockman = new BlockmanEntity(level, context.getClickedPos());
+        if (record.name() != null) {
+            blockman.setCustomName(Component.literal(record.name()));
+            blockman.setCustomNameVisible(true);
+        }
         level.setBlock(context.getClickedPos(), Blocks.AIR.defaultBlockState(), 1);
         level.addFreshEntity(blockman);
         blockman.setBlockState(state);

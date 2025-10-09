@@ -1,4 +1,5 @@
 {
   "item.blocks_blocks.soul": "Soul",
+  "item.blocks_blocks.someones_soul": "%s' Soul",
   "message.blocks_blocks.reject": "Blockman reject this block."
 }

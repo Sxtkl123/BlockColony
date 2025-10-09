@@ -7,6 +7,7 @@ import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.core.components.Blockmen;
 import com.iicsadog.blocksblocks.core.entity.RisingItemEntity;
 import com.iicsadog.blocksblocks.core.event.common.ItemEntityDeathEvent;
+import com.iicsadog.blocksblocks.core.manager.common.BlockmanNameManager;
 import java.util.UUID;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -42,7 +43,8 @@ public class ItemEntityDeathSubscriber {
         }
         Level level = e.getEntity().level();
         ItemStack soul = new ItemStack(ModItems.SOUL_ITEM);
-        soul.set(ModComponents.BLOCKMEN, Blockmen.empty(UUID.randomUUID()));
+        String randomName = BlockmanNameManager.getInstance().getRandomName(level.getRandom());
+        soul.set(ModComponents.BLOCKMEN, Blockmen.empty(UUID.randomUUID(), randomName));
         ItemEntity soulItemEntity = new RisingItemEntity(
             level, e.getEntity().getX(), e.getEntity().getY(), e.getEntity().getZ(), soul
         );
