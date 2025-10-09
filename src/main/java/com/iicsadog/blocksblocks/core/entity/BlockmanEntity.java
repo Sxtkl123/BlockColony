@@ -135,7 +135,6 @@ public class BlockmanEntity extends PathfinderMob {
     }
 
     @Override
-    @Nullable
     @Deprecated
     protected SoundEvent getHurtSound(@NotNull net.minecraft.world.damagesource.DamageSource damageSource) {
         // 返回对应方块的破坏音效作为受到攻击的音效
@@ -143,7 +142,6 @@ public class BlockmanEntity extends PathfinderMob {
     }
 
     @Override
-    @Nullable
     @Deprecated
     protected SoundEvent getDeathSound() {
         // 返回对应方块的破坏音效作为死亡音效
