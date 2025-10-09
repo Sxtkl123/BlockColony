@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.entity;
 
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -8,6 +9,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -130,6 +132,30 @@ public class BlockmanEntity extends PathfinderMob {
             this.entityData.set(BLOCK_STATE, item.getBlock().defaultBlockState());
         }
         return InteractionResult.PASS;
+    }
+
+    @Override
+    @Nullable
+    @Deprecated
+    protected SoundEvent getHurtSound(@NotNull net.minecraft.world.damagesource.DamageSource damageSource) {
+        // 返回对应方块的破坏音效作为受到攻击的音效
+        return getBlockState().getSoundType().getBreakSound();
+    }
+
+    @Override
+    @Nullable
+    @Deprecated
+    protected SoundEvent getDeathSound() {
+        // 返回对应方块的破坏音效作为死亡音效
+        return getBlockState().getSoundType().getBreakSound();
+    }
+
+    @Override
+    @Deprecated
+    protected void playStepSound(@NotNull BlockPos pos, @NotNull BlockState blockState) {
+        // 播放对应方块的脚步音效
+        SoundEvent stepSound = getBlockState().getSoundType().getStepSound();
+        this.playSound(stepSound, 0.15F, 1.0F);
     }
 
     /**
