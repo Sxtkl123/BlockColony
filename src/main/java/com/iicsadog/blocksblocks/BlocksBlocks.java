@@ -1,5 +1,7 @@
 package com.iicsadog.blocksblocks;
 
+import com.iicsadog.blocksblocks.api.block.ModBlocks;
+import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.item.ModItems;
@@ -31,5 +33,7 @@ public class BlocksBlocks {
         ModItems.ITEMS.register(bus);
         ModEntities.ENTITY_TYPES.register(bus);
         ModComponents.COMPONENTS.register(bus);
+        ModBlocks.BLOCKS.register(bus);
+        ModBlockEntities.BLOCK_ENTITIES.register(bus);
     }
 }
