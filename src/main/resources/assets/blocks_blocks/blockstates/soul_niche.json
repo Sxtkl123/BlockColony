@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": { "model": "blocks_blocks:block/soul_niche" }
+    "facing=east": {
+      "model": "blocks_blocks:block/soul_niche",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "blocks_blocks:block/soul_niche"
+    },
+    "facing=south": {
+      "model": "blocks_blocks:block/soul_niche",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "blocks_blocks:block/soul_niche",
+      "y": 270
+    }
   }
 }

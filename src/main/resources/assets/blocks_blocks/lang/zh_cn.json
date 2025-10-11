@@ -1,5 +1,6 @@
 {
   "item.blocks_blocks.soul": "灵魂",
-  "item.blocks_blocks.someones_soul": "%s'的灵魂",
+  "item.blocks_blocks.someones_soul": "%s的灵魂",
+  "block.blocks_blocks.soul_niche": "魂龛",
   "message.blocks_blocks.reject": "方块酱看起来不太喜欢这个方块。"
 }
