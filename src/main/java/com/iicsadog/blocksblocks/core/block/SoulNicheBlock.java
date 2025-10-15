@@ -1,11 +1,21 @@
 package com.iicsadog.blocksblocks.core.block;
 
+import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
+import com.iicsadog.blocksblocks.core.data.ColonyData;
+import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
+import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -17,6 +27,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +63,25 @@ public class SoulNicheBlock extends BaseEntityBlock {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
+    }
+
+    @Override
+    @NotNull
+    protected ItemInteractionResult useItemOn(@NotNull ItemStack playerStack, @NotNull BlockState state,
+                                              Level level, @NotNull BlockPos pos, @NotNull Player player,
+                                              @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+        if (level.isClientSide) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        ColonyData colony = ColonyDataManager.getInstance().getColony(player.getUUID());
+        if (colony != null) {
+            player.sendSystemMessage(
+                Component.literal(String.format("You already have a colony: %s", colony.getName()))
+            );
+            return ItemInteractionResult.SUCCESS;
+        }
+        ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket());
+        return ItemInteractionResult.SUCCESS;
     }
 
     @Override
