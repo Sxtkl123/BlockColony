@@ -1,6 +1,6 @@
 package com.iicsadog.blocksblocks.core.subscriber.server;
 
-import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
+import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -24,7 +24,7 @@ public class ServerStartingSubscriber {
      */
     @SubscribeEvent
     public static void initDataManagers(ServerStartingEvent evt) {
-        ColonyDataManager.onServerStart(evt.getServer());
+        DataManagers.onServerStart(evt.getServer());
     }
 
 }

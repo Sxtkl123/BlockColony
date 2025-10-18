@@ -1,5 +1,6 @@
 package com.iicsadog.blocksblocks.core.block;
 
+import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
@@ -73,7 +74,7 @@ public class SoulNicheBlock extends BaseEntityBlock {
         if (level.isClientSide) {
             return ItemInteractionResult.SUCCESS;
         }
-        ColonyData colony = ColonyDataManager.getInstance().getColony(player.getUUID());
+        ColonyData colony = DataManagers.getInstance(ColonyDataManager::new).getColony(player.getUUID());
         if (colony != null) {
             player.sendSystemMessage(
                 Component.literal(String.format("You already have a colony: %s", colony.getName()))

@@ -1,6 +1,6 @@
 package com.iicsadog.blocksblocks.core.subscriber.server;
 
-import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
+import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -25,7 +25,7 @@ public class ServerStoppedSubscriber {
      */
     @SubscribeEvent
     public static void clearDataManage(ServerStoppedEvent evt) {
-        ColonyDataManager.onServerStop();
+        DataManagers.onServerStop();
     }
 
 }

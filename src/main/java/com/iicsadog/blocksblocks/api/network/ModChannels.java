@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.api.network;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheScreen;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
@@ -36,7 +37,7 @@ public class ModChannels {
             colony.setId(UUID.randomUUID());
             colony.setName(message.name());
             colony.setOwnerId(access.player().getUUID());
-            ColonyDataManager.getInstance().addColony(colony);
+            DataManagers.getInstance(ColonyDataManager::new).addColony(colony);
         });
     }
 
