@@ -6,7 +6,7 @@
                 <flow-layout direction="vertical">
                     <children>
                         <label>
-                            <text>It seems like you don't have a colony... Create one?</text>
+                            <text translate="true">gui.blocks_blocks.soul_niche_create. create_tip</text>
                             <color>black</color>
                         </label>
                         <text-area id="colony-name-input">
@@ -19,10 +19,10 @@
                         <flow-layout direction="horizontal">
                             <children>
                                 <button id="confirm-button">
-                                    <text translate="true">Confirm</text>
+                                    <text translate="true">gui.blocks_blocks.soul_niche_create.confirm</text>
                                 </button>
                                 <button id="cancel-button">
-                                    <text translate="true">Cancel</text>
+                                    <text translate="true">gui.blocks_blocks.soul_niche_create.cancel</text>
                                 </button>
                             </children>
 

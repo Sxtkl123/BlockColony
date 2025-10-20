@@ -1,9 +1,11 @@
 package com.iicsadog.blocksblocks.core.item;
 
+import com.iicsadog.blocksblocks.api.block.ModBlocks;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.item.ISoulItemAbility;
-import com.iicsadog.blocksblocks.core.components.Blockmen;
+import com.iicsadog.blocksblocks.core.components.SoulComponent;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -37,9 +39,9 @@ public class SoulItem extends Item implements ISoulItemAbility {
     @Override
     @NotNull
     public Component getName(@NotNull ItemStack stack) {
-        Blockmen blockmen = stack.get(ModComponents.BLOCKMEN);
-        if (blockmen != null && blockmen.name() != null && !blockmen.name().trim().isEmpty()) {
-            return Component.translatable("item.blocks_blocks.someones_soul", blockmen.name());
+        SoulComponent soulComponent = stack.get(ModComponents.BLOCKMEN);
+        if (soulComponent != null && soulComponent.name() != null && !soulComponent.name().trim().isEmpty()) {
+            return Component.translatable("item.blocks_blocks.someones_soul", soulComponent.name());
         }
         return super.getName(stack);
     }
@@ -52,13 +54,9 @@ public class SoulItem extends Item implements ISoulItemAbility {
             return InteractionResult.SUCCESS;
         }
         BlockState state = level.getBlockState(context.getClickedPos());
-        float hardness = state.getDestroySpeed(level, context.getClickedPos());
-        if (hardness == -1.0F) {
-            return InteractionResult.PASS;
-        }
         ItemStack stack = context.getItemInHand();
-        Blockmen record = stack.get(ModComponents.BLOCKMEN);
-        if (record == null) {
+        SoulComponent record = stack.get(ModComponents.BLOCKMEN);
+        if (!precheck(level, context.getClickedPos(), record)) {
             return InteractionResult.PASS;
         }
         String blockKey = BuiltInRegistries.BLOCK.getKey(state.getBlock()).toString();
@@ -69,7 +67,7 @@ public class SoulItem extends Item implements ISoulItemAbility {
             return InteractionResult.PASS;
         }
         BlockmanEntity blockman = new BlockmanEntity(level, context.getClickedPos());
-        if (record.name() != null) {
+        if (record != null && record.name() != null) {
             blockman.setCustomName(Component.literal(record.name()));
             blockman.setCustomNameVisible(true);
         }
@@ -81,23 +79,35 @@ public class SoulItem extends Item implements ISoulItemAbility {
 
     @Override
     public boolean possess(ItemStack stack, String blockKey, RandomSource random) {
-        Blockmen blockmen = stack.get(ModComponents.BLOCKMEN);
-        if (blockmen == null) {
+        SoulComponent soulComponent = stack.get(ModComponents.BLOCKMEN);
+        if (soulComponent == null) {
             return false;
         }
-        if (blockmen.isAccepted(blockKey)) {
+        if (soulComponent.isAccepted(blockKey)) {
             return true;
         }
-        if (blockmen.isRejected(blockKey)) {
+        if (soulComponent.isRejected(blockKey)) {
             return false;
         }
         if (random.nextDouble() <= 0.3D) {
-            blockmen = blockmen.withAcceptedBlock(blockKey);
-            stack.set(ModComponents.BLOCKMEN, blockmen);
+            soulComponent = soulComponent.withAcceptedBlock(blockKey);
+            stack.set(ModComponents.BLOCKMEN, soulComponent);
             return true;
         }
-        blockmen = blockmen.withRejectedBlock(blockKey);
-        stack.set(ModComponents.BLOCKMEN, blockmen);
+        soulComponent = soulComponent.withRejectedBlock(blockKey);
+        stack.set(ModComponents.BLOCKMEN, soulComponent);
         return false;
+    }
+
+    private static boolean precheck(Level level, BlockPos clickedPos, SoulComponent record) {
+        BlockState state = level.getBlockState(clickedPos);
+        if (state.is(ModBlocks.SOUL_NICHE_BLOCK)) {
+            return false;
+        }
+        float hardness = state.getDestroySpeed(level, clickedPos);
+        if (hardness == -1.0F) {
+            return false;
+        }
+        return record != null;
     }
 }

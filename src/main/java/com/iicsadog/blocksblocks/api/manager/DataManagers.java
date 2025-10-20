@@ -33,6 +33,7 @@ public class DataManagers {
      * @since 2025/10/18
      */
     public static void onServerStart(MinecraftServer minecraftServer) {
+        instances.clear();
         server = minecraftServer;
     }
 
@@ -66,7 +67,7 @@ public class DataManagers {
         }
 
         T temp = supplier.get();
-        String name = temp.getManagerName().toString();
+        String name = temp.getManagerName().toString().replace(":", "_");
 
         // 如果实例已存在，直接返回
         if (instances.containsKey(name)) {
@@ -74,8 +75,8 @@ public class DataManagers {
         }
         // 否则从数据存储加载或创建新实例，并存储到注册表
         T instance = server.overworld().getDataStorage().computeIfAbsent(
-            (SavedData.Factory<? extends T>) temp.getFactory(),
-            temp.getManagerName().toString().replace(":", "_")
+            new SavedData.Factory<>(supplier, (tag, provider) -> (T) supplier.get().load(tag, provider)),
+            name
         );
 
         instances.put(name, instance);

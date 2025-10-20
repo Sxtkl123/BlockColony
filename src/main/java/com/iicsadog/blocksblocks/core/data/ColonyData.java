@@ -11,7 +11,7 @@ import net.minecraft.nbt.CompoundTag;
  * @author sxtkl
  * @since 2025/10/15
  */
-public class ColonyData implements IData {
+public class ColonyData implements IData<ColonyData> {
 
     private UUID id;
 
@@ -56,12 +56,11 @@ public class ColonyData implements IData {
      * @author sxtkl
      * @since 2025/10/17
      */
-    public static ColonyData load(final CompoundTag tag) {
-        ColonyData data = new ColonyData();
-        data.setId(tag.getUUID("id"));
-        data.setOwnerId(tag.getUUID("ownerId"));
-        data.setName(tag.getString("name"));
-        return data;
+    public ColonyData load(final CompoundTag tag) {
+        this.setId(tag.getUUID("id"));
+        this.setOwnerId(tag.getUUID("ownerId"));
+        this.setName(tag.getString("name"));
+        return this;
     }
 
 

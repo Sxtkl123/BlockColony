@@ -34,7 +34,7 @@ import net.minecraft.network.codec.StreamCodec;
  * @author sxt
  * @since 2025/10/07
  */
-public record Blockmen(
+public record SoulComponent(
     UUID id,
 
     @Nullable
@@ -53,38 +53,38 @@ public record Blockmen(
      * @author sxt
      * @since 2025/10/07
      */
-    public Blockmen {
+    public SoulComponent {
         rejectedBlocks = Set.copyOf(rejectedBlocks);
         acceptedBlocks = Set.copyOf(acceptedBlocks);
     }
 
-    public static final Codec<Blockmen> CODEC = RecordCodecBuilder.create(instance ->
+    public static final Codec<SoulComponent> CODEC = RecordCodecBuilder.create(instance ->
         instance.group(
             // 使用 UUIDUtil.CODEC 处理 UUID
-            UUIDUtil.CODEC.fieldOf("id").forGetter(Blockmen::id),
-            Codec.STRING.fieldOf("name").forGetter(Blockmen::name),
+            UUIDUtil.CODEC.fieldOf("id").forGetter(SoulComponent::id),
+            Codec.STRING.fieldOf("name").forGetter(SoulComponent::name),
             // Set<String> 使用 Codec.STRING 列表并转换为 Set
             Codec.STRING.listOf().xmap(
                 Set::copyOf,
                 list -> list.stream().toList()
-            ).fieldOf("rejectedBlocks").forGetter(Blockmen::rejectedBlocks),
+            ).fieldOf("rejectedBlocks").forGetter(SoulComponent::rejectedBlocks),
             Codec.STRING.listOf().xmap(
                 Set::copyOf,
                 list -> list.stream().toList()
-            ).fieldOf("acceptedBlocks").forGetter(Blockmen::acceptedBlocks)
-        ).apply(instance, Blockmen::new)
+            ).fieldOf("acceptedBlocks").forGetter(SoulComponent::acceptedBlocks)
+        ).apply(instance, SoulComponent::new)
     );
 
-    public static final StreamCodec<ByteBuf, Blockmen> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<ByteBuf, SoulComponent> STREAM_CODEC = StreamCodec.composite(
         // 使用 UUIDUtil.STREAM_CODEC 处理 UUID
-        UUIDUtil.STREAM_CODEC, Blockmen::id,
-        ByteBufCodecs.STRING_UTF8, Blockmen::name,
+        UUIDUtil.STREAM_CODEC, SoulComponent::id,
+        ByteBufCodecs.STRING_UTF8, SoulComponent::name,
         // Set<String> 使用字符串列表编解码器并转换为 Set
         ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())
-            .map(Set::copyOf, set -> set.stream().toList()), Blockmen::rejectedBlocks,
+            .map(Set::copyOf, set -> set.stream().toList()), SoulComponent::rejectedBlocks,
         ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list())
-            .map(Set::copyOf, set -> set.stream().toList()), Blockmen::acceptedBlocks,
-        Blockmen::new
+            .map(Set::copyOf, set -> set.stream().toList()), SoulComponent::acceptedBlocks,
+        SoulComponent::new
     );
 
     /**
@@ -119,10 +119,10 @@ public record Blockmen(
      * @author sxt
      * @since 2025/10/07
      */
-    public Blockmen withRejectedBlock(String blockKey) {
+    public SoulComponent withRejectedBlock(String blockKey) {
         Set<String> newRejected = new HashSet<>(this.rejectedBlocks);
         newRejected.add(blockKey);
-        return new Blockmen(this.id, this.name, newRejected, this.acceptedBlocks);
+        return new SoulComponent(this.id, this.name, newRejected, this.acceptedBlocks);
     }
 
     /**
@@ -133,10 +133,10 @@ public record Blockmen(
      * @author sxt
      * @since 2025/10/07
      */
-    public Blockmen withAcceptedBlock(String blockKey) {
+    public SoulComponent withAcceptedBlock(String blockKey) {
         Set<String> newAccepted = new HashSet<>(this.acceptedBlocks);
         newAccepted.add(blockKey);
-        return new Blockmen(this.id, this.name, this.rejectedBlocks, newAccepted);
+        return new SoulComponent(this.id, this.name, this.rejectedBlocks, newAccepted);
     }
 
     /**
@@ -148,8 +148,8 @@ public record Blockmen(
      * @author sxtkl
      * @since 2023/10/09
      */
-    public static Blockmen empty(UUID id, String name) {
-        return new Blockmen(id, name, Set.of(), Set.of());
+    public static SoulComponent empty(UUID id, String name) {
+        return new SoulComponent(id, name, Set.of(), Set.of());
     }
 
     /**
@@ -160,7 +160,7 @@ public record Blockmen(
      * @author sxt
      * @since 2025/10/07
      */
-    public static Blockmen empty(UUID id) {
+    public static SoulComponent empty(UUID id) {
         return empty(id, null);
     }
 

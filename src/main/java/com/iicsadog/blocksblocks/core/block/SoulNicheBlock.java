@@ -1,12 +1,19 @@
 package com.iicsadog.blocksblocks.core.block;
 
+import com.iicsadog.blocksblocks.api.component.ModComponents;
+import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
+import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
+import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.mojang.serialization.MapCodec;
+import java.util.List;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -68,20 +75,75 @@ public class SoulNicheBlock extends BaseEntityBlock {
 
     @Override
     @NotNull
-    protected ItemInteractionResult useItemOn(@NotNull ItemStack playerStack, @NotNull BlockState state,
-                                              Level level, @NotNull BlockPos pos, @NotNull Player player,
-                                              @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected ItemInteractionResult useItemOn(
+        @NotNull ItemStack playerStack, @NotNull BlockState state,
+        Level level, @NotNull BlockPos pos, @NotNull Player player,
+        @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
+    ) {
         if (level.isClientSide) {
             return ItemInteractionResult.SUCCESS;
         }
-        ColonyData colony = DataManagers.getInstance(ColonyDataManager::new).getColony(player.getUUID());
-        if (colony != null) {
-            player.sendSystemMessage(
-                Component.literal(String.format("You already have a colony: %s", colony.getName()))
-            );
+        ColonyData colony = DataManagers.getInstance(ColonyDataManager::new).getPlayerColony(player.getUUID());
+
+        // 手持灵魂时优先执行绑定逻辑
+        if (playerStack.is(ModItems.SOUL_ITEM)) {
+            return processBind(player, colony, playerStack);
+        }
+        if (processShowBlockmen(colony, player)) {
             return ItemInteractionResult.SUCCESS;
         }
         ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket());
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    private static boolean processShowBlockmen(ColonyData colony, Player player) {
+        if (colony == null) {
+            return false;
+        }
+        // 使用国际化消息替换硬编码文本
+        Component headerMessage = Component.translatable("message.blocks_blocks.colony_have", colony.getName());
+        player.sendSystemMessage(headerMessage);
+
+        BlockmanDataManager manager = DataManagers.getInstance(BlockmanDataManager::new);
+        List<UUID> blockmanIds = DataManagers.getInstance(ColonyDataManager::new).getColonyBlockmen(colony.getId());
+        for (UUID blockmenId : blockmanIds) {
+            BlockmanData data = manager.getBlockmanData(blockmenId);
+            if (data != null) {
+                // 使用国际化消息替换硬编码文本
+                Component itemMessage = Component.translatable("message.blocks_blocks.blockman_list_item", data.getName());
+                player.sendSystemMessage(itemMessage);
+            }
+        }
+        return true;
+    }
+
+    private static ItemInteractionResult processBind(Player player, ColonyData colony, ItemStack playerStack) {
+        if (colony == null) {
+            player.sendSystemMessage(Component.translatable("message.blocks_blocks.no_colony"));
+            return ItemInteractionResult.FAIL;
+        }
+        SoulComponent soulComponent = playerStack.get(ModComponents.BLOCKMEN);
+        if (soulComponent == null || soulComponent.id() == null) {
+            player.sendSystemMessage(Component.translatable("message.blocks_blocks.empty_soul"));
+            return ItemInteractionResult.FAIL;
+        }
+        BlockmanDataManager manager = DataManagers.getInstance(BlockmanDataManager::new);
+
+        // 如果该方块人有了其对应的殖民地ID，说明该方块人已经被绑定到了某个殖民地
+        BlockmanData blockman = manager.getBlockmanData(soulComponent.id());
+        if (blockman != null && blockman.getColonyId() != null) {
+            UUID bindColonyId = blockman.getColonyId();
+            ColonyData bindColony = DataManagers.getInstance(ColonyDataManager::new).getColony(bindColonyId);
+            if (bindColony != null) {
+                player.sendSystemMessage(Component.translatable("message.blocks_blocks.soul_bound", bindColony.getName()));
+                return ItemInteractionResult.FAIL;
+            }
+        }
+
+        blockman = BlockmanData.fromSoul(soulComponent);
+        blockman.setColonyId(colony.getId());
+        manager.bind(blockman);
+        player.sendSystemMessage(Component.translatable("message.blocks_blocks.soul_bind_success", soulComponent.name(), colony.getName()));
         return ItemInteractionResult.SUCCESS;
     }
 

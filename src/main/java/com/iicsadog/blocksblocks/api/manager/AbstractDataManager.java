@@ -1,6 +1,8 @@
 package com.iicsadog.blocksblocks.api.manager;
 
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -35,15 +37,16 @@ public abstract class AbstractDataManager extends SavedData {
     protected AbstractDataManager() {}
 
     /**
-     * 获取用于创建保存数据实例的工厂。
-     * 此方法由子类实现，返回一个能够创建特定类型保存数据的工厂实例。
-     * 该工厂用于在数据存储系统中创建或获取保存数据的实例。
+     * 从标签和提供者加载抽象数据管理器实例。
+     * 此方法是一个抽象方法，需要在子类中实现，用于从CompoundTag中恢复数据管理器的状态。
      *
-     * @return 用于创建保存数据实例的工厂
+     * @param tag 包含数据管理器持久化数据的CompoundTag对象
+     * @param provider 提供注册表查找功能的HolderLookup.Provider对象
+     * @return 加载后的AbstractDataManager实例
      * @author sxtkl
      * @since 2025/10/18
      */
-    protected abstract Factory<? extends SavedData> getFactory();
+    protected abstract AbstractDataManager load(CompoundTag tag, HolderLookup.Provider provider);
 
     /**
      * 获取数据管理器的名称标识符。
