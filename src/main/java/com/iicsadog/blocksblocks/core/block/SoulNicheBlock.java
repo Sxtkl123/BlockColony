@@ -50,6 +50,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class SoulNicheBlock extends BaseEntityBlock {
 
+    private static final MapCodec<SoulNicheBlock> CODEC = simpleCodec((properties) -> new SoulNicheBlock());
+
     public static final VoxelShape SHAPE_NORTH = Block.box(1.0D, 0.0D, 4.0D, 15.0D, 14.0D, 13.0D);
     public static final VoxelShape SHAPE_SOUTH = Block.box(1.0D, 0.0D, 3.0D, 15.0D, 14.0D, 12.0D);
     public static final VoxelShape SHAPE_WEST = Block.box(4.0D, 0.0D, 1.0D, 13.0D, 14.0D, 15.0D);
@@ -68,9 +70,10 @@ public class SoulNicheBlock extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    @NotNull
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return CODEC;
     }
 
     @Override
@@ -89,13 +92,15 @@ public class SoulNicheBlock extends BaseEntityBlock {
         if (playerStack.is(ModItems.SOUL_ITEM)) {
             return processBind(player, colony, playerStack);
         }
-        if (processShowBlockmen(colony, player)) {
-            return ItemInteractionResult.SUCCESS;
+        BlockEntity entity = level.getBlockEntity(pos);
+        if (!(entity instanceof SoulNicheBlockEntity)) {
+            return ItemInteractionResult.FAIL;
         }
-        ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket());
+        ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket(colony == null));
         return ItemInteractionResult.SUCCESS;
     }
 
+    @Deprecated
     private static boolean processShowBlockmen(ColonyData colony, Player player) {
         if (colony == null) {
             return false;
@@ -105,7 +110,7 @@ public class SoulNicheBlock extends BaseEntityBlock {
         player.sendSystemMessage(headerMessage);
 
         BlockmanDataManager manager = DataManagers.getInstance(BlockmanDataManager::new);
-        List<UUID> blockmanIds = DataManagers.getInstance(ColonyDataManager::new).getColonyBlockmen(colony.getId());
+        List<UUID> blockmanIds = manager.getColonyBlockmen(colony.getId());
         for (UUID blockmenId : blockmanIds) {
             BlockmanData data = manager.getBlockmanData(blockmenId);
             if (data != null) {

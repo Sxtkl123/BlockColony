@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 public class SoulNicheBlockEntity extends BlockEntity {
 
     @Nullable
-    private UUID colonyId = null;
+    private UUID id = null;
 
     /**
      * {@code SoulNicheBlockEntity} 的构造方法，用于初始化魂龛（Soul Niche）方块实体的实例。
@@ -40,16 +40,25 @@ public class SoulNicheBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        if (this.colonyId != null) {
-            tag.putUUID("ColonyId", this.colonyId);
+        if (this.id != null) {
+            tag.putUUID("id", this.id);
         }
     }
 
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        if (tag.hasUUID("ColonyId")) {
-            this.colonyId = tag.getUUID("ColonyId");
+        if (tag.hasUUID("id")) {
+            this.id = tag.getUUID("id");
         }
+    }
+
+    public void setId(@Nullable UUID id) {
+        this.id = id;
+    }
+
+    @Nullable
+    public UUID getId() {
+        return id;
     }
 }

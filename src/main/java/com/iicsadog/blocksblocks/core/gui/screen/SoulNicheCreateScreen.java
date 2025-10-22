@@ -20,7 +20,7 @@ import net.minecraft.resources.ResourceLocation;
  * @author sxtkl
  * @since 2025/10/15
  */
-public class SoulNicheScreen extends BaseUIModelScreen<FlowLayout> {
+public class SoulNicheCreateScreen extends BaseUIModelScreen<FlowLayout> {
 
     private static final String CONFIRM_BUTTON = "confirm-button";
     private static final String CANCEL_BUTTON = "cancel-button";
@@ -34,7 +34,7 @@ public class SoulNicheScreen extends BaseUIModelScreen<FlowLayout> {
      * @author sxtkl
      * @since 2025/10/15
      */
-    public SoulNicheScreen() {
+    public SoulNicheCreateScreen() {
         super(
             FlowLayout.class,
             DataSource.asset(ResourceLocation.fromNamespaceAndPath(BlocksBlocks.MODID, "soul_niche_create"))

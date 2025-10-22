@@ -1,64 +1,64 @@
 <owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
-    <components>
+  <components>
+    <flow-layout direction="vertical">
+      <children>
         <flow-layout direction="vertical">
-            <children>
-                <flow-layout direction="vertical">
-                    <children>
-                        <label>
-                            <text translate="true">gui.blocks_blocks.soul_niche_create. create_tip</text>
-                            <color>black</color>
-                        </label>
-                        <text-area id="colony-name-input">
-                            <sizing>
-                                <horizontal method="fill">32</horizontal>
-                                <vertical method="fill">10</vertical>
-                            </sizing>
-                            <text>Your colony's name: </text>
-                        </text-area>
-                        <flow-layout direction="horizontal">
-                            <children>
-                                <button id="confirm-button">
-                                    <text translate="true">gui.blocks_blocks.soul_niche_create.confirm</text>
-                                </button>
-                                <button id="cancel-button">
-                                    <text translate="true">gui.blocks_blocks.soul_niche_create.cancel</text>
-                                </button>
-                            </children>
+          <children>
+            <label>
+              <text translate="true">gui.blocks_blocks.soul_niche_create.create_tip</text>
+            </label>
+            <text-area id="colony-name-input">
+              <sizing>
+                <horizontal method="fixed">128</horizontal>
+                <vertical method="fixed">18</vertical>
+              </sizing>
+              <text>Your colony's name:</text>
+            </text-area>
+            <flow-layout direction="horizontal">
+              <children>
+                <button id="confirm-button">
+                  <text translate="true">gui.blocks_blocks.soul_niche_create.confirm</text>
+                </button>
+                <button id="cancel-button">
+                  <text translate="true">gui.blocks_blocks.soul_niche_create.cancel</text>
+                </button>
+              </children>
 
-                            <horizontal-alignment>center</horizontal-alignment>
-                            <vertical-alignment>center</vertical-alignment>
+              <horizontal-alignment>center</horizontal-alignment>
+              <vertical-alignment>center</vertical-alignment>
 
-                            <gap>
-                                16
-                            </gap>
-                        </flow-layout>
-                    </children>
+              <gap>
+                16
+              </gap>
+            </flow-layout>
+          </children>
 
-                    <gap>
-                        16
-                    </gap>
+          <gap>
+            16
+          </gap>
 
-                    <padding>
-                        <all>16</all>
-                    </padding>
+          <padding>
+            <all>16</all>
+          </padding>
 
-                    <surface>
-                        <panel />
-                    </surface>
+          <surface>
+            <blur quality="0.1" size="16"/>
+            <outline>black</outline>
+          </surface>
 
-                    <horizontal-alignment>center</horizontal-alignment>
-                    <vertical-alignment>center</vertical-alignment>
-                </flow-layout>
-
-            </children>
-
-            <vertical-alignment>center</vertical-alignment>
-            <horizontal-alignment>center</horizontal-alignment>
-
-            <surface>
-                <vanilla-translucent/>
-            </surface>
+          <horizontal-alignment>center</horizontal-alignment>
+          <vertical-alignment>center</vertical-alignment>
         </flow-layout>
-    </components>
+
+      </children>
+
+      <vertical-alignment>center</vertical-alignment>
+      <horizontal-alignment>center</horizontal-alignment>
+
+      <surface>
+        <options-background/>
+      </surface>
+    </flow-layout>
+  </components>
 </owo-ui>

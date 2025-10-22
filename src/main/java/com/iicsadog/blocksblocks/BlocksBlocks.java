@@ -4,6 +4,7 @@ import com.iicsadog.blocksblocks.api.block.ModBlocks;
 import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
+import com.iicsadog.blocksblocks.api.item.ModCreativeTab;
 import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import net.neoforged.bus.api.IEventBus;
@@ -36,6 +37,7 @@ public class BlocksBlocks {
         ModComponents.COMPONENTS.register(bus);
         ModBlocks.BLOCKS.register(bus);
         ModBlockEntities.BLOCK_ENTITIES.register(bus);
+        ModCreativeTab.CREATIVE_MODE_TABS.register(bus);
         ModChannels.onServerInit();
     }
 }

@@ -2,6 +2,7 @@
   "item.blocks_blocks.soul": "灵魂",
   "item.blocks_blocks.someones_soul": "%s的灵魂",
   "block.blocks_blocks.soul_niche": "魂龛",
+  "creative_mode_tab.blocks_blocks_tab.title": "方块街区",
   "message.blocks_blocks.reject": "方块酱看起来不太喜欢这个方块。",
   "message.blocks_blocks.empty_soul": "这个灵魂空空如也...",
   "message.blocks_blocks.no_colony": "你没有殖民地！先去激活魂龛创建一个吧！",
@@ -11,5 +12,8 @@
   "message.blocks_blocks.blockman_list_item": "- %s\n",
   "gui.blocks_blocks.soul_niche_create.confirm": "确认",
   "gui.blocks_blocks.soul_niche_create.cancel": "取消",
-  "gui.blocks_blocks.soul_niche_create. create_tip": "嗯...看起来你还没有殖民地，来一个？"
+  "gui.blocks_blocks.soul_niche_create.create_tip": "嗯...看起来你还没有殖民地，来一个？",
+  "gui.blocks_blocks.soul_niche_select.title": "魂龛",
+  "gui.blocks_blocks.soul_niche_select.blockmen": "方块人",
+  "gui.blocks_blocks.soul_niche_select.buildings": "建筑物"
 }

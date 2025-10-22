@@ -8,5 +8,6 @@ package com.iicsadog.blocksblocks.core.network.packet;
  * @since 2025/10/15
  */
 public record OpenSoulNichePacket(
+    boolean create
 ) {
 }

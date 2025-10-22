@@ -3,7 +3,8 @@ package com.iicsadog.blocksblocks.api.network;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
-import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheScreen;
+import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheCreateScreen;
+import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheSelectScreen;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.packet.ActivateSoulNichePacket;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
@@ -50,7 +51,11 @@ public class ModChannels {
      */
     public static void onClientInit() {
         NET_CHANNEL.registerClientbound(OpenSoulNichePacket.class, (message, access) -> {
-            Minecraft.getInstance().setScreen(new SoulNicheScreen());
+            if (message.create()) {
+                Minecraft.getInstance().setScreen(new SoulNicheCreateScreen());
+                return;
+            }
+            Minecraft.getInstance().setScreen(new SoulNicheSelectScreen());
         });
     }
 }

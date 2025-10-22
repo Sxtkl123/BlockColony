@@ -20,6 +20,7 @@ import net.minecraft.nbt.Tag;
  * @author sxtkl
  * @since 2025/10/20
  */
+@SuppressWarnings("unused")
 public class BbNbtUtils {
 
     /**

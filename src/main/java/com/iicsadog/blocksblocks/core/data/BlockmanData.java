@@ -58,15 +58,16 @@ public class BlockmanData implements IData<BlockmanData> {
     public BlockmanData load(final CompoundTag tag) {
         this.id = tag.getUUID("id");
         this.name = tag.getString("name");
+        this.colonyId = tag.getUUID("colony_id");
         this.rejectedBlocks.clear();
-        ListTag rejectedBlocksList = tag.getList("rejectedBlocks", Tag.TAG_STRING);
+        ListTag rejectedBlocksList = tag.getList("rejected_blocks", Tag.TAG_STRING);
         rejectedBlocksList.forEach(element -> {
             if (element instanceof StringTag) {
                 this.rejectedBlocks.add(element.getAsString());
             }
         });
         this.acceptedBlocks.clear();
-        ListTag acceptedBlocksList = tag.getList("acceptedBlocks", Tag.TAG_STRING);
+        ListTag acceptedBlocksList = tag.getList("accepted_blocks", Tag.TAG_STRING);
         acceptedBlocksList.forEach(element -> {
             if (element instanceof StringTag) {
                 this.acceptedBlocks.add(element.getAsString());
@@ -79,6 +80,7 @@ public class BlockmanData implements IData<BlockmanData> {
     public CompoundTag save(CompoundTag tag) {
         tag.putUUID("id", this.id);
         tag.putString("name", this.name);
+        tag.putUUID("colony_id", this.colonyId);
         ListTag rejectedBlocks = new ListTag();
         this.rejectedBlocks.forEach(block -> rejectedBlocks.add(StringTag.valueOf(block)));
         ListTag acceptedBlocks = new ListTag();

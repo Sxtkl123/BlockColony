@@ -2,6 +2,7 @@
   "item.blocks_blocks.soul": "Soul",
   "item.blocks_blocks.someones_soul": "%s' Soul",
   "block.blocks_blocks.soul_niche": "Soul niche",
+  "creative_mode_tab.blocks_blocks_tab.title": "Blocks' Blocks",
   "message.blocks_blocks.reject": "Blockman reject this block.",
   "message.blocks_blocks.empty_soul": "This soul is empty...",
   "message.blocks_blocks.no_colony": "You don't have a colony, create one first!",
@@ -11,5 +12,8 @@
   "message.blocks_blocks.blockman_list_item": "- %s\n",
   "gui.blocks_blocks.soul_niche_create.confirm": "Confirm",
   "gui.blocks_blocks.soul_niche_create.cancel": "Cancel",
-  "gui.blocks_blocks.soul_niche_create. create_tip": "It seems like you don't have a colony... Create one?"
+  "gui.blocks_blocks.soul_niche_create.create_tip": "It seems like you don't have a colony... Create one?",
+  "gui.blocks_blocks.soul_niche_select.title": "Soul Niche",
+  "gui.blocks_blocks.soul_niche_select.blockmen": "Blockmen",
+  "gui.blocks_blocks.soul_niche_select.buildings": "Buildings"
 }
