@@ -7,6 +7,7 @@ import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.item.ModCreativeTab;
 import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
@@ -39,5 +40,9 @@ public class BlocksBlocks {
         ModBlockEntities.BLOCK_ENTITIES.register(bus);
         ModCreativeTab.CREATIVE_MODE_TABS.register(bus);
         ModChannels.onServerInit();
+    }
+
+    public static ResourceLocation namespace(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

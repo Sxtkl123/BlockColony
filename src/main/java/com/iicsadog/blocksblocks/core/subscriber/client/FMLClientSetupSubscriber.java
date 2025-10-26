@@ -4,6 +4,7 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.entity.renderer.BlockmanEntityRenderer;
+import com.iicsadog.blocksblocks.core.gui.component.BbComponents;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -44,5 +45,17 @@ public class FMLClientSetupSubscriber {
     @SubscribeEvent
     public static void registerNetwork(FMLClientSetupEvent evt) {
         ModChannels.onClientInit();
+    }
+
+    /**
+     * 注册UI组件的方法。
+     *
+     * @param evt FML客户端设置事件，用于在客户端初始化时触发UI组件注册
+     * @author sxtkl
+     * @since 2025/10/24
+     */
+    @SubscribeEvent
+    public static void registerComponent(FMLClientSetupEvent evt) {
+        BbComponents.registerComponents();
     }
 }

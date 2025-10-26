@@ -13,6 +13,7 @@ import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.mojang.serialization.MapCodec;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,30 +97,13 @@ public class SoulNicheBlock extends BaseEntityBlock {
         if (!(entity instanceof SoulNicheBlockEntity)) {
             return ItemInteractionResult.FAIL;
         }
-        ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket(colony == null));
+
+        Optional<UUID> colonyId = Optional.empty();
+        if (colony != null) {
+            colonyId = Optional.of(colony.getId());
+        }
+        ModChannels.NET_CHANNEL.serverHandle(player).send(new OpenSoulNichePacket(colony == null, colonyId));
         return ItemInteractionResult.SUCCESS;
-    }
-
-    @Deprecated
-    private static boolean processShowBlockmen(ColonyData colony, Player player) {
-        if (colony == null) {
-            return false;
-        }
-        // 使用国际化消息替换硬编码文本
-        Component headerMessage = Component.translatable("message.blocks_blocks.colony_have", colony.getName());
-        player.sendSystemMessage(headerMessage);
-
-        BlockmanDataManager manager = DataManagers.getInstance(BlockmanDataManager::new);
-        List<UUID> blockmanIds = manager.getColonyBlockmen(colony.getId());
-        for (UUID blockmenId : blockmanIds) {
-            BlockmanData data = manager.getBlockmanData(blockmenId);
-            if (data != null) {
-                // 使用国际化消息替换硬编码文本
-                Component itemMessage = Component.translatable("message.blocks_blocks.blockman_list_item", data.getName());
-                player.sendSystemMessage(itemMessage);
-            }
-        }
-        return true;
     }
 
     private static ItemInteractionResult processBind(Player player, ColonyData colony, ItemStack playerStack) {
