@@ -29,9 +29,7 @@ public class FMLClientSetupSubscriber {
      */
     @SubscribeEvent
     public static void registerEntityRender(FMLClientSetupEvent evt) {
-        evt.enqueueWork(() -> {
-            EntityRenderers.register(ModEntities.BLOCKMAN.get(), BlockmanEntityRenderer::new);
-        });
+        evt.enqueueWork(() -> EntityRenderers.register(ModEntities.BLOCKMAN.get(), BlockmanEntityRenderer::new));
     }
 
     /**

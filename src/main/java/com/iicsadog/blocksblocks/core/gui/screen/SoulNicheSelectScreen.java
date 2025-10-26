@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 public class SoulNicheSelectScreen extends BaseUIModelScreen<FlowLayout> {
 
     private final UUID colonyId;
+
     /**
      * 灵魂壁龛灵魂选择界面类，用于选择要进入的下一级菜单。
      *

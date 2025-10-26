@@ -42,6 +42,14 @@ public class BlocksBlocks {
         ModChannels.onServerInit();
     }
 
+    /**
+     * 创建一个带有模组命名空间的资源位置。
+     *
+     * @param path 资源的路径
+     * @return 创建的ResourceLocation实例
+     * @author sxtkl
+     * @since 2025/10/26
+     */
     public static ResourceLocation namespace(String path) {
         return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }

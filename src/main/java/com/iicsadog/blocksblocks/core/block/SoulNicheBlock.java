@@ -12,7 +12,6 @@ import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.mojang.serialization.MapCodec;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
