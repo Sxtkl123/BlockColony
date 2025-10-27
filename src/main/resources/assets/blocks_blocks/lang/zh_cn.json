@@ -8,6 +8,9 @@
   "gui.blocks_blocks.soul_niche_select.blockmen": "方块人",
   "gui.blocks_blocks.soul_niche_select.buildings": "建筑物",
   "gui.blocks_blocks.soul_niche_select.title": "魂龛",
+  "gui.blocks_blocks.building_main.drawing": "图纸",
+  "gui.blocks_blocks.building_main.worker": "工人",
+  "gui.blocks_blocks.building_hut_main.title": "建筑工坊"
   "item.blocks_blocks.someones_soul": "%s的灵魂",
   "item.blocks_blocks.soul": "灵魂",
   "message.blocks_blocks.blockman_list_item": "- %s\n",
