@@ -42,10 +42,10 @@ public class BuildersHutBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     /**
-     * SoulNicheBlock 的构造方法，用于初始化一个新的魂龛（Soul Niche）方块实例。
+     * BuildersHutBlock 的构造方法，用于初始化一个新的建筑工小屋（Builders Hut）方块实例。
      *
-     * @author sxtkl
-     * @since 2025/10/10
+     * @author arxyt
+     * @since 2025/10/27
      */
     public BuildersHutBlock() {
         super(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE));

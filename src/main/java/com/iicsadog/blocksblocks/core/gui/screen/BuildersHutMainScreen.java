@@ -11,10 +11,10 @@ public class BuildersHutMainScreen extends BaseUIModelScreen<FlowLayout> {
     private final UUID colonyId;
 
     /**
-     * 灵魂壁龛灵魂选择界面类，用于选择要进入的下一级菜单。
+     * 建筑工小屋主界面，用于显示简单信息并选择要进入的下一级菜单。
      *
-     * @author sxtkl
-     * @since 2025/10/22
+     * @author arxyt
+     * @since 2025/10/28
      */
     public BuildersHutMainScreen(UUID colonyId) {
         super(

@@ -16,14 +16,14 @@ public class BuildersHutBlockEntity extends BlockEntity {
     private UUID id = null;
 
     /**
-     * {@code SoulNicheBlockEntity} 的构造方法，用于初始化魂龛（Soul Niche）方块实体的实例。
+     * {@code BuildersHutBlockEntity} 的构造方法，用于初始化建筑工小屋（Builders Hut）方块实体的实例。
      * 该方法接受方块的位置和方块的状态作为参数，并通过父类的构造方法完成初始化。
      *
      * @param pos        该方块实体的世界位置。
      * @param blockState 当前方块的状态信息。
      *
-     * @author sxtkl
-     * @since 2025/10/10
+     * @author arxyt
+     * @since 2025/10/27
      **/
     public BuildersHutBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.BUILDING_HUT_BLOCK_ENTITY.get(), pos, blockState);
