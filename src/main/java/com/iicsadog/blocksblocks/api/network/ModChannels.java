@@ -7,8 +7,10 @@ import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheBlockmenScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheCreateScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheSelectScreen;
+import com.iicsadog.blocksblocks.core.manager.client.RequestManager;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
+import com.iicsadog.blocksblocks.core.network.ResponseInfo;
 import com.iicsadog.blocksblocks.core.network.packet.ActivateSoulNichePacket;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.iicsadog.blocksblocks.core.network.packet.request.client.GetColonyBlockmenC2S;
@@ -40,7 +42,6 @@ public class ModChannels {
      * @since 2025/10/15
      */
     public static void onServerInit() {
-        // TODO)) 这里和下面所有的网络包的实现都挤在一起了，很不优雅，有机会抽象一下
         // 服务端激活魂龛，创立殖民地
         NET_CHANNEL.registerServerbound(ActivateSoulNichePacket.class, (message, access) -> {
             ColonyData colony = new ColonyData();
@@ -58,6 +59,9 @@ public class ModChannels {
                 .toList();
             NET_CHANNEL.serverHandle(access.player()).send(new GetColonyBlockmenS2C(vos));
         });
+
+        NET_CHANNEL.addEndecs(builder -> builder.register(ResponseInfo.ENDEC, ResponseInfo.class));
+        registerRequests();
     }
 
     /**
@@ -79,12 +83,29 @@ public class ModChannels {
             }
         });
 
-        // 客户端发送：获得某一殖民地的所有方块人信息
+        // 客户端接收：获得某一殖民地的所有方块人信息
         NET_CHANNEL.registerClientbound(GetColonyBlockmenS2C.class, (message, access) -> {
             if (!(Minecraft.getInstance().screen instanceof SoulNicheBlockmenScreen screen)) {
                 return;
             }
             screen.setVos(message.blockmen());
         });
+
+        registerResponse();
+    }
+
+    private static void registerRequests() {
+        ModRequests.REQUESTS.forEach(req ->
+            NET_CHANNEL.registerServerbound(req, (message, access) ->
+                NET_CHANNEL.serverHandle(access.player()).send(((IRequest<?>) message).execute(access))
+            )
+        );
+    }
+
+    private static void registerResponse() {
+        ModRequests.RESPONSES.forEach(req ->
+            NET_CHANNEL.registerClientbound(req, (message, access)
+                -> RequestManager.getInstance().execute((IResponse) message))
+        );
     }
 }
