@@ -2,22 +2,15 @@ package com.iicsadog.blocksblocks.api.network;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
-import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
-import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheBlockmenScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheCreateScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheSelectScreen;
 import com.iicsadog.blocksblocks.core.manager.client.RequestManager;
-import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.ResponseInfo;
-import com.iicsadog.blocksblocks.core.network.packet.ActivateSoulNichePacket;
-import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
-import com.iicsadog.blocksblocks.core.network.packet.request.client.GetColonyBlockmenC2S;
-import com.iicsadog.blocksblocks.core.network.packet.request.server.GetColonyBlockmenS2C;
-import com.iicsadog.blocksblocks.core.network.vo.BlockmenVO;
+import com.iicsadog.blocksblocks.core.network.notification.ActivateSoulNichePacket;
+import com.iicsadog.blocksblocks.core.network.notification.OpenSoulNichePacket;
 import io.wispforest.owo.network.OwoNetChannel;
-import java.util.List;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -51,15 +44,6 @@ public class ModChannels {
             DataManagers.getInstance(ColonyDataManager::new).addColony(colony);
         });
 
-        // 服务端回复：获得某一殖民地的所有方块人信息
-        NET_CHANNEL.registerServerbound(GetColonyBlockmenC2S.class, (message, access) -> {
-            List<BlockmanData> blockmen = DataManagers.getInstance(BlockmanDataManager::new).getColonyBlockmen(message.colonyId());
-            List<BlockmenVO> vos = blockmen.stream()
-                .map(BlockmenVO::fromBlockmanData)
-                .toList();
-            NET_CHANNEL.serverHandle(access.player()).send(new GetColonyBlockmenS2C(vos));
-        });
-
         NET_CHANNEL.addEndecs(builder -> builder.register(ResponseInfo.ENDEC, ResponseInfo.class));
         registerRequests();
     }
@@ -81,14 +65,6 @@ public class ModChannels {
             if (message.colonyId().isPresent()) {
                 Minecraft.getInstance().setScreen(new SoulNicheSelectScreen(message.colonyId().get()));
             }
-        });
-
-        // 客户端接收：获得某一殖民地的所有方块人信息
-        NET_CHANNEL.registerClientbound(GetColonyBlockmenS2C.class, (message, access) -> {
-            if (!(Minecraft.getInstance().screen instanceof SoulNicheBlockmenScreen screen)) {
-                return;
-            }
-            screen.setVos(message.blockmen());
         });
 
         registerResponse();

@@ -1,8 +1,7 @@
 package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.api.network.ModChannels;
-import com.iicsadog.blocksblocks.core.network.packet.request.client.GetColonyBlockmenC2S;
+import com.iicsadog.blocksblocks.api.network.ModRequests;
 import com.iicsadog.blocksblocks.core.network.vo.BlockmenVO;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.container.FlowLayout;
@@ -44,7 +43,9 @@ public class SoulNicheBlockmenScreen extends BaseUIModelScreen<FlowLayout> {
     @Override
     protected void init() {
         super.init();
-        ModChannels.NET_CHANNEL.clientHandle().send(new GetColonyBlockmenC2S(this.colonyId));
+        ModRequests.getColonyBlockmen(colonyId)
+            .success(res -> this.setVos(res.blockmen()))
+            .send();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class SoulNicheBlockmenScreen extends BaseUIModelScreen<FlowLayout> {
      * @author sxtkl
      * @since 2025/10/26
      */
-    public void setVos(List<BlockmenVO> vos) {
+    private void setVos(List<BlockmenVO> vos) {
         this.vos.clear();
         this.vos.addAll(vos);
         this.build(this.uiAdapter.rootComponent);
