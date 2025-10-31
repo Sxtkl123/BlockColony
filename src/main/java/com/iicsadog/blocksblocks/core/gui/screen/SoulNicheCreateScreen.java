@@ -2,7 +2,7 @@ package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
-import com.iicsadog.blocksblocks.core.network.packet.ActivateSoulNichePacket;
+import com.iicsadog.blocksblocks.core.network.notification.ActivateSoulNichePacket;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.TextAreaComponent;

@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.network.packet;
+package com.iicsadog.blocksblocks.core.network.notification;
 
 /**
  * 激活灵魂壁龛的网络数据包类。

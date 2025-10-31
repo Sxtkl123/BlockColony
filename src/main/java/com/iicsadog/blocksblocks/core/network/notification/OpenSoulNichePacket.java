@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.network.packet;
+package com.iicsadog.blocksblocks.core.network.notification;
 
 import java.util.Optional;
 import java.util.UUID;

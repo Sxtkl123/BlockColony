@@ -10,7 +10,7 @@ import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
-import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
+import com.iicsadog.blocksblocks.core.network.notification.OpenSoulNichePacket;
 import com.mojang.serialization.MapCodec;
 import java.util.Optional;
 import java.util.UUID;
