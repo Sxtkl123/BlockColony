@@ -5,8 +5,10 @@ import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.block.entity.BuildersHutBlockEntity;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
-import com.iicsadog.blocksblocks.core.network.packet.OpenBuildersHutPacket;
+import com.iicsadog.blocksblocks.core.network.notification.OpenBuildersHutPacket;
 import com.mojang.serialization.MapCodec;
+import java.util.Optional;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -16,7 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,8 +36,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.UUID;
 
 public class BuildersHutBlock extends BaseEntityBlock {
     private static final MapCodec<BuildersHutBlock> CODEC = simpleCodec((properties) -> new BuildersHutBlock());
