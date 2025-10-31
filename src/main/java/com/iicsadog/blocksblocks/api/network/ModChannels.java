@@ -4,6 +4,7 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
+import com.iicsadog.blocksblocks.core.gui.screen.BuildersHutMainScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheBlockmenScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheCreateScreen;
 import com.iicsadog.blocksblocks.core.gui.screen.SoulNicheSelectScreen;
@@ -12,6 +13,7 @@ import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.ColonyDataManager;
 import com.iicsadog.blocksblocks.core.network.ResponseInfo;
 import com.iicsadog.blocksblocks.core.network.packet.ActivateSoulNichePacket;
+import com.iicsadog.blocksblocks.core.network.packet.OpenBuildersHutPacket;
 import com.iicsadog.blocksblocks.core.network.packet.OpenSoulNichePacket;
 import com.iicsadog.blocksblocks.core.network.packet.request.client.GetColonyBlockmenC2S;
 import com.iicsadog.blocksblocks.core.network.packet.request.server.GetColonyBlockmenS2C;
@@ -80,6 +82,12 @@ public class ModChannels {
             }
             if (message.colonyId().isPresent()) {
                 Minecraft.getInstance().setScreen(new SoulNicheSelectScreen(message.colonyId().get()));
+            }
+        });
+        // 客户端打开建筑工小屋
+        NET_CHANNEL.registerClientbound(OpenBuildersHutPacket.class, (message, access) -> {
+            if (message.colonyId().isPresent()) {
+                Minecraft.getInstance().setScreen(new BuildersHutMainScreen(message.colonyId().get()));
             }
         });
 

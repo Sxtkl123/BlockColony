@@ -24,4 +24,7 @@ public class ModItems {
 
     public static final DeferredHolder<Item, BlockItem> SOUL_NICHE_BLOCK_ITEM =
         ITEMS.register("soul_niche", () -> new BlockItem(ModBlocks.SOUL_NICHE_BLOCK.get(), new Item.Properties()));
+
+    public static final DeferredHolder<Item, BlockItem> BUILDERS_HUT_BLOCK_ITEM =
+        ITEMS.register("builders_hut", () -> new BlockItem(ModBlocks.BUILDERS_HUT_BLOCK.get(), new Item.Properties()));
 }

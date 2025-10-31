@@ -1,5 +1,6 @@
 {
-  "block.blocks_blocks.soul_niche": "Soul niche",
+  "block.blocks_blocks.builders_hut": "Builder‘s Hut",
+  "block.blocks_blocks.soul_niche": "Soul Niche",
   "creative_mode_tab.blocks_blocks_tab.title": "Blocks' Blocks",
   "gui.blocks_blocks.soul_niche_blockmen.title": "Blockmen",
   "gui.blocks_blocks.soul_niche_create.cancel": "Cancel",
@@ -8,6 +9,9 @@
   "gui.blocks_blocks.soul_niche_select.blockmen": "Blockmen",
   "gui.blocks_blocks.soul_niche_select.buildings": "Buildings",
   "gui.blocks_blocks.soul_niche_select.title": "Soul Niche",
+  "gui.blocks_blocks.building_main.drawing": "Drawing(s)",
+  "gui.blocks_blocks.building_main.worker": "Worker(s)",
+  "gui.blocks_blocks.builders_hut_main.title": "Builder's Hut",
   "item.blocks_blocks.someones_soul": "%s' Soul",
   "item.blocks_blocks.soul": "Soul",
   "message.blocks_blocks.blockman_list_item": "- %s\n",

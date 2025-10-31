@@ -2,6 +2,7 @@ package com.iicsadog.blocksblocks.api.block.entity;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.block.ModBlocks;
+import com.iicsadog.blocksblocks.core.block.entity.BuildersHutBlockEntity;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,6 +25,13 @@ public class ModBlockEntities {
         SOUL_NICHE_BLOCK_ENTITY = BLOCK_ENTITIES.register("soul_niche", () -> BlockEntityType.Builder.of(
             SoulNicheBlockEntity::new,
             ModBlocks.SOUL_NICHE_BLOCK.get()
+        ).build(null)
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BuildersHutBlockEntity>>
+        BUILDING_HUT_BLOCK_ENTITY = BLOCK_ENTITIES.register("builders_hut", () -> BlockEntityType.Builder.of(
+                BuildersHutBlockEntity::new,
+                ModBlocks.BUILDERS_HUT_BLOCK.get()
         ).build(null)
     );
 

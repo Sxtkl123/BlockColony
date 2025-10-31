@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.api.block;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.core.block.BuildersHutBlock;
 import com.iicsadog.blocksblocks.core.block.SoulNicheBlock;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -20,5 +21,8 @@ public class ModBlocks {
 
     public static final DeferredHolder<Block, SoulNicheBlock> SOUL_NICHE_BLOCK =
         BLOCKS.register("soul_niche", SoulNicheBlock::new);
+
+    public static final DeferredHolder<Block, BuildersHutBlock> BUILDERS_HUT_BLOCK =
+        BLOCKS.register("builders_hut", BuildersHutBlock::new);
 
 }

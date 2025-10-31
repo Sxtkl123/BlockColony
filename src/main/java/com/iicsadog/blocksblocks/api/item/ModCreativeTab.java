@@ -27,6 +27,7 @@ public class ModCreativeTab {
         .displayItems((parameters, output) -> {
             output.accept(ModItems.SOUL_ITEM.get());
             output.accept(ModItems.SOUL_NICHE_BLOCK_ITEM.get());
+            output.accept(ModItems.BUILDERS_HUT_BLOCK_ITEM.get());
         })
         .build());
 }
