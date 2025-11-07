@@ -43,7 +43,7 @@ public class ModChannels {
             colony.setId(UUID.randomUUID());
             colony.setName(message.name());
             colony.setOwnerId(access.player().getUUID());
-            DataManagers.getInstance(ColonyDataManager::new).addColony(colony);
+            DataManagers.getInstance(ColonyDataManager::new).save(colony);
         });
 
         NET_CHANNEL.addEndecs(builder -> builder.register(ResponseInfo.ENDEC, ResponseInfo.class));

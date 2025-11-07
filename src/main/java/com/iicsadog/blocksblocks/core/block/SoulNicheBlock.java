@@ -118,10 +118,10 @@ public class SoulNicheBlock extends BaseEntityBlock {
         BlockmanDataManager manager = DataManagers.getInstance(BlockmanDataManager::new);
 
         // 如果该方块人有了其对应的殖民地ID，说明该方块人已经被绑定到了某个殖民地
-        BlockmanData blockman = manager.getBlockmanData(soulComponent.id());
+        BlockmanData blockman = manager.query(soulComponent.id());
         if (blockman != null && blockman.getColonyId() != null) {
             UUID bindColonyId = blockman.getColonyId();
-            ColonyData bindColony = DataManagers.getInstance(ColonyDataManager::new).getColony(bindColonyId);
+            ColonyData bindColony = DataManagers.getInstance(ColonyDataManager::new).query(bindColonyId);
             if (bindColony != null) {
                 player.sendSystemMessage(Component.translatable("message.blocks_blocks.soul_bound", bindColony.getName()));
                 return ItemInteractionResult.FAIL;
@@ -130,7 +130,7 @@ public class SoulNicheBlock extends BaseEntityBlock {
 
         blockman = BlockmanData.fromSoul(soulComponent);
         blockman.setColonyId(colony.getId());
-        manager.bind(blockman);
+        manager.save(blockman);
         player.sendSystemMessage(Component.translatable("message.blocks_blocks.soul_bind_success", soulComponent.name(), colony.getName()));
         return ItemInteractionResult.SUCCESS;
     }

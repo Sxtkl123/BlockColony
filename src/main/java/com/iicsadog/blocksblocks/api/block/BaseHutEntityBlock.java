@@ -10,7 +10,20 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 基础的工作小屋实体方块。
+ *
+ * @author sxtkl
+ * @since 2025/11/7
+ */
 public abstract class BaseHutEntityBlock extends BaseEntityBlock {
+    /**
+     * 基础的工作小屋实体方块。
+     *
+     * @param properties 属性
+     * @author sxtkl
+     * @since 2025/11/7
+     */
     protected BaseHutEntityBlock(Properties properties) {
         super(properties);
     }
@@ -28,7 +41,7 @@ public abstract class BaseHutEntityBlock extends BaseEntityBlock {
         if (entity.getBuildingId() == null) {
             return;
         }
-        DataManagers.getInstance(BuildingDataManager::new).removeBuilding(entity.getBuildingId());
+        DataManagers.getInstance(BuildingDataManager::new).delete(entity.getBuildingId());
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 }

@@ -21,7 +21,7 @@ import net.minecraft.world.level.saveddata.SavedData;
  */
 public class DataManagers {
 
-    private static final Map<String, AbstractDataManager> instances = new HashMap<>();
+    private static final Map<String, AbstractDataManager<?>> instances = new HashMap<>();
     private static MinecraftServer server;
 
     /**
@@ -61,7 +61,7 @@ public class DataManagers {
      * @since 2025/10/18
      */
     @SuppressWarnings("unchecked")
-    public static <T extends AbstractDataManager> T getInstance(Supplier<T> supplier) {
+    public static <T extends AbstractDataManager<?>> T getInstance(Supplier<T> supplier) {
         if (server == null) {
             throw new RuntimeException("Server has not been initialized!");
         }
@@ -75,8 +75,7 @@ public class DataManagers {
         }
         // 否则从数据存储加载或创建新实例，并存储到注册表
         T instance = server.overworld().getDataStorage().computeIfAbsent(
-            new SavedData.Factory<>(supplier, (tag, provider) -> (T) supplier.get().load(tag, provider)),
-            name
+            new SavedData.Factory<>(supplier, (tag, provider) -> (T) supplier.get().load(tag)), name
         );
 
         instances.put(name, instance);

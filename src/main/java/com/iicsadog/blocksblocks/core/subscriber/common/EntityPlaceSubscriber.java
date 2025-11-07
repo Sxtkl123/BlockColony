@@ -15,9 +15,22 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.BlockEvent;
 
+/**
+ * 实体放置方块订阅器。
+ *
+ * @author sxtkl
+ * @since 2025/11/7
+ */
 @EventBusSubscriber
 public class EntityPlaceSubscriber {
 
+    /**
+     * 放置小屋方块事件，放置后将小屋注册到表中。
+     *
+     * @param event 事件
+     * @author sxtkl
+     * @since 2025/11/7
+     */
     @SubscribeEvent
     public static void onPlaceHutBlock(BlockEvent.EntityPlaceEvent event) {
         // 如果放置的方块不是Hut方块，则不处理
@@ -52,6 +65,6 @@ public class EntityPlaceSubscriber {
         data.setRank(0);
         data.setType(hutEntity.hutType().toString());
         data.setColonyId(colony.getId());
-        DataManagers.getInstance(BuildingDataManager::new).saveBuilding(data);
+        DataManagers.getInstance(BuildingDataManager::new).save(data);
     }
 }

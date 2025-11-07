@@ -3,14 +3,8 @@ package com.iicsadog.blocksblocks.core.manager.data;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
-import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * BuildingDataManager 类是建筑物数据的管理器，继承自 AbstractDataManager。
@@ -23,42 +17,17 @@ import org.jetbrains.annotations.NotNull;
  * @author sxtkl
  * @since 2025/10/22
  */
-public class BuildingDataManager extends AbstractDataManager {
+public class BuildingDataManager extends AbstractDataManager<BuildingData> {
 
     private static final String MANAGER_NAME = "building";
-    private static final String BUILDINGS = "buildings";
-
-    private Map<UUID, BuildingData> buildings = new HashMap<>();
 
     @Override
-    protected AbstractDataManager load(CompoundTag tag, HolderLookup.Provider provider) {
-        this.buildings = BbNbtUtils.loadMapData(BUILDINGS, tag, BuildingData::new);
-        return this;
+    protected Supplier<BuildingData> createData() {
+        return null;
     }
 
     @Override
     protected ResourceLocation getManagerName() {
         return ResourceLocation.fromNamespaceAndPath(BlocksBlocks.MODID, MANAGER_NAME);
-    }
-
-    @NotNull
-    @Override
-    public CompoundTag save(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider provider) {
-        BbNbtUtils.saveMapData(BUILDINGS, tag, buildings);
-        return tag;
-    }
-
-    public BuildingData getBuilding(UUID id) {
-        return this.buildings.get(id);
-    }
-
-    public void saveBuilding(BuildingData data) {
-        this.buildings.put(data.getId(), data);
-        this.setDirty();
-    }
-
-    public void removeBuilding(UUID id) {
-        this.buildings.remove(id);
-        this.setDirty();
     }
 }
