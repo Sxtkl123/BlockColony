@@ -70,6 +70,7 @@ public class SoulItem extends Item implements ISoulItemAbility {
         if (record != null && record.name() != null) {
             blockman.setCustomName(Component.literal(record.name()));
             blockman.setCustomNameVisible(true);
+            blockman.setBlockmanId(record.id());
         }
         level.setBlock(context.getClickedPos(), Blocks.AIR.defaultBlockState(), 1);
         level.addFreshEntity(blockman);

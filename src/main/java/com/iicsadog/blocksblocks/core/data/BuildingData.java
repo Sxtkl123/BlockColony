@@ -2,7 +2,15 @@ package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.IData;
 import java.util.UUID;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 
 /**
  * BuildingData 类实现了 IData 接口，用于存储建筑物的基本信息。
@@ -16,14 +24,18 @@ public class BuildingData implements IData<BuildingData> {
     private UUID id;
     private UUID colonyId;
     private String type;
-    private byte level;
+    private int rank;
+    private String dimension;
+    private BlockPos pos;
 
     @Override
     public CompoundTag save(CompoundTag tag) {
         tag.putUUID("id", id);
         tag.putUUID("colony_id", colonyId);
         tag.putString("type", type);
-        tag.putByte("level", level);
+        tag.putInt("rank", rank);
+        tag.putString("dimension", dimension);
+        tag.put("pos", NbtUtils.writeBlockPos(pos));
         return tag;
     }
 
@@ -32,7 +44,9 @@ public class BuildingData implements IData<BuildingData> {
         this.id = tag.getUUID("id");
         this.colonyId = tag.getUUID("colony_id");
         this.type = tag.getString("type");
-        this.level = tag.getByte("level");
+        this.rank = tag.getInt("rank");
+        this.dimension = tag.getString("dimension");
+        this.pos = NbtUtils.readBlockPos(tag, "pos").orElse(null);
         return this;
     }
 
@@ -62,11 +76,37 @@ public class BuildingData implements IData<BuildingData> {
         this.type = type;
     }
 
-    public byte getLevel() {
-        return level;
+    public BlockPos getPos() {
+        return pos;
     }
 
-    public void setLevel(byte level) {
-        this.level = level;
+    public void setPos(BlockPos pos) {
+        this.pos = pos;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
+    }
+
+    public String getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(String dimension) {
+        this.dimension = dimension;
+    }
+
+    public ServerLevel getDimension(MinecraftServer server) {
+        ResourceLocation location = ResourceLocation.parse(this.dimension);
+        ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, location);
+        return server.getLevel(dimension);
+    }
+
+    public void setDimension(ServerLevel level) {
+        this.dimension = level.dimension().location().toString();
     }
 }

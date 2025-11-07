@@ -47,4 +47,18 @@ public class BuildingDataManager extends AbstractDataManager {
         BbNbtUtils.saveMapData(BUILDINGS, tag, buildings);
         return tag;
     }
+
+    public BuildingData getBuilding(UUID id) {
+        return this.buildings.get(id);
+    }
+
+    public void saveBuilding(BuildingData data) {
+        this.buildings.put(data.getId(), data);
+        this.setDirty();
+    }
+
+    public void removeBuilding(UUID id) {
+        this.buildings.remove(id);
+        this.setDirty();
+    }
 }

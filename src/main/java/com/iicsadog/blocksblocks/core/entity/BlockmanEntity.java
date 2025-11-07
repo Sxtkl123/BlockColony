@@ -1,6 +1,10 @@
 package com.iicsadog.blocksblocks.core.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
+import com.mojang.serialization.Dynamic;
+import java.util.Optional;
+import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -8,15 +12,19 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.BreathAirGoal;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +43,20 @@ public class BlockmanEntity extends PathfinderMob {
 
     private static final EntityDataAccessor<BlockState>
         BLOCK_STATE = SynchedEntityData.defineId(BlockmanEntity.class, EntityDataSerializers.BLOCK_STATE);
+
+    private static final EntityDataAccessor<Optional<UUID>>
+        BLOCKMAN_ID = SynchedEntityData.defineId(BlockmanEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
+    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
+        MemoryModuleType.LOOK_TARGET,
+        MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
+        MemoryModuleType.WALK_TARGET,
+        MemoryModuleType.PATH
+    );
+
+    protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
+        SensorType.NEAREST_LIVING_ENTITIES
+    );
 
     /**
      * 方块人注册用的构造方法。
@@ -75,20 +97,17 @@ public class BlockmanEntity extends PathfinderMob {
         this(level, pos.getX() + 0.5d, pos.getY(), pos.getZ() + 0.5d);
     }
 
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new BreathAirGoal(this));
-    }
-
     /**
-     * 方块酱属性构建器，这里暂时只赋予了生命值。
+     * 方块酱属性构建器，生命值为20，速度为0.2。
      *
      * @return 属性构造器
      * @author sxtkl
      * @since 2025/9/29
      */
     public static AttributeSupplier.Builder createAttributes() {
-        return PathfinderMob.createMobAttributes().add(Attributes.MAX_HEALTH, 20);
+        return PathfinderMob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 20)
+            .add(Attributes.MOVEMENT_SPEED, 0.2F);
     }
 
     @Override
@@ -110,16 +129,19 @@ public class BlockmanEntity extends PathfinderMob {
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.put("BlockState", NbtUtils.writeBlockState(this.entityData.get(BLOCK_STATE)));
+        compound.put("block_state", NbtUtils.writeBlockState(this.entityData.get(BLOCK_STATE)));
+        this.entityData.get(BLOCKMAN_ID).ifPresent(uuid -> compound.putUUID("blockman_id", uuid));
     }
 
-    @SuppressWarnings("resource")
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.entityData.set(
             BLOCK_STATE, NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
-                compound.getCompound("BlockState"))
+                compound.getCompound("block_state"))
+        );
+        this.entityData.set(
+            BLOCKMAN_ID, Optional.of(compound.getUUID("blockman_id"))
         );
     }
 
@@ -175,5 +197,43 @@ public class BlockmanEntity extends PathfinderMob {
      */
     public void setBlockState(@NotNull BlockState state) {
         this.entityData.set(BLOCK_STATE, state.getBlock().defaultBlockState());
+    }
+
+    @NotNull
+    @Override
+    protected Brain.Provider<BlockmanEntity> brainProvider() {
+        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+    }
+
+    @NotNull
+    @Override
+    protected Brain<?> makeBrain(@NotNull Dynamic<?> dynamic) {
+        return BlockmanAI.makeBrain(this, this.brainProvider().makeBrain(dynamic));
+    }
+
+    @NotNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public Brain<BlockmanEntity> getBrain() {
+        return (Brain<BlockmanEntity>) super.getBrain();
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        this.level().getProfiler().push("blockmanBrain");
+        this.getBrain().tick((ServerLevel) this.level(), this);
+        this.level().getProfiler().pop();
+        this.level().getProfiler().push("blockmanActivityUpdate");
+        BlockmanAI.updateActivity(this);
+        this.level().getProfiler().pop();
+        super.customServerAiStep();
+    }
+
+    public UUID getBlockmanId() {
+        return entityData.get(BLOCKMAN_ID).orElse(null);
+    }
+
+    public void setBlockmanId(UUID blockmanId) {
+        entityData.set(BLOCKMAN_ID, Optional.of(blockmanId));
     }
 }

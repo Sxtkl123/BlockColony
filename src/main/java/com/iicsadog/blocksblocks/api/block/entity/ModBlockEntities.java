@@ -3,6 +3,7 @@ package com.iicsadog.blocksblocks.api.block.entity;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.block.ModBlocks;
 import com.iicsadog.blocksblocks.core.block.entity.BuildersHutBlockEntity;
+import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -32,6 +33,13 @@ public class ModBlockEntities {
         BUILDING_HUT_BLOCK_ENTITY = BLOCK_ENTITIES.register("builders_hut", () -> BlockEntityType.Builder.of(
                 BuildersHutBlockEntity::new,
                 ModBlocks.BUILDERS_HUT_BLOCK.get()
+        ).build(null)
+    );
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LumberjackHutBlockEntity>>
+        LUMBERJACK_HUT_BLOCK_ENTITY = BLOCK_ENTITIES.register("lumberjack_hut", () -> BlockEntityType.Builder.of(
+                LumberjackHutBlockEntity::new,
+                ModBlocks.LUMBERJACK_HUT_BLOCK.get()
         ).build(null)
     );
 

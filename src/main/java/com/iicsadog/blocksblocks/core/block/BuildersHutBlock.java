@@ -37,6 +37,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 
+/**
+ * BuildersHutBlock 建筑工小屋。
+ *
+ * @author arxyt
+ * @since 2025/10/27
+ */
 public class BuildersHutBlock extends BaseEntityBlock {
     private static final MapCodec<BuildersHutBlock> CODEC = simpleCodec((properties) -> new BuildersHutBlock());
 

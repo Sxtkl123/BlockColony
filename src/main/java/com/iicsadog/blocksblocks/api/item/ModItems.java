@@ -27,4 +27,7 @@ public class ModItems {
 
     public static final DeferredHolder<Item, BlockItem> BUILDERS_HUT_BLOCK_ITEM =
         ITEMS.register("builders_hut", () -> new BlockItem(ModBlocks.BUILDERS_HUT_BLOCK.get(), new Item.Properties()));
+
+    public static final DeferredHolder<Item, BlockItem> LUMBERJACK_HUT_BLOCK_ITEM =
+        ITEMS.register("lumberjack_hut", () -> new BlockItem(ModBlocks.LUMBERJACK_HUT_BLOCK.get(), new Item.Properties()));
 }
