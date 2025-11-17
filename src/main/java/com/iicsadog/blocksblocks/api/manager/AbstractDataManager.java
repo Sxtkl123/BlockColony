@@ -67,6 +67,7 @@ public abstract class AbstractDataManager<D extends IData<D>> extends SavedData 
      * @author sxtkl
      * @since 2025/11/7
      */
+    @NotNull
     protected abstract Supplier<D> createData();
 
     /**

@@ -6,6 +6,7 @@ import com.iicsadog.blocksblocks.core.data.ColonyData;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -18,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class ColonyDataManager extends AbstractDataManager<ColonyData> {
     private static final String MANAGER_NAME = "colony";
 
+    @NotNull
     @Override
     protected Supplier<ColonyData> createData() {
         return ColonyData::new;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * BlockmanDataManager 类负责管理游戏中所有Blockman的数据。
@@ -19,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 public class BlockmanDataManager extends AbstractDataManager<BlockmanData> {
     private static final String MANAGER_NAME = "blockman";
 
+    @NotNull
     @Override
     protected Supplier<BlockmanData> createData() {
         return BlockmanData::new;

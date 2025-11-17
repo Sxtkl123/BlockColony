@@ -3,6 +3,8 @@ package com.iicsadog.blocksblocks.api.network;
 import com.iicsadog.blocksblocks.core.network.RequestSender;
 import com.iicsadog.blocksblocks.core.network.request.CheckHutRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetColonyBlockmenRequest;
+import com.iicsadog.blocksblocks.core.network.request.GetEmployeesRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -16,15 +18,19 @@ import net.minecraft.core.BlockPos;
  */
 public class ModRequests {
 
-    public static final List<Class<? extends Record>> REQUESTS = List.of(
-        GetColonyBlockmenRequest.class,
-        CheckHutRequest.class
-    );
+    public static final List<Class<? extends Record>> REQUESTS = new ArrayList<>();
 
-    public static final List<Class<? extends Record>> RESPONSES = List.of(
-        GetColonyBlockmenRequest.Response.class,
-        CheckHutRequest.Response.class
-    );
+    public static final List<Class<? extends Record>> RESPONSES = new ArrayList<>();
+
+    static {
+        REQUESTS.add(GetColonyBlockmenRequest.class);
+        REQUESTS.add(CheckHutRequest.class);
+        REQUESTS.add(GetEmployeesRequest.class);
+
+        RESPONSES.add(GetColonyBlockmenRequest.Response.class);
+        RESPONSES.add(CheckHutRequest.Response.class);
+        RESPONSES.add(GetEmployeesRequest.Response.class);
+    }
 
     /**
      * 获取殖民地方块人信息的方法。
@@ -53,6 +59,21 @@ public class ModRequests {
     ) {
         return new RequestSender<CheckHutRequest, CheckHutRequest.Response>()
             .param(new CheckHutRequest(UUID.randomUUID(), pos));
+    }
+
+    /**
+     * 获取建筑物对应的雇佣视图信息。
+     *
+     * @param buildingId 建筑物Id
+     * @return 视图信息
+     * @author sxtkl
+     * @since 2025/11/17
+     */
+    public static RequestSender<GetEmployeesRequest, GetEmployeesRequest.Response> getEmployeesRequest(
+        UUID buildingId
+    ) {
+        return new RequestSender<GetEmployeesRequest, GetEmployeesRequest.Response>()
+            .param(new GetEmployeesRequest(UUID.randomUUID(), buildingId));
     }
 
 }

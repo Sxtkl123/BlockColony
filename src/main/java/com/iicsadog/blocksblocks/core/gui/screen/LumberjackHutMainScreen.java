@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.api.network.ModRequests;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.container.FlowLayout;
 import java.util.UUID;
@@ -13,6 +14,15 @@ import java.util.UUID;
  */
 public class LumberjackHutMainScreen extends BaseUIModelScreen<FlowLayout> {
     private final UUID buildingId;
+
+    @Override
+    protected void init() {
+        super.init();
+        ModRequests.getEmployeesRequest(this.buildingId)
+            .success(res -> res.employees().forEach((e) -> BlocksBlocks.LOGGER.info(e.toString())))
+            .fail(BlocksBlocks.LOGGER::error)
+            .send();
+    }
 
     /**
      * 伐木工小屋主界面。

@@ -5,6 +5,7 @@ import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * BuildingDataManager 类是建筑物数据的管理器，继承自 AbstractDataManager。
@@ -21,9 +22,10 @@ public class BuildingDataManager extends AbstractDataManager<BuildingData> {
 
     private static final String MANAGER_NAME = "building";
 
+    @NotNull
     @Override
     protected Supplier<BuildingData> createData() {
-        return null;
+        return BuildingData::new;
     }
 
     @Override
