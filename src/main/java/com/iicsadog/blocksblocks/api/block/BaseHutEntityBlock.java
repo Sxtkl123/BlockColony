@@ -1,13 +1,23 @@
 package com.iicsadog.blocksblocks.api.block;
 
+import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.block.entity.BaseHutBlockEntity;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
+import com.iicsadog.blocksblocks.api.network.ModRequests;
 import com.iicsadog.blocksblocks.core.manager.data.BuildingDataManager;
+import java.util.UUID;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,6 +37,33 @@ public abstract class BaseHutEntityBlock extends BaseEntityBlock {
     protected BaseHutEntityBlock(Properties properties) {
         super(properties);
     }
+
+    @Override
+    @NotNull
+    protected ItemInteractionResult useItemOn(
+        @NotNull ItemStack playerStack, @NotNull BlockState state,
+        Level level, @NotNull BlockPos pos, @NotNull Player player,
+        @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
+    ) {
+        if (!level.isClientSide) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        ModRequests.getCheckHutRequest(pos)
+            .success(response -> Minecraft.getInstance().setScreen(getScreen(response.buildingId())))
+            .fail(BlocksBlocks.LOGGER::info)
+            .send();
+        return ItemInteractionResult.SUCCESS;
+    }
+
+    /**
+     * 获取开启后的GUI屏幕。
+     *
+     * @param buildingId 建筑Id
+     * @return GUI
+     * @author sxtkl
+     * @since 2025/11/17
+     */
+    public abstract Screen getScreen(UUID buildingId);
 
     @Override
     protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,

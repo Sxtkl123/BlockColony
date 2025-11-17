@@ -1,9 +1,11 @@
 package com.iicsadog.blocksblocks.api.network;
 
 import com.iicsadog.blocksblocks.core.network.RequestSender;
+import com.iicsadog.blocksblocks.core.network.request.CheckHutRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetColonyBlockmenRequest;
 import java.util.List;
 import java.util.UUID;
+import net.minecraft.core.BlockPos;
 
 /**
  * ModRequests 类提供了一种便捷的方式来构建和发送网络请求。
@@ -15,11 +17,13 @@ import java.util.UUID;
 public class ModRequests {
 
     public static final List<Class<? extends Record>> REQUESTS = List.of(
-        GetColonyBlockmenRequest.class
+        GetColonyBlockmenRequest.class,
+        CheckHutRequest.class
     );
 
     public static final List<Class<? extends Record>> RESPONSES = List.of(
-        GetColonyBlockmenRequest.Response.class
+        GetColonyBlockmenRequest.Response.class,
+        CheckHutRequest.Response.class
     );
 
     /**
@@ -34,6 +38,21 @@ public class ModRequests {
     public static RequestSender<GetColonyBlockmenRequest, GetColonyBlockmenRequest.Response> getColonyBlockmen(UUID colonyId) {
         return new RequestSender<GetColonyBlockmenRequest, GetColonyBlockmenRequest.Response>()
             .param(new GetColonyBlockmenRequest(UUID.randomUUID(), colonyId));
+    }
+
+    /**
+     * 判断一个方块实体是否是小屋方块且具有建筑id。
+     *
+     * @param pos 位置
+     * @return 判断结果
+     * @author sxtkl
+     * @since 2025/11/17
+     */
+    public static RequestSender<CheckHutRequest, CheckHutRequest.Response> getCheckHutRequest(
+        BlockPos pos
+    ) {
+        return new RequestSender<CheckHutRequest, CheckHutRequest.Response>()
+            .param(new CheckHutRequest(UUID.randomUUID(), pos));
     }
 
 }

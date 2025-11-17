@@ -7,9 +7,11 @@ import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.item.ModCreativeTab;
 import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
+import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import org.slf4j.Logger;
 
 /**
  * 模组 block_colony 的主类，整个模组的入口。
@@ -24,6 +26,8 @@ public class BlocksBlocks {
      * 模组的modid。
      */
     public static final String MODID = "blocks_blocks";
+
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     /**
      * 模组主类。

@@ -1,0 +1,97 @@
+<owo-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/wisp-forest/owo-lib/1.20/owo-ui.xsd">
+  <components>
+    <flow-layout direction="vertical">
+      <children>
+        <flow-layout direction="vertical">
+          <children>
+            <flow-layout direction="vertical">
+              <children>
+                <label>
+                  <text translate="true">gui.blocks_blocks.lumberjack_hut.title</text>
+                  <shadow>true</shadow>
+                </label>
+              </children>
+
+              <padding>
+                <all>8</all>
+              </padding>
+
+              <surface>
+                <blur quality="0.15" size="16"/>
+                <outline>black</outline>
+              </surface>
+
+              <sizing>
+                <horizontal method="fill">100</horizontal>
+              </sizing>
+              <vertical-alignment>center</vertical-alignment>
+              <horizontal-alignment>center</horizontal-alignment>
+            </flow-layout>
+
+            <grid-layout rows="1" columns="1">
+              <children>
+                <template name="nameable-slot" row="0" column="0">
+                  <stack>minecraft:emerald</stack>
+                  <name>gui.blocks_blocks.lumberjack_hut.employ</name>
+                  <id>blockmen-slot</id>
+                </template>
+              </children>
+
+              <padding>
+                <all>16</all>
+              </padding>
+
+              <surface>
+                <blur quality="0.1" size="16"/>
+                <outline>black</outline>
+              </surface>
+
+              <sizing>
+                <horizontal method="fill">100</horizontal>
+              </sizing>
+
+              <horizontal-alignment>center</horizontal-alignment>
+              <vertical-alignment>center</vertical-alignment>
+            </grid-layout>
+          </children>
+
+          <sizing>
+            <horizontal method="fill">40</horizontal>
+          </sizing>
+
+          <horizontal-alignment>center</horizontal-alignment>
+          <vertical-alignment>center</vertical-alignment>
+        </flow-layout>
+      </children>
+
+      <vertical-alignment>center</vertical-alignment>
+      <horizontal-alignment>center</horizontal-alignment>
+
+      <surface>
+        <options-background/>
+      </surface>
+    </flow-layout>
+  </components>
+  <templates>
+    <template name="nameable-slot">
+      <flow-layout direction="vertical">
+        <children>
+          <blocks_blocks.slot-button id="{{id}}">
+            <stack>{{stack}}</stack>
+            <tooltip-text translate="true">{{name}}</tooltip-text>
+          </blocks_blocks.slot-button>
+          <label>
+            <text translate="true">{{name}}</text>
+          </label>
+        </children>
+
+        <gap>
+          4
+        </gap>
+        <horizontal-alignment>center</horizontal-alignment>
+        <vertical-alignment>center</vertical-alignment>
+      </flow-layout>
+    </template>
+  </templates>
+</owo-ui>

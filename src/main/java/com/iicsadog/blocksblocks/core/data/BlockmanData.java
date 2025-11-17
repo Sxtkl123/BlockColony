@@ -9,6 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * BlockmanData 类实现了 IData 接口，用于管理方块人的数据信息。
@@ -22,6 +23,8 @@ public class BlockmanData implements IData<BlockmanData> {
 
     private UUID id;
     private UUID colonyId;
+    @Nullable
+    private UUID workFor;
     private String name;
     private final Set<String> rejectedBlocks = new HashSet<>();
     private final Set<String> acceptedBlocks = new HashSet<>();
@@ -40,6 +43,7 @@ public class BlockmanData implements IData<BlockmanData> {
         BlockmanData blockmanData = new BlockmanData();
         blockmanData.id = soul.id();
         blockmanData.name = soul.name();
+        blockmanData.workFor = null;
         blockmanData.rejectedBlocks.addAll(soul.rejectedBlocks());
         blockmanData.acceptedBlocks.addAll(soul.acceptedBlocks());
         return blockmanData;
@@ -59,6 +63,7 @@ public class BlockmanData implements IData<BlockmanData> {
         this.id = tag.getUUID("id");
         this.name = tag.getString("name");
         this.colonyId = tag.getUUID("colony_id");
+        this.workFor = tag.getUUID("work_for");
         this.rejectedBlocks.clear();
         ListTag rejectedBlocksList = tag.getList("rejected_blocks", Tag.TAG_STRING);
         rejectedBlocksList.forEach(element -> {
@@ -81,6 +86,9 @@ public class BlockmanData implements IData<BlockmanData> {
         tag.putUUID("id", this.id);
         tag.putString("name", this.name);
         tag.putUUID("colony_id", this.colonyId);
+        if (this.workFor != null) {
+            tag.putUUID("work_for", this.workFor);
+        }
         ListTag rejectedBlocks = new ListTag();
         this.rejectedBlocks.forEach(block -> rejectedBlocks.add(StringTag.valueOf(block)));
         ListTag acceptedBlocks = new ListTag();
@@ -120,5 +128,14 @@ public class BlockmanData implements IData<BlockmanData> {
 
     public void setColonyId(UUID colonyId) {
         this.colonyId = colonyId;
+    }
+
+    @Nullable
+    public UUID getWorkFor() {
+        return workFor;
+    }
+
+    public void setWorkFor(@Nullable UUID workFor) {
+        this.workFor = workFor;
     }
 }

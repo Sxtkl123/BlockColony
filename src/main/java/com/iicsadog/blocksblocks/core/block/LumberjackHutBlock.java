@@ -2,7 +2,10 @@ package com.iicsadog.blocksblocks.core.block;
 
 import com.iicsadog.blocksblocks.api.block.BaseHutEntityBlock;
 import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
+import com.iicsadog.blocksblocks.core.gui.screen.LumberjackHutMainScreen;
 import com.mojang.serialization.MapCodec;
+import java.util.UUID;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -110,5 +113,10 @@ public class LumberjackHutBlock extends BaseHutEntityBlock {
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    public Screen getScreen(UUID buildingId) {
+        return new LumberjackHutMainScreen(buildingId);
     }
 }
