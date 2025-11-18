@@ -4,6 +4,7 @@ import com.iicsadog.blocksblocks.core.network.RequestSender;
 import com.iicsadog.blocksblocks.core.network.request.CheckHutRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetColonyBlockmenRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetEmployeesRequest;
+import com.iicsadog.blocksblocks.core.network.request.HireEmployeeRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +27,12 @@ public class ModRequests {
         REQUESTS.add(GetColonyBlockmenRequest.class);
         REQUESTS.add(CheckHutRequest.class);
         REQUESTS.add(GetEmployeesRequest.class);
+        REQUESTS.add(HireEmployeeRequest.class);
 
         RESPONSES.add(GetColonyBlockmenRequest.Response.class);
         RESPONSES.add(CheckHutRequest.Response.class);
         RESPONSES.add(GetEmployeesRequest.Response.class);
+        RESPONSES.add(HireEmployeeRequest.Response.class);
     }
 
     /**
@@ -73,6 +76,13 @@ public class ModRequests {
         UUID buildingId
     ) {
         return RequestSender.of(new GetEmployeesRequest(UUID.randomUUID(), buildingId));
+    }
+
+    public static RequestSender<HireEmployeeRequest, HireEmployeeRequest.Response> hireEmployee(
+        UUID buildingId,
+        UUID employeeId
+    ) {
+        return RequestSender.of(new HireEmployeeRequest(UUID.randomUUID(), buildingId, employeeId));
     }
 
 }

@@ -4,6 +4,7 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.network.ModRequests;
 import com.iicsadog.blocksblocks.core.network.vo.EmployeeVO;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
+import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.container.FlowLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,11 +30,7 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
     protected void init() {
         super.init();
         ModRequests.getEmployeesRequest(this.buildingId)
-            .success(res -> {
-                this.vos.clear();
-                vos.addAll(res.employees());
-                this.build(this.uiAdapter.rootComponent);
-            })
+            .success(res -> this.refreshInfos(res.employees()))
             .fail(BlocksBlocks.LOGGER::error)
             .send();
     }
@@ -55,7 +52,7 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
 
     @Override
     protected void build(FlowLayout rootComponent) {
-        List<FlowLayout> info = this.vos.stream()
+        List<FlowLayout> infos = this.vos.stream()
             .map(vo -> {
                 Map<String, String> params = new HashMap<>();
                 String status;
@@ -68,9 +65,27 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
                 }
                 params.put("name", vo.name());
                 params.put("status", status);
-                return this.model.expandTemplate(FlowLayout.class, "info", params);
+                FlowLayout info = this.model.expandTemplate(FlowLayout.class, "info", params);
+                info.childById(ButtonComponent.class, "hire-button")
+                    .onPress(evt -> ModRequests.hireEmployee(buildingId, vo.blockmanId())
+                        .success(res -> ModRequests.getEmployeesRequest(buildingId)
+                            .success(e -> this.refreshInfos(e.employees()))
+                            .fail(BlocksBlocks.LOGGER::error)
+                            .send()
+                        )
+                        .fail(BlocksBlocks.LOGGER::error)
+                        .send()
+                    );
+                return info;
             }).toList();
-        rootComponent.childById(FlowLayout.class, "info-container").children(info);
+        rootComponent.childById(FlowLayout.class, "info-container").clearChildren();
+        rootComponent.childById(FlowLayout.class, "info-container").children(infos);
+    }
+
+    private void refreshInfos(List<EmployeeVO> vos) {
+        this.vos.clear();
+        this.vos.addAll(vos);
+        this.build(this.uiAdapter.rootComponent);
     }
 
 }

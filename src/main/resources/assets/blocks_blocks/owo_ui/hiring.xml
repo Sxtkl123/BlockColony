@@ -91,7 +91,7 @@
             </sizing>
             <vertical-text-alignment>center</vertical-text-alignment>
           </label>
-          <button>
+          <button id="hire-button">
             <positioning type="relative">95,0</positioning>
             <text translate="true">{{status}}</text>
           </button>
