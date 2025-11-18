@@ -93,7 +93,7 @@
           </label>
           <button>
             <positioning type="relative">95,0</positioning>
-            <text>{{status}}</text>
+            <text translate="true">{{status}}</text>
           </button>
         </children>
         <gap>8</gap>
