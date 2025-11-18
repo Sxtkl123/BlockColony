@@ -1,10 +1,11 @@
 package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.api.network.ModRequests;
+import com.iicsadog.blocksblocks.core.gui.component.SlotButtonComponent;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.container.FlowLayout;
 import java.util.UUID;
+import net.minecraft.client.Minecraft;
 
 /**
  * 伐木工小屋主界面。
@@ -14,15 +15,6 @@ import java.util.UUID;
  */
 public class LumberjackHutMainScreen extends BaseUIModelScreen<FlowLayout> {
     private final UUID buildingId;
-
-    @Override
-    protected void init() {
-        super.init();
-        ModRequests.getEmployeesRequest(this.buildingId)
-            .success(res -> res.employees().forEach((e) -> BlocksBlocks.LOGGER.info(e.toString())))
-            .fail(BlocksBlocks.LOGGER::error)
-            .send();
-    }
 
     /**
      * 伐木工小屋主界面。
@@ -41,6 +33,7 @@ public class LumberjackHutMainScreen extends BaseUIModelScreen<FlowLayout> {
 
     @Override
     protected void build(FlowLayout rootComponent) {
-
+        rootComponent.childById(SlotButtonComponent.class, "hiring-slot")
+            .onPress(btn -> Minecraft.getInstance().setScreen(new HiringScreen(this.buildingId)));
     }
 }
