@@ -2,6 +2,7 @@ package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.IData;
 import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -60,10 +61,10 @@ public class BlockmanData implements IData<BlockmanData> {
      * @since 2025/10/20
      */
     public BlockmanData load(final CompoundTag tag) {
-        this.id = tag.getUUID("id");
+        this.id = BbNbtUtils.loadUUIDNullable("id", tag);
         this.name = tag.getString("name");
-        this.colonyId = tag.getUUID("colony_id");
-        this.workFor = tag.getUUID("work_for");
+        this.colonyId = BbNbtUtils.loadUUIDNullable("colony_id", tag);
+        this.workFor = BbNbtUtils.loadUUIDNullable("work_for", tag);
         this.rejectedBlocks.clear();
         ListTag rejectedBlocksList = tag.getList("rejected_blocks", Tag.TAG_STRING);
         rejectedBlocksList.forEach(element -> {
@@ -83,12 +84,10 @@ public class BlockmanData implements IData<BlockmanData> {
 
     @Override
     public CompoundTag save(CompoundTag tag) {
-        tag.putUUID("id", this.id);
+        BbNbtUtils.putUUIDNullable("id", this.id, tag);
         tag.putString("name", this.name);
-        tag.putUUID("colony_id", this.colonyId);
-        if (this.workFor != null) {
-            tag.putUUID("work_for", this.workFor);
-        }
+        BbNbtUtils.putUUIDNullable("colony_id", this.colonyId, tag);
+        BbNbtUtils.putUUIDNullable("work_for", this.workFor, tag);
         ListTag rejectedBlocks = new ListTag();
         this.rejectedBlocks.forEach(block -> rejectedBlocks.add(StringTag.valueOf(block)));
         ListTag acceptedBlocks = new ListTag();

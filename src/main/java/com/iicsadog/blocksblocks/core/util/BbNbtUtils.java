@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -149,6 +150,39 @@ public class BbNbtUtils {
             mapTag.put(key.toString(), data.save(new CompoundTag()));
         }
         tag.put(name, mapTag);
+    }
+
+    /**
+     * 读取一个UUID，但其返回值可能为空。
+     *
+     * @param name 标签名
+     * @param tag NBT
+     * @return 可能为空的UUID
+     * @author sxtkl
+     * @since 2025/11/18
+     */
+    @Nullable
+    public static UUID loadUUIDNullable(String name, CompoundTag tag) {
+        if (tag.contains(name)) {
+            return tag.getUUID(name);
+        }
+        return null;
+    }
+
+    /**
+     * 尝试保存一个UUID，如果该UUID为空则不执行保存逻辑。
+     *
+     * @param name 标签名
+     * @param uuid UUID
+     * @param tag NBT
+     * @author sxtkl
+     * @since 2025/11/18
+     */
+    public static void putUUIDNullable(String name, UUID uuid, CompoundTag tag) {
+        if (uuid == null) {
+            return;
+        }
+        tag.putUUID(name, uuid);
     }
 
 }
