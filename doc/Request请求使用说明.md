@@ -65,7 +65,7 @@ public static final List<Class<? extends Record>> RESPONSES = List.of(
 
 ```java
 public static RequestSender<TestAddRequest, TestAddResponse> test(int num1, int num2) {
-    return new RequestSender<TestAddRequest, TestAddResponse>().param(new TestAddRequest(UUID.randomUUID(), num1, num2));
+    return RequestSender.of(new TestAddRequest(UUID.randomUUID(), num1, num2));
 }
 ```
 
