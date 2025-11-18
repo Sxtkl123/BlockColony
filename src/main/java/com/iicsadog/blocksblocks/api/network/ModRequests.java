@@ -72,8 +72,7 @@ public class ModRequests {
     public static RequestSender<GetEmployeesRequest, GetEmployeesRequest.Response> getEmployeesRequest(
         UUID buildingId
     ) {
-        return new RequestSender<GetEmployeesRequest, GetEmployeesRequest.Response>()
-            .param(new GetEmployeesRequest(UUID.randomUUID(), buildingId));
+        return RequestSender.of(new GetEmployeesRequest(UUID.randomUUID(), buildingId));
     }
 
 }

@@ -72,4 +72,9 @@ public class RequestSender<P extends Record & IRequest<R>, R extends Record & IR
     public void send() {
         RequestManager.getInstance().send(param, onSuccess, onFail);
     }
+
+    public static <P extends Record & IRequest<R>, R extends Record & IResponse> RequestSender<P, R> of(P request) {
+        RequestSender<P, R> sender = new RequestSender<>();
+        return sender.param(request);
+    }
 }
