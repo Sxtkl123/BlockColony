@@ -11,11 +11,23 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * 基础小屋方块实体。
+ *
+ * @author sxtkl
+ * @since 2025/11/18
+ */
 public abstract class BaseHutBlockEntity extends BlockEntity {
 
     @Nullable
     protected UUID buildingId = null;
 
+    /**
+     * 基础小屋方块实体。
+     *
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public BaseHutBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
@@ -45,5 +57,12 @@ public abstract class BaseHutBlockEntity extends BlockEntity {
         return buildingId;
     }
 
+    /**
+     * 小屋方块类型，使用命名空间避免冲突。
+     *
+     * @return 小屋方块类型
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public abstract ResourceLocation hutType();
 }

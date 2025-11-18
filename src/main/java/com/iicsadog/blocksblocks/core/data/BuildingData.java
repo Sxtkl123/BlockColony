@@ -96,14 +96,22 @@ public class BuildingData implements IData<BuildingData> {
         return dimension;
     }
 
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
-    }
-
+    /**
+     * 获取建筑物所在维度。
+     *
+     * @param server 服务器
+     * @return 建筑物服务器维度
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public ServerLevel getDimension(MinecraftServer server) {
         ResourceLocation location = ResourceLocation.parse(this.dimension);
         ResourceKey<Level> dimension = ResourceKey.create(Registries.DIMENSION, location);
         return server.getLevel(dimension);
+    }
+
+    public void setDimension(String dimension) {
+        this.dimension = dimension;
     }
 
     public void setDimension(ServerLevel level) {

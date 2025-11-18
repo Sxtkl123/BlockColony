@@ -14,6 +14,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * 获得殖民地方块人雇员信息。
+ *
+ * @param requestId 请求id
+ * @param buildingId 建筑物id
+ *
+ * @author sxtkl
+ * @since 2025/11/18
+ */
 public record GetEmployeesRequest(
     UUID requestId,
     UUID buildingId
@@ -33,6 +42,15 @@ public record GetEmployeesRequest(
         return new Response(vos, success());
     }
 
+    /**
+     * 请求回复体，包含了方块人雇员表。
+     *
+     * @param responseInfo 回复体
+     * @param employees 方块人雇员表
+     *
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public record Response(
         List<EmployeeVO> employees,
         ResponseInfo responseInfo

@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.api.network.IResponse;
 import com.iicsadog.blocksblocks.api.network.ModRequests;
 import com.iicsadog.blocksblocks.core.network.vo.EmployeeVO;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * 雇佣界面。
@@ -29,10 +31,7 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
     @Override
     protected void init() {
         super.init();
-        ModRequests.getEmployeesRequest(this.buildingId)
-            .success(res -> this.refreshInfos(res.employees()))
-            .fail(BlocksBlocks.LOGGER::error)
-            .send();
+        this.refreshInfos();
     }
 
     /**
@@ -52,34 +51,49 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
 
     @Override
     protected void build(FlowLayout rootComponent) {
-        List<FlowLayout> infos = this.vos.stream()
-            .map(vo -> {
-                Map<String, String> params = new HashMap<>();
-                String status;
-                if (buildingId.equals(vo.workFor())) {
-                    status = FIRE;
-                } else if (vo.workFor() == null) {
-                    status = HIRE;
-                } else {
-                    status = TRANSFER;
-                }
-                params.put("name", vo.name());
-                params.put("status", status);
-                FlowLayout info = this.model.expandTemplate(FlowLayout.class, "info", params);
-                info.childById(ButtonComponent.class, "hire-button")
-                    .onPress(evt -> ModRequests.hireEmployee(buildingId, vo.blockmanId())
-                        .success(res -> ModRequests.getEmployeesRequest(buildingId)
-                            .success(e -> this.refreshInfos(e.employees()))
-                            .fail(BlocksBlocks.LOGGER::error)
-                            .send()
-                        )
-                        .fail(BlocksBlocks.LOGGER::error)
-                        .send()
-                    );
-                return info;
-            }).toList();
+        List<FlowLayout> infos = new ArrayList<>();
+        for (EmployeeVO employeeVO : this.vos) {
+            Map<String, String> params = new HashMap<>();
+            Consumer<ButtonComponent> onPress;
+            String status;
+            if (buildingId.equals(employeeVO.workFor())) {
+                status = FIRE;
+                onPress = evt -> ModRequests.fireEmployee(employeeVO.blockmanId())
+                    .success(this::refreshInfos)
+                    .fail(BlocksBlocks.LOGGER::error)
+                    .send();
+            } else if (employeeVO.workFor() == null) {
+                status = HIRE;
+                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId())
+                    .success(this::refreshInfos)
+                    .fail(BlocksBlocks.LOGGER::error)
+                    .send();
+            } else {
+                status = TRANSFER;
+                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId())
+                    .success(this::refreshInfos)
+                    .fail(BlocksBlocks.LOGGER::error)
+                    .send();
+            }
+            params.put("name", employeeVO.name());
+            params.put("status", status);
+            FlowLayout info = this.model.expandTemplate(FlowLayout.class, "info", params);
+            info.childById(ButtonComponent.class, "hire-button").onPress(onPress);
+            infos.add(info);
+        }
         rootComponent.childById(FlowLayout.class, "info-container").clearChildren();
         rootComponent.childById(FlowLayout.class, "info-container").children(infos);
+    }
+
+    private void refreshInfos() {
+        ModRequests.getEmployeesRequest(buildingId)
+            .success(e -> this.refreshInfos(e.employees()))
+            .fail(BlocksBlocks.LOGGER::error)
+            .send();
+    }
+
+    private void refreshInfos(IResponse ignore) {
+        refreshInfos();
     }
 
     private void refreshInfos(List<EmployeeVO> vos) {

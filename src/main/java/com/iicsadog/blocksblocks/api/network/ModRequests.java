@@ -2,6 +2,7 @@ package com.iicsadog.blocksblocks.api.network;
 
 import com.iicsadog.blocksblocks.core.network.RequestSender;
 import com.iicsadog.blocksblocks.core.network.request.CheckHutRequest;
+import com.iicsadog.blocksblocks.core.network.request.FireEmployeeRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetColonyBlockmenRequest;
 import com.iicsadog.blocksblocks.core.network.request.GetEmployeesRequest;
 import com.iicsadog.blocksblocks.core.network.request.HireEmployeeRequest;
@@ -28,11 +29,13 @@ public class ModRequests {
         REQUESTS.add(CheckHutRequest.class);
         REQUESTS.add(GetEmployeesRequest.class);
         REQUESTS.add(HireEmployeeRequest.class);
+        REQUESTS.add(FireEmployeeRequest.class);
 
         RESPONSES.add(GetColonyBlockmenRequest.Response.class);
         RESPONSES.add(CheckHutRequest.Response.class);
         RESPONSES.add(GetEmployeesRequest.Response.class);
         RESPONSES.add(HireEmployeeRequest.Response.class);
+        RESPONSES.add(FireEmployeeRequest.Response.class);
     }
 
     /**
@@ -78,11 +81,34 @@ public class ModRequests {
         return RequestSender.of(new GetEmployeesRequest(UUID.randomUUID(), buildingId));
     }
 
+    /**
+     * 雇佣一个方块人。
+     *
+     * @param buildingId 将其雇佣的建筑物Id
+     * @param employeeId 方块人Id
+     * @return 是否成功
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public static RequestSender<HireEmployeeRequest, HireEmployeeRequest.Response> hireEmployee(
         UUID buildingId,
         UUID employeeId
     ) {
         return RequestSender.of(new HireEmployeeRequest(UUID.randomUUID(), buildingId, employeeId));
+    }
+
+    /**
+     * 解雇一个方块人。
+     *
+     * @param employeeId 方块人Id
+     * @return 是否成功
+     * @author sxtkl
+     * @since 2025/11/18
+     */
+    public static RequestSender<FireEmployeeRequest, FireEmployeeRequest.Response> fireEmployee(
+        UUID employeeId
+    ) {
+        return RequestSender.of(new FireEmployeeRequest(UUID.randomUUID(), employeeId));
     }
 
 }
