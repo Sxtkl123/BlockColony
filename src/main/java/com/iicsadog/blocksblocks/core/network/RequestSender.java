@@ -73,6 +73,14 @@ public class RequestSender<P extends Record & IRequest<R>, R extends Record & IR
         RequestManager.getInstance().send(param, onSuccess, onFail);
     }
 
+    /**
+     * 创建一个请求发送器，同时赋予基本的参数，避免了过度的泛型推断。
+     *
+     * @param request 请求
+     * @return 请求发送器
+     * @author sxtkl
+     * @since 2025/11/18
+     */
     public static <P extends Record & IRequest<R>, R extends Record & IResponse> RequestSender<P, R> of(P request) {
         RequestSender<P, R> sender = new RequestSender<>();
         return sender.param(request);
