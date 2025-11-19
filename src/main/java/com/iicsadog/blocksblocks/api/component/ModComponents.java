@@ -1,7 +1,7 @@
 package com.iicsadog.blocksblocks.api.component;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredHolder;

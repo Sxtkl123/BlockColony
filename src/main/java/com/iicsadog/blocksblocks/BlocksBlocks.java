@@ -1,5 +1,6 @@
 package com.iicsadog.blocksblocks;
 
+import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.block.ModBlocks;
 import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
@@ -43,6 +44,7 @@ public class BlocksBlocks {
         ModBlocks.BLOCKS.register(bus);
         ModBlockEntities.BLOCK_ENTITIES.register(bus);
         ModCreativeTab.CREATIVE_MODE_TABS.register(bus);
+        ModSensors.SENSOR_TYPES.register(bus);
         ModChannels.onServerInit();
     }
 

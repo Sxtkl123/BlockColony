@@ -9,6 +9,8 @@ import net.minecraft.world.entity.ai.behavior.LookAtTargetSink;
 import net.minecraft.world.entity.ai.behavior.MoveToTargetSink;
 import net.minecraft.world.entity.ai.behavior.RandomStroll;
 import net.minecraft.world.entity.ai.behavior.SetEntityLookTarget;
+import net.minecraft.world.entity.ai.behavior.SetWalkTargetFromBlockMemory;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.schedule.Activity;
 
 public class BlockmanAI {
@@ -17,20 +19,19 @@ public class BlockmanAI {
         // 核心活动
         brain.addActivity(Activity.CORE, 0, ImmutableList.of(
             new LookAtTargetSink(45, 90),
-            new MoveToTargetSink()
+            new MoveToTargetSink(1, Integer.MAX_VALUE)
         ));
-        
+
         // 闲置活动 - 当没有其他事情做时的行为
         brain.addActivity(Activity.IDLE, ImmutableList.of(
-            new Pair<>(1, SetEntityLookTarget.create(EntityType.PLAYER, 4.0f)),
-            new Pair<>(2, RandomStroll.stroll(1.0F))
+            new Pair<>(1, SetEntityLookTarget.create(EntityType.PLAYER, 4.0f))
         ));
-        
+
         // 设置默认活动为闲置
         brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
         brain.setDefaultActivity(Activity.IDLE);
         brain.useDefaultActivity();
-        
+
         return brain;
     }
 

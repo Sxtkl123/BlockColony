@@ -1,7 +1,7 @@
 package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.IData;
-import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
 import java.util.HashSet;
 import java.util.Set;

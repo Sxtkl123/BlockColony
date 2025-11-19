@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.components;
+package com.iicsadog.blocksblocks.core.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

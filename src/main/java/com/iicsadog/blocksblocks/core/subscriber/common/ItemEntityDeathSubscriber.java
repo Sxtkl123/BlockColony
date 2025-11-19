@@ -4,7 +4,7 @@ package com.iicsadog.blocksblocks.core.subscriber.common;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.item.ModItems;
-import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import com.iicsadog.blocksblocks.core.entity.RisingItemEntity;
 import com.iicsadog.blocksblocks.core.event.common.ItemEntityDeathEvent;
 import com.iicsadog.blocksblocks.core.manager.common.BlockmanNameManager;

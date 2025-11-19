@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.mojang.serialization.Dynamic;
 import java.util.Optional;
@@ -55,7 +56,8 @@ public class BlockmanEntity extends PathfinderMob {
     );
 
     protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
-        SensorType.NEAREST_LIVING_ENTITIES
+        SensorType.NEAREST_LIVING_ENTITIES,
+        ModSensors.BLOCKMAN_HUT_POS.get()
     );
 
     /**
@@ -124,6 +126,7 @@ public class BlockmanEntity extends PathfinderMob {
     protected void defineSynchedData(@NotNull SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(BLOCK_STATE, Blocks.DIRT.defaultBlockState());
+        builder.define(BLOCKMAN_ID, Optional.empty());
     }
 
     @Override
@@ -233,6 +236,13 @@ public class BlockmanEntity extends PathfinderMob {
         return entityData.get(BLOCKMAN_ID).orElse(null);
     }
 
+    /**
+     * 设置方块人实体的方块人id。
+     *
+     * @param blockmanId 方块人id
+     * @author sxtkl
+     * @since 2025/11/19
+     */
     public void setBlockmanId(UUID blockmanId) {
         entityData.set(BLOCKMAN_ID, Optional.of(blockmanId));
     }

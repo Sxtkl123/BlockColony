@@ -3,7 +3,7 @@ package com.iicsadog.blocksblocks.core.item;
 import com.iicsadog.blocksblocks.api.block.ModBlocks;
 import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.item.ISoulItemAbility;
-import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;

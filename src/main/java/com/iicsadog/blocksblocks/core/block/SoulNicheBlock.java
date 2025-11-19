@@ -5,7 +5,7 @@ import com.iicsadog.blocksblocks.api.item.ModItems;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.iicsadog.blocksblocks.core.block.entity.SoulNicheBlockEntity;
-import com.iicsadog.blocksblocks.core.components.SoulComponent;
+import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
