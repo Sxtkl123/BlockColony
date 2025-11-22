@@ -35,7 +35,7 @@ public class ModEntities {
         ENTITY_TYPES.register(
             "blockman",
             () -> EntityType.Builder.<BlockmanEntity>of(BlockmanEntity::new, MobCategory.MISC)
-                .sized(1.0F, 1.375F)
+                .sized(0.6F, 1.375F)
                 .build("blockman")
         );
 }

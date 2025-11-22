@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
 import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.mojang.serialization.Dynamic;
@@ -52,7 +53,8 @@ public class BlockmanEntity extends PathfinderMob {
         MemoryModuleType.LOOK_TARGET,
         MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
         MemoryModuleType.WALK_TARGET,
-        MemoryModuleType.PATH
+        MemoryModuleType.PATH,
+        ModMemoryModuleTypes.BLOCKMAN_HUT_POS.get()
     );
 
     protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
