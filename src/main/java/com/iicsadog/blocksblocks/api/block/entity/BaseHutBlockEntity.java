@@ -1,5 +1,6 @@
 package com.iicsadog.blocksblocks.api.block.entity;
 
+import com.iicsadog.blocksblocks.core.manager.common.HutEntityCacheManager;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -44,12 +45,16 @@ public abstract class BaseHutBlockEntity extends BlockEntity {
     protected void loadAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.hasUUID("building_id")) {
-            this.buildingId = tag.getUUID("building_id");
+            setBuildingId(tag.getUUID("building_id"));
         }
     }
 
     public void setBuildingId(@Nullable UUID id) {
+        if (this.buildingId != null) {
+            HutEntityCacheManager.getInstance().getCache().remove(this.buildingId);
+        }
         this.buildingId = id;
+        HutEntityCacheManager.getInstance().getCache().put(this.buildingId, this);
     }
 
     @Nullable

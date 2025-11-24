@@ -1,7 +1,7 @@
 package com.iicsadog.blocksblocks.api.ai;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.core.entity.ai.sensor.BlockmanHutPosSensor;
+import com.iicsadog.blocksblocks.core.entity.ai.sensor.BlockmanHutSensor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -12,6 +12,7 @@ public class ModSensors {
     public static final DeferredRegister<SensorType<?>> SENSOR_TYPES =
         DeferredRegister.create(Registries.SENSOR_TYPE, BlocksBlocks.MODID);
 
-    public static final DeferredHolder<SensorType<?>, SensorType<BlockmanHutPosSensor>> BLOCKMAN_HUT_POS =
-        SENSOR_TYPES.register("blockman_hut_pos", () -> new SensorType<>(BlockmanHutPosSensor::new));
+    public static final DeferredHolder<SensorType<?>, SensorType<BlockmanHutSensor>>
+        BLOCKMAN_HUT =
+        SENSOR_TYPES.register("blockman_hut", () -> new SensorType<>(BlockmanHutSensor::new));
 }

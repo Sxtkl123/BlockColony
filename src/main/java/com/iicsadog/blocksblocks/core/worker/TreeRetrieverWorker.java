@@ -1,11 +1,13 @@
 package com.iicsadog.blocksblocks.core.worker;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.util.TreeUtils;
 import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.WorldWorkerManager;
 
 public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
@@ -17,6 +19,8 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
     private final ServerLevel world;
 
     private final Set<BlockPos> visited = new HashSet<>();
+
+    private final LumberjackHutBlockEntity entity;
 
     private final int maxIndex;
 
@@ -30,7 +34,7 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
 
     private int index = 0;
 
-    public TreeRetrieverWorker(BlockPos startPos, BlockPos endPos, ServerLevel world) {
+    public TreeRetrieverWorker(BlockPos startPos, BlockPos endPos, ServerLevel world, LumberjackHutBlockEntity entity) {
         this.startPos = startPos;
         this.endPos = endPos;
         this.world = world;
@@ -38,6 +42,11 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
         this.offsetY = Math.abs(this.startPos.getY() - this.endPos.getY());
         this.offsetZ = Math.abs(this.startPos.getZ() - this.endPos.getZ());
         this.maxIndex = calMaxIndex();
+        this.entity = entity;
+    }
+
+    public Set<BlockPos> getVisited() {
+        return visited;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.iicsadog.blocksblocks.core.util;
 
 import static net.minecraft.world.level.block.LeavesBlock.PERSISTENT;
 
-import com.iicsadog.blocksblocks.core.util.info.TreeInfo;
+import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.List;
