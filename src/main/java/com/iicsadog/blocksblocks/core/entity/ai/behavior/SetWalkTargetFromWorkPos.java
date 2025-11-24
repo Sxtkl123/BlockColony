@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.ai.behavior;
+package com.iicsadog.blocksblocks.core.entity.ai.behavior;
 
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
 import java.util.Optional;

@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.block;
 
 import com.iicsadog.blocksblocks.api.block.BaseHutEntityBlock;
+import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
 import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.gui.screen.LumberjackHutMainScreen;
 import com.mojang.serialization.MapCodec;
@@ -8,8 +9,11 @@ import java.util.UUID;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -18,6 +22,8 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -118,5 +124,20 @@ public class LumberjackHutBlock extends BaseHutEntityBlock {
     @Override
     public Screen getScreen(UUID buildingId) {
         return new LumberjackHutMainScreen(buildingId);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+        Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide) {
+            return null;
+        }
+        if (type != ModBlockEntities.LUMBERJACK_HUT_BLOCK_ENTITY.get()) {
+            return null;
+        }
+        return (world, blockPos, blockState, t) -> {
+            LumberjackHutBlockEntity entity = (LumberjackHutBlockEntity) t;
+            entity.tick((ServerLevel) world, blockPos);
+        };
     }
 }

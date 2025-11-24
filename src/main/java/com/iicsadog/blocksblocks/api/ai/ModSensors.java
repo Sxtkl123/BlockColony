@@ -1,7 +1,7 @@
 package com.iicsadog.blocksblocks.api.ai;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.core.ai.sensor.BlockmanHutPosSensor;
+import com.iicsadog.blocksblocks.core.entity.ai.sensor.BlockmanHutPosSensor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.neoforged.neoforge.registries.DeferredHolder;

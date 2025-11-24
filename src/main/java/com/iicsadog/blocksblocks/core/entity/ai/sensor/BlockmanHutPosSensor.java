@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.ai.sensor;
+package com.iicsadog.blocksblocks.core.entity.ai.sensor;
 
 import com.google.common.collect.ImmutableSet;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
