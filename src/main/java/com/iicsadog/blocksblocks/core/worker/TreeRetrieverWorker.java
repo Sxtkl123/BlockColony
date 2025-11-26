@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.common.WorldWorkerManager;
 
 public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
@@ -69,6 +68,7 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
         TreeUtils.getTree(world, currentPos).ifPresent(info -> {
             visited.addAll(info.trunk());
             BlocksBlocks.LOGGER.info("找到了一颗{}树", info.log());
+            entity.pushTree(info);
         });
         return working;
     }

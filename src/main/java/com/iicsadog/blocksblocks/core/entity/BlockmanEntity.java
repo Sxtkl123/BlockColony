@@ -54,12 +54,15 @@ public class BlockmanEntity extends PathfinderMob {
         MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
         MemoryModuleType.WALK_TARGET,
         MemoryModuleType.PATH,
-        ModMemoryModuleTypes.BLOCKMAN_HUT_ID.get()
+        ModMemoryModuleTypes.HUT_ID.get(),
+        ModMemoryModuleTypes.LUMBERJACK_TASK.get(),
+        ModMemoryModuleTypes.STATUS.get()
     );
 
     protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
         SensorType.NEAREST_LIVING_ENTITIES,
-        ModSensors.BLOCKMAN_HUT.get()
+        ModSensors.BLOCKMAN_HUT.get(),
+        ModSensors.LUMBERJACK_TASK.get()
     );
 
     /**

@@ -55,6 +55,7 @@ public abstract class BaseHutBlockEntity extends BlockEntity {
         }
         this.buildingId = id;
         HutEntityCacheManager.getInstance().getCache().put(this.buildingId, this);
+        setChanged();
     }
 
     @Nullable

@@ -4,6 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.block.Block;
 
 public record TreeInfo(
@@ -25,4 +27,12 @@ public record TreeInfo(
             Block.CODEC.fieldOf("log").forGetter(TreeInfo::log)
         ).apply(instance, TreeInfo::new)
     );
+
+    public CompoundTag toNBT() {
+        return (CompoundTag) CODEC.encodeStart(NbtOps.INSTANCE, this).result().orElse(new CompoundTag());
+    }
+
+    public static TreeInfo fromNBT(CompoundTag tag) {
+        return CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(null);
+    }
 }
