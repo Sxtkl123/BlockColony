@@ -37,4 +37,15 @@ public class HutEntityCacheManager {
         }
         return Optional.empty();
     }
+
+    @SuppressWarnings("unchecked")
+    public <T extends BlockEntity> Optional<T> getEntity(Class<T> clazz, Optional<UUID> uuid) {
+        if (uuid.isEmpty()) {
+            return Optional.empty();
+        }
+        if (cache.containsKey(uuid.get())) {
+            return Optional.of((T) cache.get(uuid.get()));
+        }
+        return Optional.empty();
+    }
 }

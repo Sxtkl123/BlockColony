@@ -62,7 +62,8 @@ public class BlockmanEntity extends PathfinderMob {
     protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
         SensorType.NEAREST_LIVING_ENTITIES,
         ModSensors.BLOCKMAN_HUT.get(),
-        ModSensors.LUMBERJACK_TASK.get()
+        ModSensors.LUMBERJACK_TASK.get(),
+        ModSensors.CLOSE_ENOUGH_TO_TREE.get()
     );
 
     /**

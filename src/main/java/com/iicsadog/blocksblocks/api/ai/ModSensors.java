@@ -2,6 +2,7 @@ package com.iicsadog.blocksblocks.api.ai;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.core.entity.ai.sensor.BlockmanHutSensor;
+import com.iicsadog.blocksblocks.core.entity.ai.sensor.CloseEnoughToTreeSensor;
 import com.iicsadog.blocksblocks.core.entity.ai.sensor.LumberjackTaskSensor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.sensing.SensorType;
@@ -17,5 +18,8 @@ public class ModSensors {
         SENSOR_TYPES.register("blockman_hut", () -> new SensorType<>(BlockmanHutSensor::new));
 
     public static final DeferredHolder<SensorType<?>, SensorType<LumberjackTaskSensor>> LUMBERJACK_TASK =
-        SENSOR_TYPES.register("lumberjack_hut", () -> new SensorType<>(LumberjackTaskSensor::new));
+        SENSOR_TYPES.register("lumberjack_task", () -> new SensorType<>(LumberjackTaskSensor::new));
+
+    public static final DeferredHolder<SensorType<?>, SensorType<CloseEnoughToTreeSensor>> CLOSE_ENOUGH_TO_TREE =
+        SENSOR_TYPES.register("close_enough_to_tree", () -> new SensorType<>(CloseEnoughToTreeSensor::new));
 }

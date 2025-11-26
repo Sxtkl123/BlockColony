@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
 public record TreeInfo(
@@ -24,7 +26,10 @@ public record TreeInfo(
                 Set::copyOf,
                 list -> list.stream().toList()
             ).fieldOf("trunk").forGetter(TreeInfo::trunk),
-            Block.CODEC.fieldOf("log").forGetter(TreeInfo::log)
+            ResourceLocation.CODEC.fieldOf("log").xmap(
+                BuiltInRegistries.BLOCK::get,
+                BuiltInRegistries.BLOCK::getKey
+            ).forGetter(TreeInfo::log)
         ).apply(instance, TreeInfo::new)
     );
 

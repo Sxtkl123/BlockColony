@@ -43,6 +43,7 @@ public class LumberjackTaskSensor extends Sensor<BlockmanEntity> {
         }
         LumberjackTask task = optionalTask.get();
         entity.getBrain().setMemory(LUMBERJACK_TASK.get(), task);
+        entity.getBrain().setMemory(STATUS.get(), ModBlockmanStatus.GO_FOR_A_TREE);
     }
 
     @Override

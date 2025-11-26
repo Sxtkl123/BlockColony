@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.OneShot;
 import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
@@ -23,13 +24,16 @@ public class SetWalkTargetFromLumberjackTask {
     public static OneShot<BlockmanEntity> create(Predicate<BlockmanEntity> canSetWalkTarget, Function<LivingEntity, Float> speedModifier, int closeEnoughDist) {
         return BehaviorBuilder.create((instance) -> instance.group(
             instance.absent(MemoryModuleType.WALK_TARGET),
-            instance.registered(ModMemoryModuleTypes.STATUS.get()),
+            instance.present(ModMemoryModuleTypes.STATUS.get()),
             instance.present(ModMemoryModuleTypes.LUMBERJACK_TASK.get())
         ).apply(instance, (walkTarget, status, task) -> (level, entity, l) -> {
             if (!canSetWalkTarget.test(entity)) {
                 return false;
             } else {
-                status.set(ModBlockmanStatus.GO_FOR_A_TREE);
+                Optional<ResourceLocation> optionalStatus = entity.getBrain().getMemory(ModMemoryModuleTypes.STATUS.get());
+                if (optionalStatus.isEmpty() || !optionalStatus.get().equals(ModBlockmanStatus.GO_FOR_A_TREE)) {
+                    return false;
+                }
                 Optional<LumberjackTask> optionalTask = entity.getBrain().getMemory(ModMemoryModuleTypes.LUMBERJACK_TASK.get());
                 if (optionalTask.isEmpty()) {
                     return false;
