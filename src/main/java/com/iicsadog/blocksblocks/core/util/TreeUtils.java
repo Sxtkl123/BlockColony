@@ -16,6 +16,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 
+/**
+ * 树木工具类。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class TreeUtils {
 
     private static final List<Vec3i> NEIGHBORS = List.of(

@@ -16,6 +16,12 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * 方块人工作小屋传感器。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class BlockmanHutSensor extends Sensor<BlockmanEntity> {
 
     @Override

@@ -19,9 +19,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * 挖掘树干行为。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class LumberjackTrunk extends Behavior<BlockmanEntity> {
 
     private static final int TICKS_TO_BREAK = 100;
@@ -34,6 +40,12 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
 
     private BlockPos processingPos;
 
+    /**
+     * 挖掘树干，需要有状态（不空闲）、有任务和工作小屋。
+     *
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public LumberjackTrunk() {
         super(ImmutableMap.of(
             STATUS.get(), MemoryStatus.VALUE_PRESENT,
@@ -43,7 +55,7 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
     }
 
     @Override
-    protected void start(ServerLevel level, BlockmanEntity entity, long gameTime) {
+    protected void start(@NotNull ServerLevel level, BlockmanEntity entity, long gameTime) {
         this.breakTicks = 0;
         Optional<LumberjackTask> mem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
         this.trunk = mem.map(task -> {
@@ -62,7 +74,7 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
     }
 
     @Override
-    protected void tick(ServerLevel level, BlockmanEntity owner, long gameTime) {
+    protected void tick(@NotNull ServerLevel level, @NotNull BlockmanEntity owner, long gameTime) {
         if (this.processingPos == null) {
             this.processingPos = this.trunk.stream().findFirst().orElse(null);
             this.lastBreakProcess = -1;
@@ -91,29 +103,27 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
     }
 
     @Override
-    protected boolean canStillUse(ServerLevel level, BlockmanEntity entity, long gameTime) {
+    protected boolean canStillUse(@NotNull ServerLevel level, @NotNull BlockmanEntity entity, long gameTime) {
         return !this.trunk.isEmpty();
     }
 
     @Override
-    protected void stop(ServerLevel level, BlockmanEntity entity, long gameTime) {
+    protected void stop(@NotNull ServerLevel level, @NotNull BlockmanEntity entity, long gameTime) {
         AIUtils.clearStatus(entity);
         entity.getBrain().eraseMemory(LUMBERJACK_TASK.get());
-        Optional<UUID> optionalId = entity.getBrain().getMemory(HUT_ID.get());
-        Optional<LumberjackHutBlockEntity> optionalHut = HutEntityCacheManager.getInstance().getEntity(LumberjackHutBlockEntity.class, optionalId);
-        if (optionalHut.isEmpty()) {
-            return;
-        }
-        LumberjackHutBlockEntity hut = optionalHut.get();
+        Optional<UUID> idMem = entity.getBrain().getMemory(HUT_ID.get());
         Optional<LumberjackTask> taskMem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
-        if (taskMem.isEmpty()) {
-            return;
-        }
-        hut.finishTask(taskMem.get().taskId());
+        idMem.ifPresent(id ->
+            taskMem.ifPresent(task ->
+                HutEntityCacheManager.getInstance().<LumberjackHutBlockEntity>getEntity(id).ifPresent(hut ->
+                    hut.finishTask(task.taskId())
+                )
+            )
+        );
     }
 
     @Override
-    protected boolean checkExtraStartConditions(ServerLevel level, BlockmanEntity owner) {
+    protected boolean checkExtraStartConditions(@NotNull ServerLevel level, @NotNull BlockmanEntity owner) {
         return AIUtils.checkStatus(owner, ModBlockmanStatus.LUMBERJACK_TRUNK);
     }
 }

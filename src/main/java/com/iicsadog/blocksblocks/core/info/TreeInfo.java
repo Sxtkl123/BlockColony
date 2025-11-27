@@ -5,11 +5,19 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
+/**
+ * 树木信息。
+ *
+ * @param root 树根
+ * @param trunk 树干
+ * @param log 树木方块
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public record TreeInfo(
     Set<BlockPos> root,
     Set<BlockPos> trunk,
@@ -32,12 +40,4 @@ public record TreeInfo(
             ).forGetter(TreeInfo::log)
         ).apply(instance, TreeInfo::new)
     );
-
-    public CompoundTag toNBT() {
-        return (CompoundTag) CODEC.encodeStart(NbtOps.INSTANCE, this).result().orElse(new CompoundTag());
-    }
-
-    public static TreeInfo fromNBT(CompoundTag tag) {
-        return CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(null);
-    }
 }

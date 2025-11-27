@@ -16,10 +16,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.Sensor;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * 判断方块人是否距离树木足够近的传感器。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class CloseEnoughToTreeSensor extends Sensor<BlockmanEntity> {
     @Override
-    protected void doTick(ServerLevel serverLevel, BlockmanEntity blockmanEntity) {
+    protected void doTick(@NotNull ServerLevel serverLevel, BlockmanEntity blockmanEntity) {
         Optional<ResourceLocation> statusMem = blockmanEntity.getBrain().getMemory(STATUS.get());
         if (statusMem.isEmpty() || !statusMem.get().equals(ModBlockmanStatus.GO_FOR_A_TREE)) {
             return;
@@ -41,6 +48,7 @@ public class CloseEnoughToTreeSensor extends Sensor<BlockmanEntity> {
         AIUtils.updateStatus(blockmanEntity, ModBlockmanStatus.LUMBERJACK_TRUNK);
     }
 
+    @NotNull
     @Override
     public Set<MemoryModuleType<?>> requires() {
         return ImmutableSet.of(LUMBERJACK_TASK.get(), STATUS.get());

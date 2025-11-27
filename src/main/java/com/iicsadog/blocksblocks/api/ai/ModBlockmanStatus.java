@@ -4,10 +4,15 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import net.minecraft.resources.ResourceLocation;
 
 
+/**
+ * 方块人的状态。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public final class ModBlockmanStatus {
 
     // region common 通用状态
-    public static final ResourceLocation FREE = BlocksBlocks.namespace("free");
 
     // endregion
 

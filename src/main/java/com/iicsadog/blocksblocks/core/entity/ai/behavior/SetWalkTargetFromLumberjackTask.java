@@ -15,12 +15,37 @@ import net.minecraft.world.entity.ai.behavior.declarative.BehaviorBuilder;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 
+/**
+ * 设置方块人路径目标为伐木任务的树。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class SetWalkTargetFromLumberjackTask {
 
+    /**
+     * 创建一个走到伐木任务的附近的行为。
+     *
+     * @param speedModifier 速度系数
+     * @param closeEnoughDist 走到多近
+     * @return 一次性行为实例
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public static OneShot<BlockmanEntity> create(float speedModifier, int closeEnoughDist) {
         return create((ignore) -> true, (ignore) -> speedModifier, closeEnoughDist);
     }
 
+    /**
+     * 创建一个走到伐木任务的附近的行为。
+     *
+     * @param canSetWalkTarget 是否能设置
+     * @param speedModifier 速度系数
+     * @param closeEnoughDist 走到多近
+     * @return 一次性行为实例
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public static OneShot<BlockmanEntity> create(Predicate<BlockmanEntity> canSetWalkTarget, Function<LivingEntity, Float> speedModifier, int closeEnoughDist) {
         return BehaviorBuilder.create((instance) -> instance.group(
             instance.absent(MemoryModuleType.WALK_TARGET),

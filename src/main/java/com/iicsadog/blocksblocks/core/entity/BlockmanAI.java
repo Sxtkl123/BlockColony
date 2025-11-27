@@ -29,8 +29,6 @@ public class BlockmanAI {
 
         // 闲置活动 - 当没有其他事情做时的行为
         brain.addActivity(Activity.IDLE, ImmutableList.of(
-            // 设置空闲状态
-            // Pair.of(0, SetFree.create()),
             // 看向最近的玩家
             Pair.of(0, SetEntityLookTarget.create(EntityType.PLAYER, 4.0f)),
             // 随机游走、去工作方块处或者啥也不干

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class BaseHutBlockEntity extends BlockEntity {
 
     @Nullable
-    protected UUID buildingId = null;
+    private UUID buildingId = null;
 
     /**
      * 基础小屋方块实体。
@@ -49,6 +49,13 @@ public abstract class BaseHutBlockEntity extends BlockEntity {
         }
     }
 
+    /**
+     * 设置小屋ID，该方法会和实体缓存同步，所有修改方块ID的设计都应该走这个接口。
+     *
+     * @param id 想设置的id
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public void setBuildingId(@Nullable UUID id) {
         if (this.buildingId != null) {
             HutEntityCacheManager.getInstance().getCache().remove(this.buildingId);

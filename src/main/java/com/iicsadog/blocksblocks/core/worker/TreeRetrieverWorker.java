@@ -9,6 +9,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.common.WorldWorkerManager;
 
+/**
+ * 树木检索器工作站。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
 
     private final BlockPos startPos;
@@ -33,6 +39,16 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
 
     private int index = 0;
 
+    /**
+     * 树木检索器工作站。
+     *
+     * @param startPos 开始检索位置
+     * @param endPos 结束检索位置
+     * @param world 维度
+     * @param entity 隶属于的方块实体
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public TreeRetrieverWorker(BlockPos startPos, BlockPos endPos, ServerLevel world, LumberjackHutBlockEntity entity) {
         this.startPos = startPos;
         this.endPos = endPos;

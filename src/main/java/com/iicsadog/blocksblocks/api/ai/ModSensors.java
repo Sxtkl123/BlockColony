@@ -9,6 +9,12 @@ import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * 模组的传感器。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class ModSensors {
 
     public static final DeferredRegister<SensorType<?>> SENSOR_TYPES =

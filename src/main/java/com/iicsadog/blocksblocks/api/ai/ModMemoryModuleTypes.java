@@ -12,6 +12,12 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * 模组的记忆类型。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class ModMemoryModuleTypes {
 
     public static final DeferredRegister<MemoryModuleType<?>> MEMORY_TYPES =

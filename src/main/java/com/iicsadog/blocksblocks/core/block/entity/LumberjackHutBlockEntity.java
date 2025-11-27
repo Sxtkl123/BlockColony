@@ -99,6 +99,14 @@ public class LumberjackHutBlockEntity extends BaseHutBlockEntity {
         }
     }
 
+    /**
+     * 每个tick会触发的内容。
+     *
+     * @param level 维度
+     * @param pos 方块位置
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public void tick(ServerLevel level, BlockPos pos) {
         if (--timeToTick > 0L) {
             return;
@@ -111,6 +119,13 @@ public class LumberjackHutBlockEntity extends BaseHutBlockEntity {
         }
     }
 
+    /**
+     * 把一棵树加入到代办任务表中。
+     *
+     * @param info 树的信息
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public void pushTree(TreeInfo info) {
         UUID taskId = UUID.randomUUID();
         LumberjackTask task = new LumberjackTask(taskId, info, false);
@@ -119,6 +134,13 @@ public class LumberjackHutBlockEntity extends BaseHutBlockEntity {
         setChanged();
     }
 
+    /**
+     * 获取一个任务，如果任务列表已经空了，则会返回empty。
+     *
+     * @return 获取到的任务
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public Optional<LumberjackTask> dequeueTask() {
         if (taskIds.isEmpty()) {
             return Optional.empty();
@@ -130,6 +152,13 @@ public class LumberjackHutBlockEntity extends BaseHutBlockEntity {
         return Optional.of(task);
     }
 
+    /**
+     * 完成任务。
+     *
+     * @param taskId 任务ID
+     * @author sxtkl
+     * @since 2025/11/27
+     */
     public void finishTask(UUID taskId) {
         tasks.remove(taskId);
         setChanged();

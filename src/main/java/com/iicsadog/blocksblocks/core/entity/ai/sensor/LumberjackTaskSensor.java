@@ -17,10 +17,17 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.Sensor;
+import org.jetbrains.annotations.NotNull;
 
+/**
+ * 伐木任务感知器。
+ *
+ * @author sxtkl
+ * @since 2025/11/27
+ */
 public class LumberjackTaskSensor extends Sensor<BlockmanEntity> {
     @Override
-    protected void doTick(ServerLevel level, BlockmanEntity entity) {
+    protected void doTick(@NotNull ServerLevel level, BlockmanEntity entity) {
         Optional<ResourceLocation> optStatus = entity.getBrain().getMemory(STATUS.get());
         if (optStatus.isPresent()) {
             return;
@@ -32,7 +39,7 @@ public class LumberjackTaskSensor extends Sensor<BlockmanEntity> {
         if (optBuildingId.isEmpty()) {
             return;
         }
-        Optional<LumberjackHutBlockEntity> optionalHut = HutEntityCacheManager.getInstance().getEntity(LumberjackHutBlockEntity.class, optBuildingId.get());
+        Optional<LumberjackHutBlockEntity> optionalHut = HutEntityCacheManager.getInstance().getEntity(optBuildingId.get());
         if (optionalHut.isEmpty()) {
             return;
         }
@@ -47,6 +54,7 @@ public class LumberjackTaskSensor extends Sensor<BlockmanEntity> {
     }
 
     @Override
+    @NotNull
     public Set<MemoryModuleType<?>> requires() {
         return Set.of(HUT_ID.get(), LUMBERJACK_TASK.get(), STATUS.get());
     }
