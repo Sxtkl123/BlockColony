@@ -14,6 +14,7 @@ public final class ModBlockmanStatus {
     // region lumberjack 伐木工
     public static final ResourceLocation GO_FOR_A_TREE = BlocksBlocks.namespace("go_for_a_tree");
 
+    public static final ResourceLocation LUMBERJACK_TRUNK = BlocksBlocks.namespace("lumberjack_trunk");
     // endregion
 
 }

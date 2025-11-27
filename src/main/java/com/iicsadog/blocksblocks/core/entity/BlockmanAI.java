@@ -3,6 +3,7 @@ package com.iicsadog.blocksblocks.core.entity;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
+import com.iicsadog.blocksblocks.core.entity.ai.behavior.LumberjackTrunk;
 import com.iicsadog.blocksblocks.core.entity.ai.behavior.SetWalkTargetFromLumberjackTask;
 import com.iicsadog.blocksblocks.core.entity.ai.behavior.SetWalkTargetFromWorkPos;
 import com.mojang.datafixers.util.Pair;
@@ -42,7 +43,8 @@ public class BlockmanAI {
 
 
         brain.addActivityWithConditions(Activity.WORK, ImmutableList.of(
-            Pair.of(0, SetWalkTargetFromLumberjackTask.create(1.5f, 1))
+            Pair.of(0, SetWalkTargetFromLumberjackTask.create(1.5f, 1)),
+            Pair.of(1, new LumberjackTrunk())
         ), ImmutableSet.of(
             Pair.of(ModMemoryModuleTypes.STATUS.get(), MemoryStatus.VALUE_PRESENT)
         ));
