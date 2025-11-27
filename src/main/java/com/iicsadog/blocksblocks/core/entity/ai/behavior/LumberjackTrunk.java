@@ -46,7 +46,19 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
     protected void start(ServerLevel level, BlockmanEntity entity, long gameTime) {
         this.breakTicks = 0;
         Optional<LumberjackTask> mem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
-        this.trunk = mem.map(task -> new ArrayList<>(task.treeInfo().trunk())).orElse(new ArrayList<>());
+        this.trunk = mem.map(task -> {
+            List<BlockPos> res = new ArrayList<>(task.treeInfo().trunk());
+            res.sort((pos1, pos2) -> {
+                if (pos1.getY() != pos2.getY()) {
+                    return pos2.getY() - pos1.getY();
+                }
+                if (pos1.getX() != pos2.getX()) {
+                    return pos2.getX() - pos1.getX();
+                }
+                return pos2.getZ() - pos1.getZ();
+            });
+            return res;
+        }).orElse(new ArrayList<>());
     }
 
     @Override
@@ -73,9 +85,7 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
 
         if (this.breakTicks == TICKS_TO_BREAK) {
             this.trunk.remove(this.processingPos);
-            level.removeBlock(this.processingPos, false);
-            level.levelEvent(1021, this.processingPos, 0);
-            level.levelEvent(2001, this.processingPos, Block.getId(level.getBlockState(this.processingPos)));
+            level.destroyBlock(this.processingPos, true, owner);
             this.processingPos = null;
         }
     }
