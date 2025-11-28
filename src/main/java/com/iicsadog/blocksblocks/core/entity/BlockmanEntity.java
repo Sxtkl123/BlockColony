@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
 import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
+import com.iicsadog.blocksblocks.api.manager.DataManagers;
+import com.iicsadog.blocksblocks.core.data.BlockmanData;
+import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.mojang.serialization.Dynamic;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,6 +68,8 @@ public class BlockmanEntity extends PathfinderMob {
         ModSensors.LUMBERJACK_TASK.get(),
         ModSensors.CLOSE_ENOUGH_TO_TREE.get()
     );
+
+    private BlockmanData blockmanData;
 
     /**
      * 方块人注册用的构造方法。
@@ -251,5 +256,15 @@ public class BlockmanEntity extends PathfinderMob {
      */
     public void setBlockmanId(UUID blockmanId) {
         entityData.set(BLOCKMAN_ID, Optional.of(blockmanId));
+    }
+
+    public BlockmanData getBlockmanData() {
+        if (blockmanData == null) {
+            UUID blockmanId = getBlockmanId();
+            if (blockmanId != null) {
+                blockmanData = DataManagers.getInstance(BlockmanDataManager::new).query(blockmanId);
+            }
+        }
+        return blockmanData;
     }
 }
