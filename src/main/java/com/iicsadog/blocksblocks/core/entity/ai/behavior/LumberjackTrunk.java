@@ -6,9 +6,10 @@ import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.STATUS;
 
 import com.google.common.collect.ImmutableMap;
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
-import com.iicsadog.blocksblocks.core.entity.ai.task.LumberjackTask;
+import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.manager.common.HutEntityCacheManager;
 import com.iicsadog.blocksblocks.core.util.AIUtils;
 import java.util.ArrayList;
@@ -57,9 +58,9 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
     @Override
     protected void start(@NotNull ServerLevel level, BlockmanEntity entity, long gameTime) {
         this.breakTicks = 0;
-        Optional<LumberjackTask> mem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
+        Optional<Task<TreeInfo>> mem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
         this.trunk = mem.map(task -> {
-            List<BlockPos> res = new ArrayList<>(task.treeInfo().trunk());
+            List<BlockPos> res = new ArrayList<>(task.data().trunk());
             res.sort((pos1, pos2) -> {
                 if (pos1.getY() != pos2.getY()) {
                     return pos2.getY() - pos1.getY();
@@ -112,7 +113,7 @@ public class LumberjackTrunk extends Behavior<BlockmanEntity> {
         AIUtils.clearStatus(entity);
         entity.getBrain().eraseMemory(LUMBERJACK_TASK.get());
         Optional<UUID> idMem = entity.getBrain().getMemory(HUT_ID.get());
-        Optional<LumberjackTask> taskMem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
+        Optional<Task<TreeInfo>> taskMem = entity.getBrain().getMemory(LUMBERJACK_TASK.get());
         idMem.ifPresent(id ->
             taskMem.ifPresent(task ->
                 HutEntityCacheManager.getInstance().<LumberjackHutBlockEntity>getEntity(id).ifPresent(hut ->

@@ -1,7 +1,7 @@
 package com.iicsadog.blocksblocks.api.ai;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
-import com.iicsadog.blocksblocks.core.entity.ai.task.LumberjackTask;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +26,8 @@ public class ModMemoryModuleTypes {
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<UUID>> HUT_ID =
         MEMORY_TYPES.register("hut_id", () -> new MemoryModuleType<>(Optional.of(UUIDUtil.CODEC)));
 
-    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<LumberjackTask>> LUMBERJACK_TASK =
-        MEMORY_TYPES.register("lumberjack_task", () -> new MemoryModuleType<>(Optional.of(LumberjackTask.CODEC)));
+    public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<Task<TreeInfo>>> LUMBERJACK_TASK =
+        MEMORY_TYPES.register("lumberjack_task", () -> new MemoryModuleType<>(Optional.of(Task.createCodec(TreeInfo.CODEC))));
 
     public static final DeferredHolder<MemoryModuleType<?>, MemoryModuleType<ResourceLocation>> STATUS =
         MEMORY_TYPES.register("status", () -> new MemoryModuleType<>(Optional.of(ResourceLocation.CODEC)));

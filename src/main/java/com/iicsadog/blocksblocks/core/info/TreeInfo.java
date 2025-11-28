@@ -1,5 +1,6 @@
 package com.iicsadog.blocksblocks.core.info;
 
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Set;
@@ -40,4 +41,6 @@ public record TreeInfo(
             ).forGetter(TreeInfo::log)
         ).apply(instance, TreeInfo::new)
     );
+
+    public static final Codec<Task<TreeInfo>> TASK_CODEC = Task.createCodec(CODEC);
 }

@@ -5,8 +5,9 @@ import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.STATUS;
 
 import com.google.common.collect.ImmutableSet;
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
-import com.iicsadog.blocksblocks.core.entity.ai.task.LumberjackTask;
+import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.util.AIUtils;
 import java.util.Optional;
 import java.util.Set;
@@ -31,11 +32,11 @@ public class CloseEnoughToTreeSensor extends Sensor<BlockmanEntity> {
         if (statusMem.isEmpty() || !statusMem.get().equals(ModBlockmanStatus.GO_FOR_A_TREE)) {
             return;
         }
-        Optional<LumberjackTask> taskMem = blockmanEntity.getBrain().getMemory(LUMBERJACK_TASK.get());
+        Optional<Task<TreeInfo>> taskMem = blockmanEntity.getBrain().getMemory(LUMBERJACK_TASK.get());
         if (taskMem.isEmpty()) {
             return;
         }
-        BlockPos pos = taskMem.get().treeInfo().root().stream().findAny().orElse(null);
+        BlockPos pos = taskMem.get().data().root().stream().findAny().orElse(null);
         if (pos == null) {
             return;
         }

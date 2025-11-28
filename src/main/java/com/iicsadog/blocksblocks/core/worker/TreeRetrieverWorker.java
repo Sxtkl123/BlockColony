@@ -84,7 +84,7 @@ public class TreeRetrieverWorker implements WorldWorkerManager.IWorker {
         TreeUtils.getTree(world, currentPos).ifPresent(info -> {
             visited.addAll(info.trunk());
             BlocksBlocks.LOGGER.info("找到了一颗{}树", info.log());
-            entity.pushTree(info);
+            entity.pushTask(info);
         });
         return working;
     }

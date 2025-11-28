@@ -2,8 +2,9 @@ package com.iicsadog.blocksblocks.core.entity.ai.behavior;
 
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
-import com.iicsadog.blocksblocks.core.entity.ai.task.LumberjackTask;
+import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -59,11 +60,11 @@ public class SetWalkTargetFromLumberjackTask {
                 if (optionalStatus.isEmpty() || !optionalStatus.get().equals(ModBlockmanStatus.GO_FOR_A_TREE)) {
                     return false;
                 }
-                Optional<LumberjackTask> optionalTask = entity.getBrain().getMemory(ModMemoryModuleTypes.LUMBERJACK_TASK.get());
+                Optional<Task<TreeInfo>> optionalTask = entity.getBrain().getMemory(ModMemoryModuleTypes.LUMBERJACK_TASK.get());
                 if (optionalTask.isEmpty()) {
                     return false;
                 }
-                Optional<BlockPos> target = optionalTask.get().treeInfo().root().stream().findAny();
+                Optional<BlockPos> target = optionalTask.get().data().root().stream().findAny();
                 if (target.isEmpty()) {
                     return false;
                 }

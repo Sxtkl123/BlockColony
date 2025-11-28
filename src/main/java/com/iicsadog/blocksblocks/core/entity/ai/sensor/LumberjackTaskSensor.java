@@ -5,9 +5,10 @@ import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.LUMBERJACK_T
 import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.STATUS;
 
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
-import com.iicsadog.blocksblocks.core.entity.ai.task.LumberjackTask;
+import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.manager.common.HutEntityCacheManager;
 import java.util.Optional;
 import java.util.Set;
@@ -44,11 +45,11 @@ public class LumberjackTaskSensor extends Sensor<BlockmanEntity> {
             return;
         }
         LumberjackHutBlockEntity hut = optionalHut.get();
-        Optional<LumberjackTask> optionalTask = hut.dequeueTask();
+        Optional<Task<TreeInfo>> optionalTask = hut.dequeueTask();
         if (optionalTask.isEmpty()) {
             return;
         }
-        LumberjackTask task = optionalTask.get();
+        Task<TreeInfo> task = optionalTask.get();
         entity.getBrain().setMemory(LUMBERJACK_TASK.get(), task);
         entity.getBrain().setMemory(STATUS.get(), ModBlockmanStatus.GO_FOR_A_TREE);
     }

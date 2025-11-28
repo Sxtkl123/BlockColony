@@ -90,7 +90,7 @@ public class SoulItem extends Item implements ISoulItemAbility {
         if (soulComponent.isRejected(blockKey)) {
             return false;
         }
-        if (random.nextDouble() <= 0.3D) {
+        if (random.nextDouble() <= 1.0D) {
             soulComponent = soulComponent.withAcceptedBlock(blockKey);
             stack.set(ModComponents.BLOCKMEN, soulComponent);
             return true;
