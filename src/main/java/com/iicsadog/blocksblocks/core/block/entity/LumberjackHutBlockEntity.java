@@ -2,8 +2,8 @@ package com.iicsadog.blocksblocks.core.block.entity;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.block.entity.BaseTaskHutBlockEntity;
-import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.worker.TreeRetrieverWorker;
 import com.mojang.serialization.Codec;

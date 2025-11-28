@@ -2,8 +2,8 @@ package com.iicsadog.blocksblocks.core.entity.ai.behavior;
 
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
-import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import java.util.Optional;
 import java.util.function.Function;

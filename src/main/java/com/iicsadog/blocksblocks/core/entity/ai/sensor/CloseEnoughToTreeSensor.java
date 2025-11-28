@@ -5,8 +5,8 @@ import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.STATUS;
 
 import com.google.common.collect.ImmutableSet;
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
-import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.util.AIUtils;
 import java.util.Optional;

@@ -5,9 +5,9 @@ import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.LUMBERJACK_T
 import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.STATUS;
 
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
-import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.block.entity.LumberjackHutBlockEntity;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
+import com.iicsadog.blocksblocks.core.entity.ai.Task;
 import com.iicsadog.blocksblocks.core.info.TreeInfo;
 import com.iicsadog.blocksblocks.core.manager.common.HutEntityCacheManager;
 import java.util.Optional;
