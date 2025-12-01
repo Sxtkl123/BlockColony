@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.entity.ai.sensor;
+package com.iicsadog.blocksblocks.core.job.lumberjack.sensor;
 
 import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.HUT_ID;
 import static com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes.LUMBERJACK_TASK;

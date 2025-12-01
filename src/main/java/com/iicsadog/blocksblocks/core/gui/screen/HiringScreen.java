@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.gui.screen;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
+import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.api.network.IResponse;
 import com.iicsadog.blocksblocks.api.network.ModRequests;
 import com.iicsadog.blocksblocks.core.network.vo.EmployeeVO;
@@ -64,13 +65,14 @@ public class HiringScreen extends BaseUIModelScreen<FlowLayout> {
                     .send();
             } else if (employeeVO.workFor() == null) {
                 status = HIRE;
-                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId())
+                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId(),
+                        ModJobs.LUMBERJACK.getId())
                     .success(this::refreshInfos)
                     .fail(BlocksBlocks.LOGGER::error)
                     .send();
             } else {
                 status = TRANSFER;
-                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId())
+                onPress = evt -> ModRequests.hireEmployee(buildingId, employeeVO.blockmanId(), ModJobs.LUMBERJACK.getId())
                     .success(this::refreshInfos)
                     .fail(BlocksBlocks.LOGGER::error)
                     .send();

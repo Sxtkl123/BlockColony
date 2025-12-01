@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * ModRequests 类提供了一种便捷的方式来构建和发送网络请求。
@@ -92,9 +93,10 @@ public class ModRequests {
      */
     public static RequestSender<HireEmployeeRequest, HireEmployeeRequest.Response> hireEmployee(
         UUID buildingId,
-        UUID employeeId
+        UUID employeeId,
+        ResourceLocation job
     ) {
-        return RequestSender.of(new HireEmployeeRequest(UUID.randomUUID(), buildingId, employeeId));
+        return RequestSender.of(new HireEmployeeRequest(UUID.randomUUID(), buildingId, employeeId, job));
     }
 
     /**

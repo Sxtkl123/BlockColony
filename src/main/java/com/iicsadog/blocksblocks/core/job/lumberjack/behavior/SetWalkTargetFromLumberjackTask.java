@@ -1,4 +1,4 @@
-package com.iicsadog.blocksblocks.core.entity.ai.behavior;
+package com.iicsadog.blocksblocks.core.job.lumberjack.behavior;
 
 import com.iicsadog.blocksblocks.api.ai.ModBlockmanStatus;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;

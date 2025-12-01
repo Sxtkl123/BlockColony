@@ -1,11 +1,15 @@
 package com.iicsadog.blocksblocks.core.entity;
 
 import com.google.common.collect.ImmutableList;
+import com.iicsadog.blocksblocks.api.ModRegistries;
 import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
 import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
+import com.iicsadog.blocksblocks.api.job.Job;
+import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
+import com.iicsadog.blocksblocks.core.manager.common.BlockmanEntityCacheManager;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.mojang.serialization.Dynamic;
 import java.util.Optional;
@@ -51,6 +55,8 @@ public class BlockmanEntity extends PathfinderMob {
 
     private static final EntityDataAccessor<Optional<UUID>>
         BLOCKMAN_ID = SynchedEntityData.defineId(BlockmanEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+
+    private Job job;
 
     protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
         MemoryModuleType.LOOK_TARGET,
@@ -154,9 +160,7 @@ public class BlockmanEntity extends PathfinderMob {
             BLOCK_STATE, NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
                 compound.getCompound("block_state"))
         );
-        this.entityData.set(
-            BLOCKMAN_ID, Optional.of(compound.getUUID("blockman_id"))
-        );
+        setBlockmanId(compound.getUUID("blockman_id"));
     }
 
     @Override
@@ -216,13 +220,13 @@ public class BlockmanEntity extends PathfinderMob {
     @NotNull
     @Override
     protected Brain.Provider<BlockmanEntity> brainProvider() {
-        return Brain.provider(MEMORY_TYPES, SENSOR_TYPES);
+        return getJob().getProvider();
     }
 
     @NotNull
     @Override
     protected Brain<?> makeBrain(@NotNull Dynamic<?> dynamic) {
-        return BlockmanAI.makeBrain(this, this.brainProvider().makeBrain(dynamic));
+        return getJob().makeBrain(this, this.brainProvider().makeBrain(dynamic));
     }
 
     @NotNull
@@ -238,7 +242,7 @@ public class BlockmanEntity extends PathfinderMob {
         this.getBrain().tick((ServerLevel) this.level(), this);
         this.level().getProfiler().pop();
         this.level().getProfiler().push("blockmanActivityUpdate");
-        BlockmanAI.updateActivity(this);
+        getJob().updateActivity(this);
         this.level().getProfiler().pop();
         super.customServerAiStep();
     }
@@ -256,6 +260,27 @@ public class BlockmanEntity extends PathfinderMob {
      */
     public void setBlockmanId(UUID blockmanId) {
         entityData.set(BLOCKMAN_ID, Optional.of(blockmanId));
+        BlockmanEntityCacheManager.getInstance().getCache().put(blockmanId, this);
+    }
+
+    public Job getJob() {
+        if (this.job == null) {
+            BlockmanData data = getBlockmanData();
+            if (data == null) {
+                this.job = ModJobs.EMPTY.get();
+            } else {
+                this.job = ModRegistries.JOB.get(data.getJob());
+            }
+        }
+        return job;
+    }
+
+    public void updateBrainByJob() {
+        BlockmanData data = getBlockmanData();
+        this.job = ModRegistries.JOB.get(data.getJob());
+        if (this.job != null) {
+            this.brain = job.getBrain(this);
+        }
     }
 
     public BlockmanData getBlockmanData() {

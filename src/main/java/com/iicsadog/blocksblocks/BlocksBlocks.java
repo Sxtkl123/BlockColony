@@ -8,6 +8,7 @@ import com.iicsadog.blocksblocks.api.component.ModComponents;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.item.ModCreativeTab;
 import com.iicsadog.blocksblocks.api.item.ModItems;
+import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.api.network.ModChannels;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -47,6 +48,7 @@ public class BlocksBlocks {
         ModCreativeTab.CREATIVE_MODE_TABS.register(bus);
         ModSensors.SENSOR_TYPES.register(bus);
         ModMemoryModuleTypes.MEMORY_TYPES.register(bus);
+        ModJobs.JOBS.register(bus);
         ModChannels.onServerInit();
     }
 

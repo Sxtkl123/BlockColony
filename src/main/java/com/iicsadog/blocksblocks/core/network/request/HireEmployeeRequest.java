@@ -5,11 +5,14 @@ import com.iicsadog.blocksblocks.api.network.IRequest;
 import com.iicsadog.blocksblocks.api.network.IResponse;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
+import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
+import com.iicsadog.blocksblocks.core.manager.common.BlockmanEntityCacheManager;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.BuildingDataManager;
 import com.iicsadog.blocksblocks.core.network.ResponseInfo;
 import io.wispforest.owo.network.ServerAccess;
 import java.util.UUID;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * 雇佣一个方块人的请求。
@@ -24,7 +27,8 @@ import java.util.UUID;
 public record HireEmployeeRequest(
     UUID requestId,
     UUID buildingId,
-    UUID blockmanId
+    UUID blockmanId,
+    ResourceLocation job
 ) implements IRequest<HireEmployeeRequest.Response> {
 
     @Override
@@ -38,7 +42,9 @@ public record HireEmployeeRequest(
             return new Response(fail("无法找到方块人对应的数据。"));
         }
         blockman.setWorkFor(buildingId);
+        blockman.setJob(job);
         DataManagers.getInstance(BlockmanDataManager::new).save(blockman);
+        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(BlockmanEntity::updateBrainByJob);
         return new Response(success());
     }
 

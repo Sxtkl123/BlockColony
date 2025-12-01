@@ -2,8 +2,8 @@ package com.iicsadog.blocksblocks.api.ai;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.core.entity.ai.sensor.BlockmanHutSensor;
-import com.iicsadog.blocksblocks.core.entity.ai.sensor.CloseEnoughToTreeSensor;
-import com.iicsadog.blocksblocks.core.entity.ai.sensor.LumberjackTaskSensor;
+import com.iicsadog.blocksblocks.core.job.lumberjack.sensor.CloseEnoughToTreeSensor;
+import com.iicsadog.blocksblocks.core.job.lumberjack.sensor.LumberjackTaskSensor;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.neoforged.neoforge.registries.DeferredHolder;
