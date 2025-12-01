@@ -13,6 +13,8 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.schedule.Activity;
 
+
+// TODO)) 切换工作、方块人死亡等情况下，应该发送一次任务失败通知。
 public class LumberjackJob extends Job {
     public LumberjackJob() {
         super(ImmutableList.of(

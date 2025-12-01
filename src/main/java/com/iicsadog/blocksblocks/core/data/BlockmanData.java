@@ -1,7 +1,6 @@
 package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.ICodecData;
-import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.core.component.SoulComponent;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -11,7 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -27,7 +25,6 @@ public class BlockmanData implements ICodecData<BlockmanData> {
     private UUID id;
     private UUID colonyId;
     private UUID workFor;
-    private ResourceLocation job;
     private String name;
     private final Set<String> rejectedBlocks = new HashSet<>();
     private final Set<String> acceptedBlocks = new HashSet<>();
@@ -36,14 +33,13 @@ public class BlockmanData implements ICodecData<BlockmanData> {
         UUIDUtil.CODEC.fieldOf("id").forGetter(BlockmanData::getId),
         UUIDUtil.CODEC.fieldOf("colonyId").forGetter(BlockmanData::getColonyId),
         UUIDUtil.CODEC.optionalFieldOf("workFor").forGetter(data -> Optional.ofNullable(data.getWorkFor())),
-        ResourceLocation.CODEC.fieldOf("job").forGetter(BlockmanData::getJob),
         Codec.STRING.fieldOf("name").forGetter(BlockmanData::getName),
         Codec.STRING.listOf().xmap(Set::copyOf, ArrayList::new)
             .fieldOf("rejectedBlocks").forGetter(BlockmanData::getRejectedBlocks),
         Codec.STRING.listOf().xmap(Set::copyOf, ArrayList::new)
             .fieldOf("acceptedBlocks").forGetter(BlockmanData::getAcceptedBlocks)
-    ).apply(instance, (id, colonyId, workForOpt, job, name, rejectedBlocks, acceptedBlocks) ->
-        new BlockmanData(id, colonyId, workForOpt.orElse(null), job, name, rejectedBlocks, acceptedBlocks)));
+    ).apply(instance, (id, colonyId, workForOpt, name, rejectedBlocks, acceptedBlocks) ->
+        new BlockmanData(id, colonyId, workForOpt.orElse(null), name, rejectedBlocks, acceptedBlocks)));
 
     /**
      * 方块人数据。
@@ -55,7 +51,6 @@ public class BlockmanData implements ICodecData<BlockmanData> {
         UUID id,
         UUID colonyId,
         UUID workFor,
-        ResourceLocation job,
         String name,
         Set<String> rejectedBlocks,
         Set<String> acceptedBlocks
@@ -63,7 +58,6 @@ public class BlockmanData implements ICodecData<BlockmanData> {
         this.id = id;
         this.colonyId = colonyId;
         this.workFor = workFor;
-        this.job = job;
         this.name = name;
         this.rejectedBlocks.addAll(rejectedBlocks);
         this.acceptedBlocks.addAll(acceptedBlocks);
@@ -79,7 +73,7 @@ public class BlockmanData implements ICodecData<BlockmanData> {
      * @since 2025/10/20
      */
     public static BlockmanData fromSoul(SoulComponent soul) {
-        return new BlockmanData(soul.id(), null, null, ModJobs.EMPTY.getId(), soul.name(), soul.rejectedBlocks(), soul.acceptedBlocks());
+        return new BlockmanData(soul.id(), null, null, soul.name(), soul.rejectedBlocks(), soul.acceptedBlocks());
     }
 
     public UUID getId() {
@@ -121,13 +115,5 @@ public class BlockmanData implements ICodecData<BlockmanData> {
 
     public void setWorkFor(@Nullable UUID workFor) {
         this.workFor = workFor;
-    }
-
-    public ResourceLocation getJob() {
-        return job;
-    }
-
-    public void setJob(ResourceLocation job) {
-        this.job = job;
     }
 }

@@ -1,5 +1,7 @@
 package com.iicsadog.blocksblocks.core.network.request;
 
+import com.iicsadog.blocksblocks.api.ModRegistries;
+import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.api.network.IRequest;
 import com.iicsadog.blocksblocks.api.network.IResponse;
@@ -42,9 +44,11 @@ public record HireEmployeeRequest(
             return new Response(fail("无法找到方块人对应的数据。"));
         }
         blockman.setWorkFor(buildingId);
-        blockman.setJob(job);
         DataManagers.getInstance(BlockmanDataManager::new).save(blockman);
-        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(BlockmanEntity::updateBrainByJob);
+        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(entity -> {
+            entity.setJob(ModRegistries.JOB.get(job));
+            entity.updateBrainByJob();
+        });
         return new Response(success());
     }
 

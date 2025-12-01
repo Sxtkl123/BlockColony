@@ -12,6 +12,7 @@ import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.manager.common.BlockmanEntityCacheManager;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.mojang.serialization.Dynamic;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -57,23 +59,6 @@ public class BlockmanEntity extends PathfinderMob {
         BLOCKMAN_ID = SynchedEntityData.defineId(BlockmanEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     private Job job;
-
-    protected static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
-        MemoryModuleType.LOOK_TARGET,
-        MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE,
-        MemoryModuleType.WALK_TARGET,
-        MemoryModuleType.PATH,
-        ModMemoryModuleTypes.HUT_ID.get(),
-        ModMemoryModuleTypes.LUMBERJACK_TASK.get(),
-        ModMemoryModuleTypes.STATUS.get()
-    );
-
-    protected static final ImmutableList<SensorType<? extends Sensor<? super BlockmanEntity>>> SENSOR_TYPES = ImmutableList.of(
-        SensorType.NEAREST_LIVING_ENTITIES,
-        ModSensors.BLOCKMAN_HUT.get(),
-        ModSensors.LUMBERJACK_TASK.get(),
-        ModSensors.CLOSE_ENOUGH_TO_TREE.get()
-    );
 
     private BlockmanData blockmanData;
 
@@ -151,6 +136,10 @@ public class BlockmanEntity extends PathfinderMob {
         super.addAdditionalSaveData(compound);
         compound.put("block_state", NbtUtils.writeBlockState(this.entityData.get(BLOCK_STATE)));
         this.entityData.get(BLOCKMAN_ID).ifPresent(uuid -> compound.putUUID("blockman_id", uuid));
+        ResourceLocation key = ModRegistries.JOB.getKey(job);
+        if (key != null) {
+            compound.putString("job", key.toString());
+        }
     }
 
     @Override
@@ -161,6 +150,11 @@ public class BlockmanEntity extends PathfinderMob {
                 compound.getCompound("block_state"))
         );
         setBlockmanId(compound.getUUID("blockman_id"));
+        if (compound.contains("job")) {
+            ResourceLocation key = ResourceLocation.parse(compound.getString("job"));
+            this.job = ModRegistries.JOB.get(key);
+            updateBrainByJob();
+        }
     }
 
     @Override
@@ -264,20 +258,17 @@ public class BlockmanEntity extends PathfinderMob {
     }
 
     public Job getJob() {
-        if (this.job == null) {
-            BlockmanData data = getBlockmanData();
-            if (data == null) {
-                this.job = ModJobs.EMPTY.get();
-            } else {
-                this.job = ModRegistries.JOB.get(data.getJob());
-            }
+        if (job == null) {
+            job = ModJobs.EMPTY.get();
         }
         return job;
     }
 
+    public void setJob(Job job) {
+        this.job = Objects.requireNonNullElseGet(job, ModJobs.EMPTY);
+    }
+
     public void updateBrainByJob() {
-        BlockmanData data = getBlockmanData();
-        this.job = ModRegistries.JOB.get(data.getJob());
         if (this.job != null) {
             this.brain = job.getBrain(this);
         }
