@@ -1,11 +1,12 @@
 package com.iicsadog.blocksblocks.core.data;
 
-import com.iicsadog.blocksblocks.api.data.IData;
+import com.iicsadog.blocksblocks.api.data.ICodecData;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -20,7 +21,7 @@ import net.minecraft.world.level.Level;
  * @author sxtkl
  * @since 2025/10/22
  */
-public class BuildingData implements IData<BuildingData> {
+public class BuildingData implements ICodecData<BuildingData> {
     private UUID id;
     private UUID colonyId;
     private String type;
@@ -28,26 +29,35 @@ public class BuildingData implements IData<BuildingData> {
     private String dimension;
     private BlockPos pos;
 
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        tag.putUUID("id", id);
-        tag.putUUID("colony_id", colonyId);
-        tag.putString("type", type);
-        tag.putInt("rank", rank);
-        tag.putString("dimension", dimension);
-        tag.put("pos", NbtUtils.writeBlockPos(pos));
-        return tag;
-    }
+    public static final Codec<BuildingData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        UUIDUtil.CODEC.fieldOf("id").forGetter(BuildingData::getId),
+        UUIDUtil.CODEC.fieldOf("colonyId").forGetter(BuildingData::getColonyId),
+        Codec.STRING.fieldOf("type").forGetter(BuildingData::getType),
+        Codec.INT.fieldOf("rank").forGetter(BuildingData::getRank),
+        Codec.STRING.fieldOf("dimension").forGetter(BuildingData::getDimension),
+        BlockPos.CODEC.fieldOf("pos").forGetter(BuildingData::getPos)
+    ).apply(instance, BuildingData::new));
 
-    @Override
-    public BuildingData load(CompoundTag tag) {
-        this.id = tag.getUUID("id");
-        this.colonyId = tag.getUUID("colony_id");
-        this.type = tag.getString("type");
-        this.rank = tag.getInt("rank");
-        this.dimension = tag.getString("dimension");
-        this.pos = NbtUtils.readBlockPos(tag, "pos").orElse(null);
-        return this;
+    /**
+     * 建筑物数据。
+     *
+     * @author sxtkl
+     * @since 2025/12/1
+     */
+    public BuildingData(
+        UUID id,
+        UUID colonyId,
+        String type,
+        int rank,
+        String dimension,
+        BlockPos pos
+    ) {
+        this.id = id;
+        this.colonyId = colonyId;
+        this.type = type;
+        this.rank = rank;
+        this.dimension = dimension;
+        this.pos = pos;
     }
 
     @Override

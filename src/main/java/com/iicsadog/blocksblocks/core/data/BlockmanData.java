@@ -1,16 +1,15 @@
 package com.iicsadog.blocksblocks.core.data;
 
-import com.iicsadog.blocksblocks.api.data.IData;
+import com.iicsadog.blocksblocks.api.data.ICodecData;
 import com.iicsadog.blocksblocks.core.component.SoulComponent;
-import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.UUIDUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -21,16 +20,48 @@ import org.jetbrains.annotations.Nullable;
  * @author sxtkl
  * @since 2025/10/20
  */
-public class BlockmanData implements IData<BlockmanData> {
+public class BlockmanData implements ICodecData<BlockmanData> {
 
     private UUID id;
     private UUID colonyId;
-    @Nullable
     private UUID workFor;
     private String name;
     private final Set<String> rejectedBlocks = new HashSet<>();
     private final Set<String> acceptedBlocks = new HashSet<>();
 
+    public static final Codec<BlockmanData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+        UUIDUtil.CODEC.fieldOf("id").forGetter(BlockmanData::getId),
+        UUIDUtil.CODEC.fieldOf("colonyId").forGetter(BlockmanData::getColonyId),
+        UUIDUtil.CODEC.optionalFieldOf("workFor").forGetter(data -> Optional.ofNullable(data.getWorkFor())),
+        Codec.STRING.fieldOf("name").forGetter(BlockmanData::getName),
+        Codec.STRING.listOf().xmap(Set::copyOf, ArrayList::new)
+            .fieldOf("rejectedBlocks").forGetter(BlockmanData::getRejectedBlocks),
+        Codec.STRING.listOf().xmap(Set::copyOf, ArrayList::new)
+            .fieldOf("acceptedBlocks").forGetter(BlockmanData::getAcceptedBlocks)
+    ).apply(instance, (id, colonyId, workForOpt, name, rejectedBlocks, acceptedBlocks) ->
+        new BlockmanData(id, colonyId, workForOpt.orElse(null), name, rejectedBlocks, acceptedBlocks)));
+
+    /**
+     * 方块人数据。
+     *
+     * @author sxtkl
+     * @since 2025/12/1
+     */
+    public BlockmanData(
+        UUID id,
+        UUID colonyId,
+        UUID workFor,
+        String name,
+        Set<String> rejectedBlocks,
+        Set<String> acceptedBlocks
+    ) {
+        this.id = id;
+        this.colonyId = colonyId;
+        this.workFor = workFor;
+        this.name = name;
+        this.rejectedBlocks.addAll(rejectedBlocks);
+        this.acceptedBlocks.addAll(acceptedBlocks);
+    }
 
     /**
      * 从 SoulComponent 对象创建 BlockmanData 实例，
@@ -42,60 +73,7 @@ public class BlockmanData implements IData<BlockmanData> {
      * @since 2025/10/20
      */
     public static BlockmanData fromSoul(SoulComponent soul) {
-        BlockmanData blockmanData = new BlockmanData();
-        blockmanData.id = soul.id();
-        blockmanData.name = soul.name();
-        blockmanData.workFor = null;
-        blockmanData.rejectedBlocks.addAll(soul.rejectedBlocks());
-        blockmanData.acceptedBlocks.addAll(soul.acceptedBlocks());
-        return blockmanData;
-    }
-
-    /**
-     * 从 CompoundTag 中加载 BlockmanData 对象的数据。
-     * 此方法会从提供的 CompoundTag 中提取方块人的ID、名称以及接受的和拒绝的方块集合，
-     * 并将这些数据设置到当前对象中。
-     *
-     * @param tag 包含方块人数据的 CompoundTag 对象，应包含"id"、"name"、"rejectedBlocks"和"acceptedBlocks"等键
-     * @return 当前 BlockmanData 对象，已加载了从 CompoundTag 中提取的数据
-     * @author sxtkl
-     * @since 2025/10/20
-     */
-    public BlockmanData load(final CompoundTag tag) {
-        this.id = BbNbtUtils.loadUUIDNullable("id", tag);
-        this.name = tag.getString("name");
-        this.colonyId = BbNbtUtils.loadUUIDNullable("colony_id", tag);
-        this.workFor = BbNbtUtils.loadUUIDNullable("work_for", tag);
-        this.rejectedBlocks.clear();
-        ListTag rejectedBlocksList = tag.getList("rejected_blocks", Tag.TAG_STRING);
-        rejectedBlocksList.forEach(element -> {
-            if (element instanceof StringTag) {
-                this.rejectedBlocks.add(element.getAsString());
-            }
-        });
-        this.acceptedBlocks.clear();
-        ListTag acceptedBlocksList = tag.getList("accepted_blocks", Tag.TAG_STRING);
-        acceptedBlocksList.forEach(element -> {
-            if (element instanceof StringTag) {
-                this.acceptedBlocks.add(element.getAsString());
-            }
-        });
-        return this;
-    }
-
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        BbNbtUtils.putUUIDNullable("id", this.id, tag);
-        tag.putString("name", this.name);
-        BbNbtUtils.putUUIDNullable("colony_id", this.colonyId, tag);
-        BbNbtUtils.putUUIDNullable("work_for", this.workFor, tag);
-        ListTag rejectedBlocks = new ListTag();
-        this.rejectedBlocks.forEach(block -> rejectedBlocks.add(StringTag.valueOf(block)));
-        ListTag acceptedBlocks = new ListTag();
-        this.acceptedBlocks.forEach(block -> acceptedBlocks.add(StringTag.valueOf(block)));
-        tag.put("rejected_blocks", rejectedBlocks);
-        tag.put("accepted_blocks", acceptedBlocks);
-        return tag;
+        return new BlockmanData(soul.id(), null, null, soul.name(), soul.rejectedBlocks(), soul.acceptedBlocks());
     }
 
     public UUID getId() {

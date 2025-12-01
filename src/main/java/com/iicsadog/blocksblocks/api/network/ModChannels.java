@@ -39,10 +39,7 @@ public class ModChannels {
     public static void onServerInit() {
         // 服务端激活魂龛，创立殖民地
         NET_CHANNEL.registerServerbound(ActivateSoulNichePacket.class, (message, access) -> {
-            ColonyData colony = new ColonyData();
-            colony.setId(UUID.randomUUID());
-            colony.setName(message.name());
-            colony.setOwnerId(access.player().getUUID());
+            ColonyData colony = new ColonyData(UUID.randomUUID(), access.player().getUUID(), message.name());
             DataManagers.getInstance(ColonyDataManager::new).save(colony);
         });
 

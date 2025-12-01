@@ -3,6 +3,7 @@ package com.iicsadog.blocksblocks.core.manager.data;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
+import com.mojang.serialization.Codec;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
@@ -19,10 +20,9 @@ import org.jetbrains.annotations.Nullable;
 public class ColonyDataManager extends AbstractDataManager<ColonyData> {
     private static final String MANAGER_NAME = "colony";
 
-    @NotNull
     @Override
-    protected Supplier<ColonyData> createData() {
-        return ColonyData::new;
+    protected @NotNull Codec<ColonyData> dataCodec() {
+        return ColonyData.CODEC;
     }
 
     protected ResourceLocation getManagerName() {

@@ -1,6 +1,8 @@
 package com.iicsadog.blocksblocks.core.util;
 
+import com.iicsadog.blocksblocks.api.data.ICodecData;
 import com.iicsadog.blocksblocks.api.data.IData;
+import com.mojang.serialization.Codec;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,6 +99,29 @@ public class BbNbtUtils {
     }
 
     /**
+     * 从NBT中使用Codec加载对象映射表。
+     *
+     * @param name 标签名
+     * @param tag NBT标签
+     * @param codec Codec编码
+     * @return 映射集合
+     * @author sxtkl
+     * @since 2025/12/1
+     */
+    public static <T extends ICodecData<T>> Map<UUID, T> loadMapData(String name, CompoundTag tag, Codec<T> codec) {
+        Map<UUID, T> res = new HashMap<>();
+        if (!tag.contains(name)) {
+            return res;
+        }
+        CompoundTag target = tag.getCompound(name);
+        for (String key : target.getAllKeys()) {
+            T data = T.load(codec, target.getCompound(key));
+            res.put(UUID.fromString(key), data);
+        }
+        return res;
+    }
+
+    /**
      * 将 UUID 到 UUID 的映射关系保存到指定的 CompoundTag 中。
      *
      * @param name 在 CompoundTag 中用于标识映射的名称
@@ -148,6 +173,29 @@ public class BbNbtUtils {
             UUID key = entry.getKey();
             T data = entry.getValue();
             mapTag.put(key.toString(), data.save(new CompoundTag()));
+        }
+        tag.put(name, mapTag);
+    }
+
+    /**
+     * 使用Codec保存映射表。
+     *
+     * @param name 标签名
+     * @param tag NBT标签
+     * @param map 映射表
+     * @param codec Codec编码
+     * @author sxtkl
+     * @since 2025/12/1
+     */
+    public static <T extends ICodecData<T>> void saveMapData(String name, CompoundTag tag, Map<UUID, T> map, Codec<T> codec) {
+        CompoundTag mapTag = new CompoundTag();
+        for (Map.Entry<UUID, T> entry : map.entrySet()) {
+            UUID key = entry.getKey();
+            T data = entry.getValue();
+            CompoundTag saveTag = data.save(codec);
+            if (saveTag != null) {
+                mapTag.put(key.toString(), saveTag);
+            }
         }
         tag.put(name, mapTag);
     }

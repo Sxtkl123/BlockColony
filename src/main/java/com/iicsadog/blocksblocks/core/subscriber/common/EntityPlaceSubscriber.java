@@ -58,13 +58,11 @@ public class EntityPlaceSubscriber {
         }
         UUID id = UUID.randomUUID();
         hutEntity.setBuildingId(id);
-        BuildingData data = new BuildingData();
-        data.setId(id);
+        BuildingData data = new BuildingData(
+            id, colony.getId(), hutEntity.hutType().toString(),
+            0, null, event.getPos()
+        );
         data.setDimension((ServerLevel) event.getLevel());
-        data.setPos(event.getPos());
-        data.setRank(0);
-        data.setType(hutEntity.hutType().toString());
-        data.setColonyId(colony.getId());
         DataManagers.getInstance(BuildingDataManager::new).save(data);
     }
 }

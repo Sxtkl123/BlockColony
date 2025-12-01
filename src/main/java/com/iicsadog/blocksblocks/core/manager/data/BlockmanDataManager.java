@@ -3,6 +3,7 @@ package com.iicsadog.blocksblocks.core.manager.data;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
+import com.mojang.serialization.Codec;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -20,10 +21,9 @@ import org.jetbrains.annotations.NotNull;
 public class BlockmanDataManager extends AbstractDataManager<BlockmanData> {
     private static final String MANAGER_NAME = "blockman";
 
-    @NotNull
     @Override
-    protected Supplier<BlockmanData> createData() {
-        return BlockmanData::new;
+    protected @NotNull Codec<BlockmanData> dataCodec() {
+        return BlockmanData.CODEC;
     }
 
     @Override

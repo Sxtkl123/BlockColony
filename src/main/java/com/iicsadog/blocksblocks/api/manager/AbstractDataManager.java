@@ -1,8 +1,10 @@
 package com.iicsadog.blocksblocks.api.manager;
 
 
+import com.iicsadog.blocksblocks.api.data.ICodecData;
 import com.iicsadog.blocksblocks.api.data.IData;
 import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
+import com.mojang.serialization.Codec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +29,7 @@ import org.jetbrains.annotations.Nullable;
  * @author sxtkl
  * @since 2025/10/18
  */
-public abstract class AbstractDataManager<D extends IData<D>> extends SavedData {
+public abstract class AbstractDataManager<D extends ICodecData<D>> extends SavedData {
 
     protected Map<UUID, D> data = new HashMap<>();
 
@@ -56,7 +58,7 @@ public abstract class AbstractDataManager<D extends IData<D>> extends SavedData 
      * @since 2025/10/18
      */
     protected AbstractDataManager<D> load(CompoundTag tag) {
-        this.data = BbNbtUtils.loadMapData(this.getManagerName().getPath(), tag, this.createData());
+        this.data = BbNbtUtils.loadMapData(this.getManagerName().getPath(), tag, dataCodec());
         return this;
     }
 
@@ -68,7 +70,7 @@ public abstract class AbstractDataManager<D extends IData<D>> extends SavedData 
      * @since 2025/11/7
      */
     @NotNull
-    protected abstract Supplier<D> createData();
+    protected abstract Codec<D> dataCodec();
 
     /**
      * 获取数据管理器的名称标识符。
@@ -84,7 +86,7 @@ public abstract class AbstractDataManager<D extends IData<D>> extends SavedData 
     @NotNull
     @Override
     public CompoundTag save(@NotNull CompoundTag compoundTag, @NotNull HolderLookup.Provider provider) {
-        BbNbtUtils.saveMapData(this.getManagerName().getPath(), compoundTag, data);
+        BbNbtUtils.saveMapData(this.getManagerName().getPath(), compoundTag, data, dataCodec());
         return compoundTag;
     }
 
