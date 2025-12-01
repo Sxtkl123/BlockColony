@@ -3,6 +3,7 @@ package com.iicsadog.blocksblocks.core.manager.data;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
+import com.mojang.serialization.Codec;
 import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -22,10 +23,9 @@ public class BuildingDataManager extends AbstractDataManager<BuildingData> {
 
     private static final String MANAGER_NAME = "building";
 
-    @NotNull
     @Override
-    protected Supplier<BuildingData> createData() {
-        return BuildingData::new;
+    protected @NotNull Codec<BuildingData> dataCodec() {
+        return BuildingData.CODEC;
     }
 
     @Override
