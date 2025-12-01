@@ -45,10 +45,7 @@ public record HireEmployeeRequest(
         }
         blockman.setWorkFor(buildingId);
         DataManagers.getInstance(BlockmanDataManager::new).save(blockman);
-        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(entity -> {
-            entity.setJob(ModRegistries.JOB.get(job));
-            entity.updateBrainByJob();
-        });
+        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(entity -> entity.setJob(ModRegistries.JOB.get(job)));
         return new Response(success());
     }
 

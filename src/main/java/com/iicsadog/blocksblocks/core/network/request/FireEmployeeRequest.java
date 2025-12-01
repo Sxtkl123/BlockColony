@@ -33,10 +33,7 @@ public record FireEmployeeRequest(
             return new Response(fail("无法找到方块人对应的数据。"));
         }
         blockman.setWorkFor(null);
-        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(entity -> {
-            entity.setJob(ModJobs.EMPTY.get());
-            entity.updateBrainByJob();
-        });
+        BlockmanEntityCacheManager.getInstance().getEntity(blockman.getId()).ifPresent(entity -> entity.setJob(ModJobs.EMPTY.get()));
         DataManagers.getInstance(BlockmanDataManager::new).save(blockman);
         return new Response(success());
     }

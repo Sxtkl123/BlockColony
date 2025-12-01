@@ -144,7 +144,6 @@ public class BlockmanEntity extends PathfinderMob {
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
         this.entityData.set(
             BLOCK_STATE, NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK),
                 compound.getCompound("block_state"))
@@ -153,8 +152,8 @@ public class BlockmanEntity extends PathfinderMob {
         if (compound.contains("job")) {
             ResourceLocation key = ResourceLocation.parse(compound.getString("job"));
             this.job = ModRegistries.JOB.get(key);
-            updateBrainByJob();
         }
+        super.readAdditionalSaveData(compound);
     }
 
     @Override
@@ -266,12 +265,7 @@ public class BlockmanEntity extends PathfinderMob {
 
     public void setJob(Job job) {
         this.job = Objects.requireNonNullElseGet(job, ModJobs.EMPTY);
-    }
-
-    public void updateBrainByJob() {
-        if (this.job != null) {
-            this.brain = job.getBrain(this);
-        }
+        this.brain = job.getBrain(this);
     }
 
     public BlockmanData getBlockmanData() {
