@@ -1,15 +1,12 @@
 package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.ICodecData;
-import com.iicsadog.blocksblocks.api.data.IData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -41,6 +38,12 @@ public class BuildingData implements ICodecData<BuildingData> {
         BlockPos.CODEC.fieldOf("pos").forGetter(BuildingData::getPos)
     ).apply(instance, BuildingData::new));
 
+    /**
+     * 建筑物数据。
+     *
+     * @author sxtkl
+     * @since 2025/12/1
+     */
     public BuildingData(
         UUID id,
         UUID colonyId,

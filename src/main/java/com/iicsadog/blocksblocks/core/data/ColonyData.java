@@ -1,12 +1,10 @@
 package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.ICodecData;
-import com.iicsadog.blocksblocks.api.data.IData;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.UUID;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.CompoundTag;
 
 /**
  * ColonyData 类用于存储殖民地的基本信息，包括殖民地的唯一标识符、所有者标识符和名称。
@@ -23,6 +21,12 @@ public class ColonyData implements ICodecData<ColonyData> {
 
     private String name;
 
+    /**
+     * 殖民地数据。
+     *
+     * @author sxtkl
+     * @since 2025/12/1
+     */
     public ColonyData(UUID id, UUID ownerId, String name) {
         this.id = id;
         this.ownerId = ownerId;

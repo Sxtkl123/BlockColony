@@ -1,9 +1,7 @@
 package com.iicsadog.blocksblocks.core.data;
 
 import com.iicsadog.blocksblocks.api.data.ICodecData;
-import com.iicsadog.blocksblocks.api.data.IData;
 import com.iicsadog.blocksblocks.core.component.SoulComponent;
-import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
@@ -12,10 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -47,6 +41,12 @@ public class BlockmanData implements ICodecData<BlockmanData> {
     ).apply(instance, (id, colonyId, workForOpt, name, rejectedBlocks, acceptedBlocks) ->
         new BlockmanData(id, colonyId, workForOpt.orElse(null), name, rejectedBlocks, acceptedBlocks)));
 
+    /**
+     * 方块人数据。
+     *
+     * @author sxtkl
+     * @since 2025/12/1
+     */
     public BlockmanData(
         UUID id,
         UUID colonyId,

@@ -3,14 +3,11 @@ package com.iicsadog.blocksblocks.core.util;
 import com.iicsadog.blocksblocks.api.data.ICodecData;
 import com.iicsadog.blocksblocks.api.data.IData;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -101,6 +98,16 @@ public class BbNbtUtils {
         return res;
     }
 
+    /**
+     * 从NBT中使用Codec加载对象映射表。
+     *
+     * @param name 标签名
+     * @param tag NBT标签
+     * @param codec Codec编码
+     * @return 映射集合
+     * @author sxtkl
+     * @since 2025/12/1
+     */
     public static <T extends ICodecData<T>> Map<UUID, T> loadMapData(String name, CompoundTag tag, Codec<T> codec) {
         Map<UUID, T> res = new HashMap<>();
         if (!tag.contains(name)) {
@@ -170,6 +177,16 @@ public class BbNbtUtils {
         tag.put(name, mapTag);
     }
 
+    /**
+     * 使用Codec保存映射表。
+     *
+     * @param name 标签名
+     * @param tag NBT标签
+     * @param map 映射表
+     * @param codec Codec编码
+     * @author sxtkl
+     * @since 2025/12/1
+     */
     public static <T extends ICodecData<T>> void saveMapData(String name, CompoundTag tag, Map<UUID, T> map, Codec<T> codec) {
         CompoundTag mapTag = new CompoundTag();
         for (Map.Entry<UUID, T> entry : map.entrySet()) {
