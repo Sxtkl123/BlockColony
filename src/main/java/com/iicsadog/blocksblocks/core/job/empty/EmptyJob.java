@@ -5,7 +5,20 @@ import com.iicsadog.blocksblocks.api.job.Job;
 import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
 import net.minecraft.world.entity.schedule.Activity;
 
+/**
+ * 空的工作。
+ *
+ * @author sxtkl
+ * @since 2025/12/2
+ */
 public class EmptyJob extends Job {
+
+    /**
+     * 空的工作。
+     *
+     * @author sxtkl
+     * @since 2025/12/2
+     */
     public EmptyJob() {
         super(ImmutableList.of(), ImmutableList.of());
     }

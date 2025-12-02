@@ -5,7 +5,6 @@ import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.ColonyData;
 import com.mojang.serialization.Codec;
 import java.util.UUID;
-import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

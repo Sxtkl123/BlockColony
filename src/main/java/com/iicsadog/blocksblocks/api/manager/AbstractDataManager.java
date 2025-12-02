@@ -2,13 +2,11 @@ package com.iicsadog.blocksblocks.api.manager;
 
 
 import com.iicsadog.blocksblocks.api.data.ICodecData;
-import com.iicsadog.blocksblocks.api.data.IData;
 import com.iicsadog.blocksblocks.core.util.BbNbtUtils;
 import com.mojang.serialization.Codec;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;

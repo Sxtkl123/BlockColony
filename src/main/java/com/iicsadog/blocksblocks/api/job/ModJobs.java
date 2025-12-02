@@ -7,6 +7,12 @@ import com.iicsadog.blocksblocks.core.job.lumberjack.LumberjackJob;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * 模组中所有的工作类型。
+ *
+ * @author sxtkl
+ * @since 2025/12/2
+ */
 public class ModJobs {
 
     public static final DeferredRegister<Job> JOBS =

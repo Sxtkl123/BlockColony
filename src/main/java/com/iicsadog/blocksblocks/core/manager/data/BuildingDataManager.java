@@ -4,7 +4,6 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.manager.AbstractDataManager;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
 import com.mojang.serialization.Codec;
-import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 

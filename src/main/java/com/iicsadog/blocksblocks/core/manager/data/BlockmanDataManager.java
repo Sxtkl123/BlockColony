@@ -6,7 +6,6 @@ import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.mojang.serialization.Codec;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Supplier;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 

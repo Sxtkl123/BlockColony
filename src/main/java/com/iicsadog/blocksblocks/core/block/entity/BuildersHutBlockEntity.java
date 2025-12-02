@@ -1,15 +1,14 @@
 package com.iicsadog.blocksblocks.core.block.entity;
 
 import com.iicsadog.blocksblocks.api.block.entity.ModBlockEntities;
+import java.util.UUID;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class BuildersHutBlockEntity extends BlockEntity {
     @Nullable

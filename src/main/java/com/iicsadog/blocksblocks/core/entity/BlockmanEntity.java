@@ -1,9 +1,6 @@
 package com.iicsadog.blocksblocks.core.entity;
 
-import com.google.common.collect.ImmutableList;
 import com.iicsadog.blocksblocks.api.ModRegistries;
-import com.iicsadog.blocksblocks.api.ai.ModMemoryModuleTypes;
-import com.iicsadog.blocksblocks.api.ai.ModSensors;
 import com.iicsadog.blocksblocks.api.entity.ModEntities;
 import com.iicsadog.blocksblocks.api.job.Job;
 import com.iicsadog.blocksblocks.api.job.ModJobs;
@@ -33,9 +30,6 @@ import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.sensing.Sensor;
-import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -256,6 +250,13 @@ public class BlockmanEntity extends PathfinderMob {
         BlockmanEntityCacheManager.getInstance().getCache().put(blockmanId, this);
     }
 
+    /**
+     * 获取方块人的工作，如果没有工作则返回Empty。
+     *
+     * @return 工作，如果没有则Empty
+     * @author sxtkl
+     * @since 2025/12/2
+     */
     public Job getJob() {
         if (job == null) {
             job = ModJobs.EMPTY.get();
@@ -263,11 +264,25 @@ public class BlockmanEntity extends PathfinderMob {
         return job;
     }
 
+    /**
+     * 设置方块人的工作。
+     *
+     * @param job 工作
+     * @author sxtkl
+     * @since 2025/12/2
+     */
     public void setJob(Job job) {
         this.job = Objects.requireNonNullElseGet(job, ModJobs.EMPTY);
         this.brain = job.getBrain(this);
     }
 
+    /**
+     * 获取方块人的数据。
+     *
+     * @return 方块人数据
+     * @author sxtkl
+     * @since 2025/12/2
+     */
     public BlockmanData getBlockmanData() {
         if (blockmanData == null) {
             UUID blockmanId = getBlockmanId();

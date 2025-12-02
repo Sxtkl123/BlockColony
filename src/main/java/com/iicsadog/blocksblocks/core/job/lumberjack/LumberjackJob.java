@@ -15,7 +15,21 @@ import net.minecraft.world.entity.schedule.Activity;
 
 
 // TODO)) 切换工作、方块人死亡等情况下，应该发送一次任务失败通知。
+
+/**
+ * 伐木工工作。
+ *
+ * @author sxtkl
+ * @since 2025/12/2
+ */
 public class LumberjackJob extends Job {
+
+    /**
+     * 伐木工工作。
+     *
+     * @author sxtkl
+     * @since 2025/12/2
+     */
     public LumberjackJob() {
         super(ImmutableList.of(
             ModMemoryModuleTypes.LUMBERJACK_TASK.get()

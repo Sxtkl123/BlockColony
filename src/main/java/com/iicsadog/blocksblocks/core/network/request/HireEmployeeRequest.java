@@ -1,13 +1,11 @@
 package com.iicsadog.blocksblocks.core.network.request;
 
 import com.iicsadog.blocksblocks.api.ModRegistries;
-import com.iicsadog.blocksblocks.api.job.ModJobs;
 import com.iicsadog.blocksblocks.api.manager.DataManagers;
 import com.iicsadog.blocksblocks.api.network.IRequest;
 import com.iicsadog.blocksblocks.api.network.IResponse;
 import com.iicsadog.blocksblocks.core.data.BlockmanData;
 import com.iicsadog.blocksblocks.core.data.BuildingData;
-import com.iicsadog.blocksblocks.core.entity.BlockmanEntity;
 import com.iicsadog.blocksblocks.core.manager.common.BlockmanEntityCacheManager;
 import com.iicsadog.blocksblocks.core.manager.data.BlockmanDataManager;
 import com.iicsadog.blocksblocks.core.manager.data.BuildingDataManager;

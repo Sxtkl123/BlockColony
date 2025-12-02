@@ -3,9 +3,8 @@ package com.iicsadog.blocksblocks.core.gui.screen;
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
 import io.wispforest.owo.ui.container.FlowLayout;
-import net.minecraft.resources.ResourceLocation;
-
 import java.util.UUID;
+import net.minecraft.resources.ResourceLocation;
 
 public class BuildersHutMainScreen extends BaseUIModelScreen<FlowLayout> {
     private final UUID colonyId;
