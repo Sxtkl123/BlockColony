@@ -29,6 +29,7 @@ public class ModCreativeTab {
             output.accept(ModItems.SOUL_NICHE_BLOCK_ITEM.get());
             output.accept(ModItems.BUILDERS_HUT_BLOCK_ITEM.get());
             output.accept(ModItems.LUMBERJACK_HUT_BLOCK_ITEM.get());
+            output.accept(ModItems.BUILDING_CANE_ITEM.get());
         })
         .build());
 }

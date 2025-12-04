@@ -1,6 +1,7 @@
 package com.iicsadog.blocksblocks.core.subscriber.common;
 
 import com.iicsadog.blocksblocks.core.manager.common.BlockmanNameManager;
+import com.iicsadog.blocksblocks.core.manager.common.BlueprintManager;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -27,6 +28,7 @@ public class AddReloadListenerSubscriber {
     @SubscribeEvent
     public static void onAddReloadListener(AddReloadListenerEvent evt) {
         evt.addListener(BlockmanNameManager.getInstance());
+        evt.addListener(BlueprintManager.getInstance());
     }
 
 

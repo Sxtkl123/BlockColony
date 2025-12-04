@@ -2,6 +2,7 @@ package com.iicsadog.blocksblocks.api.item;
 
 import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.api.block.ModBlocks;
+import com.iicsadog.blocksblocks.core.item.BuildingCaneItem;
 import com.iicsadog.blocksblocks.core.item.SoulItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,6 +22,8 @@ public class ModItems {
         BlocksBlocks.MODID);
 
     public static final DeferredHolder<Item, SoulItem> SOUL_ITEM = ITEMS.register("soul", SoulItem::new);
+
+    public static final DeferredHolder<Item, BuildingCaneItem> BUILDING_CANE_ITEM = ITEMS.register("building_cane", BuildingCaneItem::new);
 
     public static final DeferredHolder<Item, BlockItem> SOUL_NICHE_BLOCK_ITEM =
         ITEMS.register("soul_niche", () -> new BlockItem(ModBlocks.SOUL_NICHE_BLOCK.get(), new Item.Properties()));

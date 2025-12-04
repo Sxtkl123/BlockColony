@@ -1,0 +1,15 @@
+{
+  "name": "Classic",
+  "description": "This is the classic style!",
+  "buildings": [
+    {
+      "name": "wall",
+      "location": "test",
+      "icon": "minecraft:stone",
+      "hut": {
+        "level": 1,
+        "type": "blocksblocks:test"
+      }
+    }
+  ]
+}
