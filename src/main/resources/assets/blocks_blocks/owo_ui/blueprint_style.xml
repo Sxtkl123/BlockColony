@@ -28,6 +28,34 @@
               <vertical-alignment>center</vertical-alignment>
               <horizontal-alignment>center</horizontal-alignment>
             </flow-layout>
+
+            <scroll direction="vertical">
+              <flow-layout direction="vertical" id="style-pack-container">
+                <children>
+                </children>
+
+                <gap>8</gap>
+
+              </flow-layout>
+              <scrollbar-thiccness>4</scrollbar-thiccness>
+
+              <surface>
+                <blur quality="0.1" size="16"/>
+                <outline>black</outline>
+              </surface>
+
+              <padding>
+                <all>16</all>
+              </padding>
+
+              <sizing>
+                <vertical method="fill">50</vertical>
+                <horizontal method="fill">100</horizontal>
+              </sizing>
+
+              <vertical-alignment>center</vertical-alignment>
+              <horizontal-alignment>center</horizontal-alignment>
+            </scroll>
           </children>
 
           <sizing>
@@ -47,4 +75,51 @@
       </surface>
     </flow-layout>
   </components>
+  <templates>
+    <template name="style-pack">
+      <flow-layout direction="horizontal">
+        <children>
+          <texture
+              texture="textures/misc/unknown_pack.png"
+              texture-width="32"
+              texture-height="32"
+              region-width="32"
+              region-height="32"
+          >
+          </texture>
+
+          <flow-layout direction="vertical">
+            <children>
+              <label>
+                <text>{{name}}</text>
+                <shadow>true</shadow>
+              </label>
+              <label>
+                <text>{{description}}</text>
+                <sizing>
+                  <horizontal method="fill">70</horizontal>
+                </sizing>
+              </label>
+            </children>
+            <sizing>
+              <horizontal method="fill">95</horizontal>
+            </sizing>
+            <vertical-alignment>center</vertical-alignment>
+            <gap>8</gap>
+          </flow-layout>
+
+          <button>
+            <positioning type="relative">95,50</positioning>
+            <text translate="true">select</text>
+          </button>
+        </children>
+
+        <gap>8</gap>
+        <sizing>
+          <horizontal method="fill">100</horizontal>
+        </sizing>
+        <vertical-alignment>center</vertical-alignment>
+      </flow-layout>
+    </template>
+  </templates>
 </owo-ui>

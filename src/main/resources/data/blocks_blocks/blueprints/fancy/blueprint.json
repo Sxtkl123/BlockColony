@@ -1,0 +1,15 @@
+{
+  "name": "Fancy",
+  "description": "What a fancy style! Try this plz! This is such a amazing style pack you can get! Floating building, rainbow, shining gold and so on!",
+  "buildings": [
+    {
+      "name": "wall",
+      "location": "test",
+      "icon": "minecraft:stone",
+      "hut": {
+        "level": 1,
+        "type": "blocksblocks:test"
+      }
+    }
+  ]
+}

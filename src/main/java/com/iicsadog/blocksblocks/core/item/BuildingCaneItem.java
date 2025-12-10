@@ -22,7 +22,6 @@ public class BuildingCaneItem extends Item {
     @NotNull
     public InteractionResult useOn(@NotNull UseOnContext context) {
         super.useOn(context);
-        // TODO)) 客户端右键打开界面，显示所有客户端的结构
         if (!context.getLevel().isClientSide) {
             return InteractionResult.SUCCESS;
         }
