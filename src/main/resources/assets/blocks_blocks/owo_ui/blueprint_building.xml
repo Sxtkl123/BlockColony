@@ -32,6 +32,10 @@
             <scroll direction="vertical">
               <flow-layout direction="vertical" id="style-pack-container">
                 <children>
+                  <template name="building">
+                    <stack>minecraft:glass</stack>
+                    <name>Glass House</name>
+                  </template>
                 </children>
 
                 <gap>4</gap>
@@ -76,42 +80,18 @@
     </flow-layout>
   </components>
   <templates>
-    <template name="style-pack">
+    <template name="building">
       <flow-layout direction="horizontal">
         <children>
-          <texture
-              texture="textures/misc/unknown_pack.png"
-              texture-width="32"
-              texture-height="32"
-              region-width="32"
-              region-height="32"
-          >
-          </texture>
+          <blocks_blocks.slot-button>
+            <stack>{{stack}}</stack>
+            <tooltip-text translate="true">{{name}}</tooltip-text>
+          </blocks_blocks.slot-button>
 
-          <flow-layout direction="vertical">
-            <children>
-              <label>
-                <text>{{name}}</text>
-                <shadow>true</shadow>
-              </label>
-              <label>
-                <text>{{description}}</text>
-                <sizing>
-                  <horizontal method="fill">70</horizontal>
-                </sizing>
-              </label>
-            </children>
-            <sizing>
-              <horizontal method="fill">95</horizontal>
-            </sizing>
-            <vertical-alignment>center</vertical-alignment>
-            <gap>8</gap>
-          </flow-layout>
-
-          <button id="select-button">
-            <positioning type="relative">95,50</positioning>
-            <text translate="true">select</text>
-          </button>
+          <label>
+            <text>{{name}}</text>
+            <shadow>true</shadow>
+          </label>
         </children>
 
         <gap>8</gap>

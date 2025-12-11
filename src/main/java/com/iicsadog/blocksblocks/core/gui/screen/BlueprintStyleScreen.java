@@ -4,10 +4,12 @@ import com.iicsadog.blocksblocks.BlocksBlocks;
 import com.iicsadog.blocksblocks.core.manager.common.BlueprintManager;
 import com.iicsadog.blocksblocks.core.manager.element.BlueprintElement;
 import io.wispforest.owo.ui.base.BaseUIModelScreen;
+import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.container.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import net.minecraft.client.Minecraft;
 
 public class BlueprintStyleScreen extends BaseUIModelScreen<FlowLayout> {
     private final List<BlueprintElement> styles;
@@ -24,10 +26,11 @@ public class BlueprintStyleScreen extends BaseUIModelScreen<FlowLayout> {
     protected void build(FlowLayout rootComponent) {
         for (BlueprintElement style : styles) {
             Map<String, String> params = Map.of(
-                "name", style.getName(),
+                "name", "§l" + style.getName(),
                 "description", style.getDescription()
             );
             FlowLayout stylePack = this.model.expandTemplate(FlowLayout.class, "style-pack", params);
+            stylePack.childById(ButtonComponent.class, "select-button").onPress(evt -> Minecraft.getInstance().setScreen(new BlueprintBuildingScreen(style)));
             rootComponent.childById(FlowLayout.class, "style-pack-container").child(stylePack);
         }
     }

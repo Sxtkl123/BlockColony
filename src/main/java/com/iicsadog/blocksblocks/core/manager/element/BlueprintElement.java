@@ -1,5 +1,6 @@
 package com.iicsadog.blocksblocks.core.manager.element;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.resources.ResourceLocation;
@@ -54,9 +55,9 @@ public class BlueprintElement {
 
         private ResourceLocation icon;
 
-        private ResourceLocation location;
+        private ResourceLocation type;
 
-        private HutElement hut;
+        private List<HutElement> huts = new ArrayList<>();
 
         public String getName() {
             return name;
@@ -74,20 +75,21 @@ public class BlueprintElement {
             this.description = description;
         }
 
-        public Optional<HutElement> getHut() {
-            return Optional.ofNullable(hut);
+        public List<HutElement> getHut() {
+            return huts;
         }
 
-        public void setHut(HutElement hut) {
-            this.hut = hut;
+        public void setHuts(List<HutElement> huts) {
+            this.huts.clear();
+            this.huts.addAll(huts);
         }
 
-        public ResourceLocation getLocation() {
-            return location;
+        public ResourceLocation getType() {
+            return type;
         }
 
-        public void setLocation(ResourceLocation location) {
-            this.location = location;
+        public void setType(ResourceLocation type) {
+            this.type = type;
         }
 
         public Optional<ResourceLocation> getIcon() {
@@ -103,7 +105,7 @@ public class BlueprintElement {
 
         private int level;
 
-        private ResourceLocation type;
+        private ResourceLocation location;
 
         public int getLevel() {
             return level;
@@ -113,12 +115,12 @@ public class BlueprintElement {
             this.level = level;
         }
 
-        public ResourceLocation getType() {
-            return type;
+        public ResourceLocation getLocation() {
+            return location;
         }
 
-        public void setType(ResourceLocation type) {
-            this.type = type;
+        public void setLocation(ResourceLocation location) {
+            this.location = location;
         }
     }
 
